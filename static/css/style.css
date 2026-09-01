@@ -1,0 +1,3612 @@
+/* ==================== 공통 색상 변수 ==================== */
+:root {
+    --yellow: #fffc38;
+    --cyan: #43c5df;
+    --ink: #171311;
+    --red: #ff5350;
+    --line: #e7e2df
+}
+
+/* 표지와 상태 표시 */
+.cover-frame {
+    width: 100%;
+    height: 300px;
+    padding: 12px;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border-radius: 10px;
+    background: linear-gradient(145deg, #f5f2ea, #ece7dc);
+}
+
+.cover-frame img,
+.mini-book .cover-frame img,
+.api-card .cover-frame img,
+.detail-cover-frame .real-cover {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    border-radius: 5px;
+}
+
+.mini-cover-frame {
+    height: 260px;
+    padding: 9px;
+}
+
+.detail-cover-frame {
+    height: 390px;
+    padding: 16px;
+}
+
+.page-current {
+    min-width: 82px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: var(--yellow);
+    text-align: center;
+    font-weight: 800;
+}
+
+.like-form {
+    display: inline-block;
+    margin: 12px 8px 0 0;
+}
+
+.like-form button {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 8px 13px;
+    background: #fff;
+    cursor: pointer;
+    font: inherit;
+}
+
+.like-form button.liked {
+    color: #e34866;
+    border-color: #f4a5b4;
+    background: #fff5f7;
+}
+
+@media(max-width:540px) {
+    .cover-frame {
+        height: 360px;
+    }
+
+    .mini-cover-frame {
+        height: 300px;
+    }
+
+    .detail-cover-frame {
+        height: 360px;
+    }
+}
+
+/* 기능 영역과 기본 레이아웃 */
+.mini-book {
+    align-self: stretch;
+}
+
+.mini-book-title {
+    display: block;
+    min-height: 4.2em;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    white-space: normal;
+}
+
+.api-card .cover-frame {
+    aspect-ratio: auto;
+    height: 250px;
+    padding: 5px;
+    background: #f1eee6;
+}
+
+.api-card .cover-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+.detail aside {
+    max-width: 260px;
+}
+
+.detail-cover-frame {
+    width: 240px;
+    height: 340px;
+    aspect-ratio: auto;
+    margin: 0 auto;
+    padding: 8px;
+    background: #f1eee6;
+}
+
+.detail-cover-frame img.real-cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+.mypage-link {
+    padding: 9px 13px;
+    border-radius: 22px;
+    background: var(--yellow);
+    color: #111;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logout-link {
+    white-space: nowrap;
+}
+
+.ai-preview-stage {
+    position: relative;
+    overflow: hidden;
+    padding: 34px;
+    border: 1px solid #e7e1d7;
+    border-radius: 24px;
+    background:
+        radial-gradient(circle at 90% 10%, #fff83855, transparent 30%),
+        linear-gradient(145deg, #fffdf7, #f3f8f7);
+    animation: previewReveal .65s ease both;
+}
+
+.ai-preview-stage[hidden],
+.ai-loading[hidden],
+.mood-image[hidden] {
+    display: none !important;
+}
+
+.preview-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 25px;
+    margin-bottom: 26px;
+}
+
+.preview-heading small {
+    color: var(--cyan);
+    letter-spacing: 2px;
+    font-weight: 900;
+}
+
+.preview-heading h2 {
+    margin: 7px 0 0;
+}
+
+.preview-heading p {
+    max-width: 260px;
+    margin: 0;
+    color: #6f6a62;
+    text-align: right;
+}
+
+.ai-loading {
+    min-height: 360px;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 9px;
+    border-radius: 18px;
+    background: #171717;
+    color: #fff;
+}
+
+.ai-loading span {
+    color: #aaa;
+    font-size: 13px;
+}
+
+.book-orbit {
+    position: relative;
+    width: 112px;
+    height: 112px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 12px;
+}
+
+.book-orbit b {
+    width: 58px;
+    height: 72px;
+    display: grid;
+    place-items: center;
+    border-radius: 7px 13px 13px 7px;
+    background: var(--yellow);
+    color: #111;
+    box-shadow: 10px 10px 0 var(--cyan);
+    animation: bookFloat 1.7s ease-in-out infinite;
+}
+
+.book-orbit i {
+    position: absolute;
+    inset: 0;
+    border: 1px solid #ffffff33;
+    border-radius: 50%;
+    animation: orbitSpin 3s linear infinite;
+}
+
+.book-orbit i::before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    top: -4px;
+    left: 50%;
+    border-radius: 50%;
+    background: var(--yellow);
+}
+
+.book-orbit i:nth-child(2) {
+    inset: 11px;
+    animation-direction: reverse;
+    animation-duration: 2.3s;
+}
+
+.book-orbit i:nth-child(3) {
+    inset: 23px;
+    animation-duration: 1.8s;
+}
+
+.ai-preview-stage .mood-image {
+    width: 100%;
+    height: auto;
+    max-height: 620px;
+    object-fit: contain;
+    border-radius: 18px;
+    animation: imageDevelop .8s ease both;
+}
+
+@keyframes previewReveal {
+    from { opacity: 0; transform: translateY(22px) }
+    to { opacity: 1; transform: translateY(0) }
+}
+
+@keyframes orbitSpin {
+    to { transform: rotate(360deg) }
+}
+
+@keyframes bookFloat {
+    50% { transform: translateY(-8px) rotate(-2deg) }
+}
+
+@keyframes imageDevelop {
+    from { opacity: 0; filter: blur(14px); transform: scale(.96) }
+    to { opacity: 1; filter: blur(0); transform: scale(1) }
+}
+
+.nearby-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 30px;
+    margin-bottom: 14px;
+}
+
+.nearby-title-row small,
+.mypage-hero small,
+.recent-activity > div small {
+    color: var(--cyan);
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.locate-button {
+    border: 0;
+    border-radius: 28px;
+    padding: 15px 22px;
+    background: #111;
+    color: #fff;
+    font-weight: 800;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.locate-button:disabled {
+    opacity: .6;
+    cursor: wait;
+}
+
+.location-status {
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #fff9b8;
+}
+
+.map-panel {
+    position: relative;
+    min-height: 580px;
+    overflow: hidden;
+    border-radius: 20px;
+    background: #eee;
+}
+
+.map-panel iframe {
+    width: 100%;
+    height: 580px;
+    border: 0;
+}
+
+.map-panel > a {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    padding: 10px 14px;
+    border-radius: 20px;
+    background: #111;
+    color: #fff;
+    font-size: 12px;
+}
+
+.place-list {
+    max-height: 580px;
+    overflow-y: auto;
+}
+
+.place-intro {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #fff;
+}
+
+.place-empty {
+    padding: 32px 16px;
+    color: #777;
+    text-align: center;
+}
+
+.place-card {
+    display: grid !important;
+    grid-template-columns: 10px 1fr auto;
+    align-items: center;
+    gap: 13px;
+}
+
+.place-card div {
+    display: grid;
+    gap: 4px;
+}
+
+.place-card small {
+    color: var(--cyan);
+    font-weight: 800;
+}
+
+.place-card a {
+    padding: 8px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.mypage-hero {
+    min-height: 440px;
+    display: grid;
+    align-items: center;
+    background:
+        radial-gradient(circle at 78% 32%, #43bed455, transparent 22%),
+        linear-gradient(120deg, #111 55%, #262321);
+    color: #fff;
+}
+
+.mypage-hero h1 {
+    margin: 18px 0;
+    font-size: clamp(48px, 6vw, 78px);
+    line-height: 1;
+}
+
+.mypage-hero em {
+    color: var(--yellow);
+    font-style: normal;
+}
+
+.mypage-area {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 30px;
+}
+
+.profile-card,
+.activity-grid article,
+.recent-activity {
+    border: 1px solid #e5e0d8;
+    border-radius: 22px;
+    background: #fff;
+}
+
+.profile-card {
+    padding: 28px;
+    text-align: center;
+}
+
+.profile-avatar {
+    width: 90px;
+    height: 90px;
+    display: grid;
+    place-items: center;
+    margin: auto;
+    border-radius: 50%;
+    background: var(--yellow);
+    font-size: 36px;
+    font-weight: 900;
+}
+
+.profile-card span {
+    display: block;
+    color: #777;
+    font-size: 13px;
+}
+
+.profile-card > a {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 10px 18px;
+    border-radius: 20px;
+    background: #111;
+    color: #fff;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.activity-grid article {
+    padding: 24px;
+}
+
+.activity-grid small,
+.activity-grid span {
+    display: block;
+}
+
+.activity-grid small {
+    color: var(--cyan);
+    font-weight: 900;
+}
+
+.activity-grid strong {
+    display: block;
+    margin: 10px 0 2px;
+    font-size: 44px;
+}
+
+.recent-activity {
+    margin-top: 18px;
+    padding: 28px;
+}
+
+.recent-activity > a {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 15px;
+    padding: 18px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.recent-activity > a span {
+    color: var(--cyan);
+    font-weight: 800;
+}
+
+.empty-activity {
+    padding: 40px 0;
+    text-align: center;
+}
+
+@media(max-width:900px) {
+    .mypage-link,
+    .logout-link {
+        display: none;
+    }
+
+    .nearby-title-row,
+    .preview-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .preview-heading p {
+        text-align: left;
+    }
+
+    .mypage-area {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:540px) {
+    .api-card .cover-frame {
+        height: 330px;
+    }
+
+    .detail aside {
+        max-width: 100%;
+    }
+
+    .detail-cover-frame {
+        width: min(240px, 100%);
+        height: 340px;
+    }
+
+    .ai-preview-stage {
+        padding: 20px;
+    }
+
+    .activity-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .recent-activity > a {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+}
+
+/* ==================== 기본 설정 및 초기화 ==================== */
+* {
+    box-sizing: border-box
+}
+
+html {
+    scroll-behavior: smooth
+}
+
+body {
+    margin: 0;
+    font-family: Arial, 'Noto Sans KR', sans-serif;
+    color: #211e1c;
+    background: #fff
+}
+
+a {
+    color: inherit;
+    text-decoration: none
+}
+
+button,
+input {
+    font: inherit
+}
+
+/* ==================== 상단 흐르는 공지 배너 ==================== */
+.notice {
+    height: 40px;
+    background: var(--yellow);
+    overflow: hidden;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center
+}
+
+.notice-track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    animation: notice 42s linear infinite
+}
+
+.notice-group {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+    padding-right: 44px
+}
+
+@keyframes notice {
+    to {
+        transform: translateX(-50%)
+    }
+}
+
+/* ==================== 헤더 및 내비게이션 ==================== */
+header {
+    height: 70px;
+    border-bottom: 1px solid #eee;
+    background: rgba(255, 255, 255, .96);
+    position: sticky;
+    top: 0;
+    z-index: 20
+}
+
+/* 메인 페이지 전용 투명 헤더 */
+body[data-page=home] header {
+    position: absolute;
+    top: 40px;
+    left: 0;
+    width: 100%;
+    background: transparent;
+    border-bottom: 0;
+    color: #fff
+}
+
+body[data-page=home] .search {
+    border-color: rgba(255, 255, 255, .65);
+    background: rgba(255, 255, 255, .12)
+}
+
+body[data-page=home] .search input {
+    color: #fff;
+    background: transparent
+}
+
+body[data-page=home] .search input::placeholder {
+    color: rgba(255, 255, 255, .75)
+}
+
+body[data-page=home] .search button {
+    color: #111
+}
+
+body[data-page=home] nav a:hover,
+body[data-page=home] .nav-home {
+    background: rgba(0, 0, 0, .78);
+    color: #fff
+}
+
+.nav-wrap,
+.section,
+.footer-wrap {
+    width: min(1120px, calc(100% - 40px));
+    margin: auto
+}
+
+.nav-wrap {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 28px
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    min-width: 210px
+}
+
+.logo i {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: var(--cyan);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: Arial, sans-serif;
+    font-style: normal;
+    font-weight: 900
+}
+
+nav {
+    display: flex;
+    gap: 8px
+}
+
+nav a {
+    padding: 11px 17px;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 14px;
+    transition: .2s
+}
+
+/* 다른 페이지의 현재 메뉴 표시 */
+body[data-page="books"] .nav-books,
+body[data-page="nearby"] .nav-nearby,
+body[data-page="community"] .nav-community {
+    background: #080706;
+    color: #fff;
+}
+
+/* 메인 페이지에서 메뉴에 마우스를 올렸을 때 */
+body[data-page="home"] nav a:hover {
+    background: #fffc38;
+    color: #080706;
+}
+/* 검색창 */
+.search {
+    margin-left: auto;
+    border: 1px solid #777;
+    border-radius: 25px;
+    display: flex;
+    padding: 3px 8px 3px 16px;
+    white-space: nowrap
+}
+
+.search input {
+    border: 0;
+    outline: 0;
+    width: 180px
+}
+
+.search button {
+    border: 0;
+
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    cursor: pointer
+}
+
+.search button svg,
+.person svg {
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+.person svg {
+    width: 22px;
+    height: 22px;
+    stroke: #fff
+}
+
+/* 로그인 및 사용자 아이콘 */
+.login-link {
+    font-weight: 700;
+    white-space: nowrap
+}
+
+.person {
+    background: #222;
+    color: #fff;
+    border-radius: 50%;
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center
+}
+
+.menu-btn {
+    display: none
+}
+
+/* ==================== 메인 비주얼 영역 ==================== */
+.hero {
+    height: 750px;
+    background: #070707;
+    overflow: hidden;
+    width: 100%
+}
+
+.hero-placeholder,
+.image-box,
+.book-cover,
+.square-box,
+.map-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: repeating-linear-gradient(135deg, #292929, #292929 10px, #222 10px, #222 20px);
+    color: #aaa;
+    border: 1px dashed #777;
+    text-align: center
+}
+
+.hero-placeholder {
+    width: 100%;
+    height: 750px;
+    border: 0;
+    border-radius: 0;
+    background: #111;
+    color: #777;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 1px
+}
+
+.section-title small,
+.live-head small {
+    color: var(--cyan);
+    font-weight: 800;
+    letter-spacing: 2px
+}
+
+.sub-hero em {
+    color: var(--red);
+    font-style: normal
+}
+
+.image-box small,
+.book-cover small,
+.square-box small,
+.map-placeholder small {
+    display: block;
+    margin-top: 7px;
+    font-size: 11px
+}
+
+/* ==================== 공통 섹션 및 스크롤 애니메이션 ==================== */
+.section {
+    padding: 100px 0;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: .7s
+}
+
+.section.show {
+    opacity: 1;
+    transform: none
+}
+
+.section-title h2,
+.live h2 {
+    font-size: 36px;
+    margin: 10px 0 40px
+}
+
+/* 장르별 도서 제목 간격 */
+.category .section-title h2 {
+    margin: 10px 0 12px;
+}
+
+.category .section-title p {
+    margin: 0;
+}
+
+/* 주요 기능 제목과 카드 사이 간격 */
+.feature .section-title h2 {
+    margin: 10px 0 28px;
+}
+
+/* ==================== 주요 기능 소개 영역 ==================== */
+.feature {
+    min-height: 1080px
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 18px
+}
+
+.feature-big {
+    border-radius: 18px;
+    overflow: hidden;
+    background: var(--yellow)
+}
+
+.landscape {
+    height: 600px
+}
+
+.feature-big>div:last-child {
+    padding: 24px
+}
+
+.feature-big h3 {
+    font-size: 26px;
+    margin: 5px 0
+}
+
+.feature-cards {
+    display: grid;
+    gap: 15px
+}
+
+.feature-cards a {
+    border: 1px solid transparent;
+    border-radius: 16px;
+    background: #f2f5f4;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+    transition: transform .22s ease,
+                border-color .22s ease,
+                background-color .22s ease,
+                box-shadow .22s ease
+}
+
+.feature-cards a:hover {
+    border-color: #e1e6e3;
+    background: #f7f8f7;
+    box-shadow: 0 10px 24px rgba(30, 39, 36, .08);
+    transform: translateY(-3px)
+}
+
+.feature-cards .dark {
+    color: #080808;
+}
+
+.feature-cards small {
+    letter-spacing: 2px;
+    margin-top: auto
+}
+
+/* ==================== 지금 사람들이 읽는 책 영역 ==================== */
+.live {
+    height: 650px;
+    background: var(--yellow);
+    overflow: hidden
+}
+
+.live-head {
+    height: 220px;
+    padding: 55px 0 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.live-head h2 {
+    margin: 8px 0
+}
+
+.live-head a {
+    border: 1px solid;
+    padding: 10px 18px;
+    border-radius: 22px
+}
+
+.book-marquee {
+    overflow: hidden
+}
+
+.book-track {
+    display: flex;
+    gap: 22px;
+    width: max-content;
+    animation: books 32s linear infinite
+}
+
+.book-track:hover {
+    animation-play-state: paused
+}
+
+@keyframes books {
+    to {
+        transform: translateX(-50%)
+    }
+}
+
+.mini-book {
+    width: 190px
+}
+
+.mini-book .book-cover {
+    height: 260px
+}
+
+.mini-book b,
+.mini-book span {
+    display: block;
+    margin-top: 10px
+}
+
+.mini-book span {
+    font-size: 12px
+}
+
+/* ==================== 도서 카테고리 및 도서 카드 ==================== */
+.category {
+    min-height: 1200px;
+    background: #080808;
+    color: #fff
+}
+
+.category.section {
+    width: 100%;
+    padding-left: max(calc((100% - 1120px)/2), 20px);
+    padding-right: max(calc((100% - 1120px)/2), 20px)
+}
+
+.chips {
+    display: flex;
+    gap: 8px;
+    margin: 24px 0
+}
+
+.chips button,
+.chips a {
+    border: 0;
+    padding: 9px 15px;
+    border-radius: 20px;
+    background: #f4f3f1;
+    cursor: pointer;
+    color: #111
+}
+
+.chips .active {
+    background: var(--yellow)
+}
+
+.book-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 26px 20px
+}
+
+.book-card {
+    background: #fff;
+    color: #222;
+    border-radius: 15px;
+    padding: 12px;
+    transition: .25s
+}
+
+.book-card:hover {
+    transform: translateY(-8px)
+}
+
+.book-card .book-cover {
+    height: 300px;
+    border-radius: 10px;
+    position: relative;
+    background: repeating-linear-gradient(135deg, #f0ece8, #f0ece8 12px, #e7e0db 12px, #e7e0db 24px);
+    color: #897f78
+}
+
+.heart {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%
+}
+
+.heart.on {
+    color: red
+}
+
+.book-card>small {
+    display: block;
+    color: #777;
+    margin-top: 14px
+}
+
+.book-card h3 {
+    margin: 7px 0
+}
+
+.book-card p {
+    font-size: 12px;
+    color: #777
+}
+
+/* ==================== 서브 페이지 상단 영역 ==================== */
+.sub-hero {
+    height: 510px;
+    background: linear-gradient(110deg, #fcfaf6 65%, #ffe7e5)
+}
+
+.sub-hero .section {
+    padding-top: 100px
+}
+
+.sub-hero small,
+.tag {
+    background: var(--yellow);
+    padding: 9px 16px;
+    border-radius: 20px;
+    color: #34bfd9;
+    font-weight: 800
+}
+
+.sub-hero h1 {
+    font-size: 58px;
+    line-height: 1.05;
+    margin: 30px 0
+}
+
+.sub-hero p {
+    line-height: 1.8;
+    color: #777
+}
+
+.browse {
+    padding-top: 70px
+}
+
+.genre-row {
+    margin: 60px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: .6s
+}
+
+.genre-row.show {
+    opacity: 1;
+    transform: none
+}
+
+.genre-row>h3 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px
+}
+
+.genre-row>h3 span {
+    float: right
+}
+
+.four {
+    grid-template-columns: repeat(4, 1fr)
+}
+
+/* ==================== 도서 상세 페이지 ==================== */
+.detail {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 60px;
+    align-items: start
+}
+
+.detail aside {
+    position: sticky;
+    top: 140px
+}
+
+.detail-cover {
+    height: 390px;
+    border-radius: 20px;
+    background: #f3efec;
+    color: #999
+}
+
+.like-btn {
+    width: 100%;
+    background: #17110f;
+    color: #fff;
+    border: 0;
+    border-radius: 30px;
+    padding: 16px;
+    margin: 15px 0
+}
+
+.book-info {
+    display: flex;
+    background: #fffed0;
+    border-radius: 25px;
+    padding: 20px;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 12px
+}
+
+.detail article>h1 {
+    font-size: 42px
+}
+
+.author {
+    color: #777
+}
+
+.detail article>hr {
+    border: 0;
+    border-top: 1px solid #ddd;
+    margin: 35px 0
+}
+
+.easy,
+.preview,
+/* 도서 상세 페이지 - 쉬운 글 해석 및 댓글 */
+.comments {
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 35px;
+    margin-top: 30px
+}
+
+.easy {
+    background: #fffed2
+}
+
+.easy>div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px
+}
+
+.easy>div>div {
+    background: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    min-height: 160px
+}
+
+.easy-result {
+    border: 4px solid var(--yellow)
+}
+
+.wide {
+    height: 430px;
+    border-radius: 16px;
+    margin-top: 20px
+}
+
+.mood-image {
+    display: block;
+    width: 100%;
+    height: 430px;
+    margin-top: 20px;
+    border-radius: 16px;
+    object-fit: cover;
+    background: #f4f1ec
+}
+
+.mood-image[hidden] {
+    display: none
+}
+
+.comments form {
+    display: flex;
+    gap: 10px
+}
+
+.comments input {
+    flex: 1;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 13px
+}
+
+.comments button {
+    border: 0;
+    background: var(--yellow);
+    border-radius: 25px;
+    padding: 0 25px
+}
+
+.comment-list {
+    margin-top: 20px;
+    min-height: 100px;
+    border: 1px solid #eee;
+    border-radius: 15px;
+    padding: 20px
+}
+
+/* ==================== 내 위치 서점 찾기 ==================== */
+.near h2 {
+    font-size: 36px
+}
+
+.near-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 25px;
+    margin-top: 40px
+}
+
+.map-placeholder {
+    height: 580px;
+    border-radius: 25px;
+    background: #eee;
+    color: #999;
+    position: relative
+}
+
+.pin {
+    position: absolute;
+    color: #4285f4;
+    font-size: 34px
+}
+
+.p1 {
+    left: 30%;
+    top: 35%
+}
+
+.p2 {
+    left: 70%;
+    top: 65%
+}
+
+.place-list {
+    display: grid;
+    gap: 15px
+}
+
+.place-list>div,
+.place-list article {
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    padding: 25px
+}
+
+.place-list article {
+    display: grid;
+    grid-template-columns: 55px 1fr;
+    gap: 5px 15px
+}
+
+.place-list article i {
+    grid-row: 1/3;
+    width: 50px;
+    height: 50px;
+    background: #edf4ff;
+    border-radius: 50%
+}
+
+.place-list article i.pink {
+    background: #ffe9e6
+}
+
+.place-list article span {
+    color: #777;
+    font-size: 13px
+}
+
+/* ==================== 로그인 및 회원가입 ==================== */
+.auth {
+    padding: 110px 20px;
+    min-height: 790px
+}
+
+.auth-card {
+    max-width: 1120px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 20px 30px #0002
+}
+
+.auth-intro {
+    background: var(--yellow);
+    padding: 65px 48px;
+    min-height: 570px
+}
+
+.auth-intro small {
+    background: var(--cyan);
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 20px
+}
+
+.auth-intro h2 {
+    font-size: 32px;
+    margin-top: 30px
+}
+
+.auth-intro ul {
+    list-style: none;
+    padding: 130px 0 0;
+    line-height: 3
+}
+
+.auth-card form {
+    padding: 65px 55px
+}
+
+.auth-card form>p {
+    color: #777
+}
+
+.auth-card label {
+    display: block;
+    font-weight: 700;
+    margin: 32px 0
+}
+
+.auth-card input {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    margin-top: 10px
+}
+
+.auth-card form>button {
+    width: 100%;
+    border: 0;
+    background: #17110f;
+    color: #fff;
+    padding: 16px;
+    border-radius: 15px
+}
+
+.auth-card form>p:last-child {
+    text-align: center;
+    margin-top: 50px
+}
+
+.auth-card form a,
+.error {
+    color: var(--red) !important;
+    font-weight: 700
+}
+
+.login-card .auth-intro {
+    background: #FFFC38FF
+}
+
+/* ==================== 커뮤니티 게시물 영역 ==================== */
+.community-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px
+}
+
+.community-grid article {
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 15px
+}
+
+.square-box {
+    aspect-ratio: 1;
+    border-radius: 14px;
+    background: #eee;
+    color: #999
+}
+
+/* ==================== 푸터 ==================== */
+footer {
+    background: #2d2723;
+    color: #fff;
+    padding: 65px 0
+}
+
+.footer-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 120px
+}
+
+.light {
+    min-width: 0
+}
+
+.footer-wrap p,
+.footer-wrap small {
+    color: #8e8986;
+    line-height: 1.7
+}
+
+.foot-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px
+}
+
+.foot-links a {
+    border-top: 1px solid #4a4441;
+    padding-top: 18px
+}
+
+.foot-links b,
+.foot-links span {
+    display: block
+}
+
+.foot-links span {
+    font-size: 11px;
+    color: #aaa;
+    margin-top: 8px
+}
+
+/* ==================== 태블릿 반응형 (900px 이하) ==================== */
+@media(max-width:900px) {
+    header {
+        height: auto
+    }
+
+    .nav-wrap {
+        min-height: 68px;
+        flex-wrap: wrap
+    }
+
+    .logo {
+        min-width: 0;
+        margin-right: auto
+    }
+
+    .menu-btn {
+        display: block;
+        border: 0;
+        background: #111;
+        color: #fff;
+        border-radius: 8px;
+        padding: 8px 12px
+    }
+
+    nav {
+        display: none;
+        order: 5;
+        width: 100%;
+        padding-bottom: 12px
+    }
+
+    nav.open {
+        display: grid
+    }
+
+    .search {
+        display: none
+    }
+
+    .sub-hero h1 {
+        font-size: 38px
+    }
+
+    .hero-placeholder {
+        height: 750px
+    }
+
+    .feature-grid,
+    .detail,
+    .near-grid,
+    .auth-card {
+        grid-template-columns: 1fr
+    }
+
+    .feature {
+        min-height: auto
+    }
+
+    .book-grid,
+    .four {
+        grid-template-columns: repeat(2, 1fr)
+    }
+
+    .category {
+        min-height: auto
+    }
+
+    .live {
+        height: 620px
+    }
+
+    .detail aside {
+        position: static
+    }
+
+    .near-grid {
+        display: block
+    }
+
+    .place-list {
+        margin-top: 20px
+    }
+
+    .auth-intro {
+        min-height: auto
+    }
+
+    .auth-intro ul {
+        padding-top: 40px
+    }
+
+    .community-grid {
+        grid-template-columns: 1fr 1fr
+    }
+
+    .footer-wrap {
+        grid-template-columns: 1fr;
+        gap: 50px
+    }
+}
+
+/* ==================== 모바일 반응형 (540px 이하) ==================== */
+
+@media(max-width:540px) {
+
+    .book-grid,
+    .four,
+    .community-grid {
+        grid-template-columns: 1fr
+    }
+
+    .book-card .book-cover {
+        height: 380px
+    }
+
+    .feature-grid {
+        display: block
+    }
+
+    .feature-cards {
+        margin-top: 15px
+    }
+
+    .sub-hero {
+        height: 430px
+    }
+
+    .sub-hero .section {
+        padding-top: 70px
+    }
+
+    .easy>div {
+        grid-template-columns: 1fr
+    }
+
+    .auth-card form,
+    .auth-intro {
+        padding: 40px 25px
+    }
+
+    .footer-wrap {
+        display: block
+    }
+
+    .foot-links {
+        margin-top: 40px;
+        grid-template-columns: 1fr
+    }
+}
+
+/* ==================== 소개 페이지 최종 배치 ==================== */
+.about-top {
+    width: 100%;
+    min-height: 650px;
+    padding: 85px 20px 65px;
+    background: #fff;
+    text-align: center
+}
+
+.about-top h1 {
+    width: 510px;
+    max-width: 100%;
+    margin: 38px auto 48px;
+    font-size: 82px;
+    line-height: .92;
+    letter-spacing: -6px
+}
+
+.about-top h1 span,
+.about-top h1 em {
+    display: block
+}
+
+.about-top h1 span {
+    text-align: left
+}
+
+.about-top h1 em {
+    margin-top: 20px;
+    padding-left: 165px;
+    text-align: left;
+    color: var(--red);
+    font-style: normal
+}
+
+.about-top p {
+    color: #777;
+    line-height: 1.9;
+    font-size: 14px
+}
+
+.about-top h2 {
+    margin-top: 28px;
+    font-size: 25px
+}
+
+.about-mood {
+    background: #101010;
+    color: #fff;
+    text-align: center
+}
+
+.about-mood .section {
+    min-height: 920px;
+    padding-top: 90px;
+    padding-bottom: 85px
+}
+
+.about-mood h2 {
+    font-size: 30px;
+    line-height: 1.45
+}
+
+.about-mood em {
+    color: var(--red);
+    font-style: normal
+}
+
+.about-mood p {
+    color: #c6c2bf;
+    line-height: 1.8
+}
+
+.about-mood .about-cards {
+    width: min(760px, 100%);
+    margin: 60px auto 55px;
+    gap: 40px
+}
+
+.about-mood .about-cards article {
+    min-height: 215px;
+    padding: 35px 20px 25px;
+    box-shadow: none
+}
+
+.about-mood .about-cards b {
+    font-size: 54px
+}
+
+.about-mood .about-cards h3 {
+    margin: 7px 0;
+    font-size: 25px
+}
+
+.mood-line {
+    width: 1px;
+    height: 90px;
+    margin: 38px auto;
+    background: #8c8987
+}
+
+.about-journey {
+    background: #fff;
+    color: #211e1c;
+    text-align: center
+}
+
+.about-journey .section {
+    min-height: 1180px;
+    padding-top: 80px
+}
+
+.about-quote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 65px
+}
+
+.about-quote>b {
+    color: var(--red);
+    font-size: 78px;
+    line-height: .7
+}
+
+.about-quote p {
+    font-size: 21px
+}
+
+.about-steps {
+    width: min(900px, 100%);
+    margin: 0 auto 100px;
+    gap: 18px
+}
+
+.about-steps article {
+    min-height: 210px;
+    padding: 28px 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 22px rgba(47, 40, 27, .08)
+}
+
+.about-steps b {
+    font-size: 48px
+}
+
+.about-steps h3 {
+    font-size: 23px;
+    margin: 22px 0 8px
+}
+
+.about-steps p {
+    color: #777;
+    font-size: 13px
+}
+
+.journey-copy {
+    font-size: 20px;
+    line-height: 1.7;
+    margin: 0 0 95px
+}
+
+.reading-copy {
+    font-family: Georgia, serif;
+    font-size: 43px;
+    font-style: italic;
+    margin-bottom: 40px
+}
+
+.reading-copy em {
+    color: var(--cyan);
+    font-style: italic
+}
+
+.about-journey .start-link {
+    margin-top: 35px;
+    padding: 13px 24px;
+    border-radius: 28px;
+    background: #211e1c;
+    color: #fff;
+    font-size: 14px
+}
+
+.live-head>a {
+    border-color: #161412;
+    background: #161412;
+    color: #fff;
+    font-weight: 700;
+    transition: .2s
+}
+
+.live-head>a:hover {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #111;
+    transform: translateY(-2px)
+}
+
+.person {
+    padding: 0
+}
+
+.person svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+@media(max-width:700px) {
+    .about-top {
+        min-height: 560px
+    }
+
+    .about-top h1 {
+        width: 330px;
+        font-size: 58px;
+        letter-spacing: -4px
+    }
+
+    .about-top h1 em {
+        padding-left: 105px
+    }
+
+    .about-mood .section,
+    .about-journey .section {
+        min-height: auto
+    }
+
+    .about-mood .about-cards,
+    .about-steps {
+        grid-template-columns: 1fr
+    }
+
+    .about-quote {
+        gap: 10px
+    }
+
+    .about-quote>b {
+        font-size: 50px
+    }
+
+    .reading-copy {
+        font-size: 30px
+    }
+}
+
+/* 회원가입 */
+.signup-dark {
+    background: #fffdf8;
+    color: #211e1c
+}
+
+.signup-form {
+    background: #fff;
+    color: #211e1c
+}
+
+.birth-selects {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px
+}
+
+.birth-selects select {
+    width: 100%;
+    height: 52px;
+    padding: 0 15px;
+    border: 1px solid #ded8d1;
+    border-radius: 0;
+    background: #f7f5f2;
+    color: #211e1c;
+    font: inherit;
+    cursor: pointer
+}
+
+.birth-selects select:focus {
+    border-color: #43bed4;
+    outline: 2px solid rgba(67, 190, 212, .18)
+}
+
+@media(max-width:540px) {
+    .birth-selects {
+        gap: 7px
+    }
+
+    .birth-selects select {
+        height: 48px;
+        padding: 0 9px
+    }
+}
+
+/* 헤더, 모바일 화면, 도서 카드 */
+@media(min-width:901px) {
+    .nav-wrap {
+        width: min(1280px, calc(100% - 32px));
+        gap: 14px;
+        flex-wrap: nowrap;
+    }
+
+    .nav-wrap .logo {
+        min-width: 150px;
+        flex: 0 0 auto;
+    }
+
+    .nav-wrap nav {
+        flex: 0 1 auto;
+        flex-wrap: nowrap;
+        gap: 3px;
+        white-space: nowrap;
+    }
+
+    .nav-wrap nav a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 10px 12px;
+        white-space: nowrap;
+        word-break: keep-all;
+        line-height: 1;
+    }
+
+    .nav-wrap .search {
+        min-width: 205px;
+        max-width: 245px;
+        margin-left: auto;
+        flex: 1 1 225px;
+    }
+
+    .mypage-link,
+    .logout-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: 38px;
+        white-space: nowrap;
+        word-break: keep-all;
+        line-height: 1;
+        flex: 0 0 auto;
+    }
+
+    .member-person {
+        flex: 0 0 34px;
+    }
+}
+
+.api-card .cover-frame,
+.detail-cover-frame,
+.mini-cover-frame {
+    background: #fff !important;
+    border: 1px solid #e3e3e3;
+    box-shadow: none !important;
+}
+
+.api-card .cover-frame img,
+.detail-cover-frame img.real-cover,
+.mini-cover-frame img {
+    background: #fff;
+}
+
+.category .book-card,
+.category .book-card:hover {
+    border: 1px solid #e7e2df;
+    box-shadow: none !important;
+}
+
+.category .book-card:hover {
+    transform: translateY(-3px);
+}
+
+.category .video-cover,
+.category .video-cover i,
+.category .preview-label {
+    box-shadow: none !important;
+}
+
+.category .video-cover {
+    border: 1px solid #eee8e3;
+    background: #fff;
+}
+
+.book-meta-chips {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.book-meta-chips > span {
+    min-height: 56px;
+    display: grid;
+    grid-template-columns: 34px 58px 1fr;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 12px;
+    border: 1px solid #e5e2dc;
+    border-radius: 14px;
+    background: #fff;
+    text-align: left;
+}
+
+.book-meta-chips i {
+    width: 32px;
+    height: 32px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fffbd2;
+    font-style: normal;
+}
+
+.book-meta-chips small {
+    color: #777;
+}
+
+.book-meta-chips b {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.book-like-form {
+    margin-top: 10px;
+}
+
+.book-like-form button {
+    width: 100%;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid #1c1a18;
+    border-radius: 24px;
+    background: #fff;
+    color: #1c1a18;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+.book-like-form button:hover,
+.book-like-form button.liked {
+    border-color: #ff5f7f;
+    background: #fff1f4;
+    color: #e53d62;
+}
+
+.book-like-form i {
+    font-size: 22px;
+    font-style: normal;
+}
+
+.book-like-form b {
+    min-width: 24px;
+    padding: 3px 7px;
+    border-radius: 12px;
+    background: #f1efeb;
+    color: #333;
+    font-size: 12px;
+}
+
+@media(max-width:900px) {
+    .nav-wrap {
+        gap: 10px;
+    }
+
+    .menu-btn {
+        position: relative;
+        z-index: 20;
+        display: grid;
+        place-items: center;
+        min-width: 44px;
+        min-height: 42px;
+        padding: 0;
+        border: 1px solid #111;
+        border-radius: 10px;
+        background: var(--yellow);
+        color: #111;
+        font-size: 22px;
+        line-height: 1;
+        box-shadow: 0 3px 0 #111;
+    }
+
+    .menu-btn:hover,
+    .menu-btn:focus-visible {
+        background: #fff;
+        color: #111;
+    }
+
+    nav.open {
+        display: grid;
+        gap: 6px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 14px;
+        background: #fff;
+        box-shadow: 0 12px 28px #0002;
+    }
+
+    nav.open a {
+        color: #111 !important;
+        text-align: center;
+        white-space: nowrap;
+    }
+}
+
+/* 장르 표지·ABOUT 정렬·TOP10 제목 */
+.video-cover {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    border-radius: 12px;
+    background: #eeeae2;
+}
+
+.video-cover img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    transition: transform .45s ease, filter .45s ease;
+}
+
+.video-cover::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, #0009);
+    pointer-events: none;
+}
+
+.video-cover i {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    right: 16px;
+    width: 48px;
+    height: 48px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: #111;
+    font-size: 16px;
+    font-style: normal;
+    box-shadow: 0 8px 22px #0004;
+    transition: transform .35s ease;
+}
+
+.preview-label {
+    position: absolute;
+    z-index: 2;
+    left: 14px;
+    bottom: 14px;
+    padding: 7px 11px;
+    border: 1px solid #ffffff66;
+    border-radius: 18px;
+    background: #111b;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.video-card:hover .video-cover img {
+    transform: scale(1.035);
+    filter: brightness(.92);
+}
+
+.video-card:hover .video-cover i {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.mini-book-title {
+    display: -webkit-box !important;
+    min-height: 2.8em;
+    max-height: 2.8em;
+    overflow: hidden;
+    line-height: 1.4;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.about-journey .about-steps {
+    align-items: stretch;
+}
+
+.about-journey .about-steps article {
+    min-height: 230px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 18px;
+    text-align: center;
+}
+
+.about-journey .about-steps b {
+    min-height: 62px;
+    display: grid;
+    place-items: center;
+    margin: 0 auto 12px;
+    font-size: 48px;
+    line-height: 1;
+}
+
+.about-journey .about-steps h3 {
+    width: 100%;
+    margin: 6px 0 10px;
+    text-align: center;
+}
+
+.about-journey .about-steps p {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+    line-height: 1.65;
+}
+
+@media(max-width:540px) {
+    .video-cover {
+        aspect-ratio: 3 / 4;
+    }
+
+    .about-journey .about-steps article {
+        min-height: 210px;
+    }
+}
+
+/* 화면 스타일 우선순위 */
+.api-card .cover-frame {
+    width: 100%;
+    height: 250px;
+    aspect-ratio: auto;
+    padding: 5px;
+    background: #f1eee6;
+}
+
+.api-card .cover-frame img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain !important;
+}
+
+.detail aside {
+    max-width: 260px;
+}
+
+.detail-cover-frame {
+    width: 240px;
+    height: 340px;
+    aspect-ratio: auto;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+.detail-cover-frame img.real-cover {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+@media(max-width:540px) {
+    .api-card .cover-frame {
+        height: 330px;
+    }
+
+    .detail aside {
+        max-width: 100%;
+    }
+
+    .detail-cover-frame {
+        width: min(240px, 100%);
+        height: 340px;
+    }
+}
+
+/* v8.0 최종 덮어쓰기: 작은 알라딘 표지를 자르지 않고 원본 비율로 표시 */
+.mini-book .mini-cover-frame,
+.api-card .cover-frame,
+.detail-cover-frame {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: linear-gradient(145deg, #f5f2ea, #ece7dc);
+}
+
+.mini-book .mini-cover-frame img,
+.api-card .cover-frame img,
+.detail-cover-frame img.real-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* v9.0: 책마다 다른 원본 비율을 강제로 늘리지 않음 */
+.api-card .cover-frame {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    padding: 10px;
+}
+
+.mini-book .mini-cover-frame {
+    width: 190px;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    padding: 9px;
+}
+
+.api-card .cover-frame img,
+.mini-book .mini-cover-frame img,
+.detail-cover-frame img.real-cover {
+    width: auto !important;
+    height: auto !important;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain !important;
+}
+
+.detail-cover-frame {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+}
+
+@media(max-width:540px) {
+    .api-card .cover-frame,
+    .detail-cover-frame {
+        height: auto;
+        aspect-ratio: 2 / 3;
+    }
+
+    .mini-book .mini-cover-frame {
+        width: 170px;
+        height: auto;
+    }
+}
+
+/* ==================== 2026 팀 프로젝트 추가 기능 ==================== */
+body:not([data-page="home"]) nav a:hover {
+    background: #080706;
+    color: #fff
+}
+
+body[data-page="about"] .nav-about {
+    background: #080706;
+    color: #fff
+}
+
+.flash {
+    position: fixed;
+    z-index: 80;
+    left: 50%;
+    top: 125px;
+    transform: translateX(-50%);
+    padding: 13px 22px;
+    border-radius: 30px;
+    background: var(--yellow);
+    box-shadow: 0 8px 25px #0003
+}
+
+.hero {
+    position: relative;
+    background:
+        radial-gradient(circle at 70% 45%, #2d2b2a 0 10%, transparent 35%),
+        linear-gradient(125deg, #050505 35%, #1c1918)
+}
+
+.hero-copy {
+    width: min(1120px, calc(100% - 40px));
+    margin: auto;
+    padding-top: 270px;
+    color: #fff
+}
+
+.hero-copy small {
+    color: var(--cyan);
+    letter-spacing: 3px
+}
+
+.hero-copy h1 {
+    font-size: clamp(48px, 6vw, 86px);
+    line-height: 1;
+    margin: 25px 0
+}
+
+.hero-copy em {
+    color: var(--yellow);
+    font-style: normal
+}
+
+.mini-book img,
+.api-card>img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+    background: #eee
+}
+
+.mini-book img {
+    height: 260px
+}
+
+.api-card>img {
+    height: 300px;
+    border-radius: 10px
+}
+
+.video-card {
+    border: 0;
+    text-align: left;
+    font: inherit;
+    cursor: pointer
+}
+
+.custom-cover {
+    height: 300px;
+    border-radius: 10px;
+    padding: 25px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    color: #fff;
+    background: linear-gradient(145deg, #1d5a70, #58c9dc)
+}
+
+.cover-2 { background: linear-gradient(145deg, #111827, #5f6c8f) }
+.cover-3 { background: linear-gradient(145deg, #8d542f, #eab97f) }
+.cover-4 { background: linear-gradient(145deg, #e99584, #ffcf89) }
+.cover-5 { background: linear-gradient(145deg, #754275, #e599be) }
+.cover-6 { background: linear-gradient(145deg, #245b46, #84b78a) }
+.cover-7 { background: linear-gradient(145deg, #345e87, #d3b66b) }
+.cover-8 { background: linear-gradient(145deg, #b5533d, #f0be6b) }
+
+.custom-cover::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border: 1px solid #ffffff77
+}
+
+.custom-cover span,
+.custom-cover small {
+    position: relative;
+    z-index: 1
+}
+
+.custom-cover span {
+    font-size: 25px;
+    font-weight: 800
+}
+
+.custom-cover i {
+    position: absolute;
+    z-index: 2;
+    right: 20px;
+    top: 20px;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: #111;
+    display: grid;
+    place-items: center;
+    font-style: normal
+}
+
+.video-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000d;
+    display: none;
+    place-items: center;
+    padding: 20px
+}
+
+.video-modal.open {
+    display: grid
+}
+
+.video-dialog {
+    width: min(850px, 100%);
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px;
+    position: relative
+}
+
+.video-dialog video {
+    width: 100%;
+    min-height: 320px;
+    background: #111
+}
+
+.modal-close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    border: 0;
+    background: #111;
+    color: #fff;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    font-size: 25px
+}
+
+.video-help {
+    color: #777;
+    font-size: 13px
+}
+
+.search-hero,
+.signup-hero {
+    background: linear-gradient(110deg, #fcfaf6 60%, #ffe5e2);
+    text-align: center
+}
+
+.search-hero {
+    min-height: 430px
+}
+
+.search-hero .section {
+    padding: 70px 0
+}
+
+.search-hero small,
+.signup-hero small,
+.about-top>small {
+    display: inline-block;
+    background: var(--yellow);
+    color: var(--cyan);
+    padding: 9px 22px;
+    border-radius: 25px;
+    font-weight: 800
+}
+
+.search-hero h1 {
+    font-size: 48px;
+    margin: 28px 0
+}
+
+.big-search {
+    max-width: 900px;
+    margin: auto;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    display: flex;
+    background: #fff;
+    padding: 8px
+}
+
+.big-search input {
+    flex: 1;
+    border: 0;
+    outline: 0;
+    padding: 15px 20px;
+    font-size: 18px
+}
+
+.big-search button {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 0;
+    background: #000;
+    color: #fff;
+    font-size: 28px
+}
+
+.search-hero .chips {
+    max-width: 900px;
+    margin: 20px auto;
+    justify-content: flex-start
+}
+
+.browse {
+    min-height: 900px
+}
+
+.result-grid {
+    margin-top: 35px
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 55px
+}
+
+.pagination a {
+    min-width: 44px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    text-align: center
+}
+
+.pagination .active {
+    background: var(--yellow);
+    border-color: var(--yellow)
+}
+
+.real-cover {
+    display: block;
+    width: 100%;
+    object-fit: cover
+}
+
+.easy>button {
+    background: #111;
+    color: #fff;
+    border: 0;
+    border-radius: 25px;
+    padding: 12px 18px;
+    margin: 5px 0 20px;
+    cursor: pointer
+}
+
+.about-top {
+    text-align: center;
+    min-height: 620px
+}
+
+.about-top h1 {
+    font-size: clamp(70px, 10vw, 130px);
+    line-height: .9;
+    margin: 55px 0
+}
+
+.about-top em,
+.about-dark em,
+.signup-complete em {
+    color: var(--red);
+    font-style: normal
+}
+
+.about-dark {
+    background: #0b0b0b;
+    color: #fff;
+    text-align: center
+}
+
+.about-dark .section {
+    min-height: 1300px
+}
+
+.about-cards,
+.about-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    margin: 70px auto;
+}
+
+.about-cards article {
+    background: var(--yellow);
+    color: #111;
+    padding: 45px 20px
+}
+
+.about-cards b,
+.about-steps b {
+    display: block;
+    font-size: 55px
+}
+
+.about-cards span {
+    display: block;
+    margin-top: 20px
+}
+
+.about-steps {
+    grid-template-columns: repeat(4, 1fr);
+    margin-top: 130px
+}
+
+.about-steps article {
+    background: #fff;
+    color: #111;
+    text-align: left;
+    padding: 22px
+}
+
+.start-link {
+    display: inline-block;
+    margin-top: 100px;
+    color: var(--cyan);
+    font-size: 28px;
+    font-weight: 800
+}
+
+.community-area {
+    background: #000;
+    color: #fff;
+    min-height: 750px
+}
+
+.community-toolbar {
+    border-bottom: 1px solid #777;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.community-toolbar .chips .active {
+    background: #34312f;
+    color: #fff
+}
+
+#writeToggle {
+    border: 0;
+    border-radius: 25px;
+    padding: 12px 20px;
+    background: var(--yellow)
+}
+
+.post-form {
+    display: none;
+    background: #fffef1;
+    color: #111;
+    padding: 25px;
+    border-radius: 25px;
+    margin: 25px 0
+}
+
+.post-form.open {
+    display: block
+}
+
+.post-form>input,
+.post-form textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 14px;
+    margin: 10px 0;
+    border-radius: 12px
+}
+
+.post-form textarea {
+    min-height: 120px;
+    resize: vertical
+}
+
+.post-form label input {
+    display: none
+}
+
+.post-form label span {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 20px
+}
+
+.post-form label input:checked+span {
+    background: var(--cyan)
+}
+
+.post-form>button {
+    float: right;
+    background: #201d1b;
+    color: #fff;
+    border: 0;
+    padding: 12px 20px;
+    border-radius: 25px
+}
+
+.post-form::after {
+    content: "";
+    display: block;
+    clear: both
+}
+
+.post-card {
+    border: 1px solid #fff;
+    border-radius: 25px;
+    padding: 25px;
+    margin: 20px 0
+}
+
+.post-tag {
+    background: var(--cyan);
+    padding: 7px 12px;
+    border-radius: 20px;
+    color: #fff
+}
+
+.post-card>small {
+    margin-left: 8px
+}
+
+.post-meta {
+    border-top: 1px solid #ddd;
+    margin-top: 20px;
+    padding-top: 15px
+}
+
+.post-meta b {
+    display: inline-grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #fffed0;
+    color: #111
+}
+
+.comment-toggle {
+    float: right;
+    margin-top: -35px;
+    border: 1px solid #fff;
+    border-radius: 20px;
+    background: transparent;
+    color: #fff;
+    padding: 7px 15px
+}
+
+.community-comments {
+    display: none;
+    border-top: 1px solid #777;
+    margin-top: 15px;
+    padding-top: 15px
+}
+
+.community-comments.open {
+    display: block
+}
+
+.community-comments form {
+    display: flex;
+    gap: 10px
+}
+
+.community-comments input {
+    flex: 1;
+    padding: 12px;
+    border-radius: 20px;
+    border: 0
+}
+
+.community-comments button {
+    background: #292522;
+    color: #fff;
+    border: 0;
+    padding: 0 20px;
+    border-radius: 20px
+}
+
+.signup-hero {
+    min-height: 360px;
+    padding: 90px 20px
+}
+
+.signup-hero h1 {
+    font-size: 45px
+}
+
+.signup-dark,
+.signup-complete {
+    background: #000;
+    color: #fff
+}
+
+.signup-form {
+    width: min(850px, calc(100% - 40px));
+    margin: auto;
+    padding: 90px 0 130px
+}
+
+.signup-form>label {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    margin: 35px 0
+}
+
+.signup-form input:not([type="checkbox"]) {
+    padding: 16px;
+    border: 0;
+    background: #f7f5f2
+}
+
+.terms {
+    background: #f7f5f2;
+    color: #555;
+    padding: 25px;
+    margin-top: 50px;
+    min-height: 150px
+}
+
+.signup-form .agree {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 70px
+}
+
+.form-actions a,
+.form-actions button {
+    padding: 15px 55px;
+    border-radius: 30px;
+    border: 0
+}
+
+.form-actions button {
+    background: var(--yellow)
+}
+
+.signup-complete {
+    min-height: 800px;
+    text-align: center;
+    padding: 110px 20px
+}
+
+.signup-complete>small {
+    color: var(--red)
+}
+
+.signup-complete h1 {
+    margin: 80px 0 450px;
+    font-size: 62px
+}
+
+@media(max-width:900px) {
+    .about-cards { grid-template-columns: 1fr }
+    .about-steps { grid-template-columns: repeat(2, 1fr) }
+    .signup-form>label { grid-template-columns: 1fr; gap: 10px }
+}
+
+@media(max-width:540px) {
+    .hero-copy { padding-top: 220px }
+    .search-hero .chips { overflow-x: auto }
+    .about-steps { grid-template-columns: 1fr }
+    .community-toolbar { align-items: flex-start }
+    .community-toolbar .chips { flex-wrap: wrap }
+    .signup-complete h1 { font-size: 42px }
+}
+
+/* 밝은 콘텐츠 배경 */
+body:not([data-page="home"]) main {
+    background: #fffdf8
+}
+
+.category {
+    background: #fffdf8;
+    color: #211e1c
+}
+
+.category .book-card {
+    border: 1px solid #e7e2df;
+    box-shadow: 0 8px 24px rgba(31, 24, 18, .08)
+}
+
+.menu-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: #fff;
+    display: grid;
+    place-items: center;
+    font-size: 23px;
+    font-style: normal;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .08)
+}
+
+.about-dark {
+    background: #fffdf8;
+    color: #211e1c
+}
+
+.about-dark .section {
+    background: #fffdf8
+}
+
+.about-cards article {
+    box-shadow: 0 10px 25px rgba(47, 40, 27, .12)
+}
+
+.about-steps article {
+    background: #fff;
+    border: 1px solid #e7e2df;
+    box-shadow: 0 8px 22px rgba(47, 40, 27, .08)
+}
+
+.community-area {
+    background: #fffdf8;
+    color: #211e1c
+}
+
+.community-toolbar {
+    border-bottom-color: #d7d0ca
+}
+
+.post-card {
+    background: #fff;
+    border-color: #d9d2cc;
+    box-shadow: 0 8px 24px rgba(47, 40, 27, .07)
+}
+
+/* 헤더 메뉴 정렬 */
+@media (min-width: 1101px) {
+    .nav-wrap {
+        width: min(1180px, calc(100% - 40px));
+        display: grid;
+        grid-template-columns: 170px minmax(420px, 1fr) 340px;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .nav-wrap .logo {
+        width: auto;
+        min-width: 0;
+    }
+
+    .nav-wrap nav {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+        width: 100%;
+    }
+
+    .nav-wrap nav a {
+        justify-content: center;
+        padding: 11px 6px;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .header-actions {
+        min-width: 0;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .header-actions .search {
+        width: 168px;
+        min-width: 168px;
+        max-width: 168px;
+        margin: 0;
+        flex: 0 0 168px;
+    }
+
+    .header-actions .mypage-link,
+    .header-actions .login-link,
+    .header-actions .person {
+        flex: 0 0 auto;
+        margin: 0;
+        white-space: nowrap;
+    }
+}
+
+.header-actions .search {
+    position: relative;
+    height: 38px;
+    padding: 3px 38px 3px 14px;
+}
+
+.header-actions .search input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.header-actions .search button {
+    position: absolute;
+    top: 50%;
+    right: 7px;
+    width: 28px;
+    height: 28px;
+    padding: 5px;
+    display: grid;
+    place-items: center;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #43bed4;
+}
+
+.header-actions .search button svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+@media (min-width: 901px) and (max-width: 1100px) {
+    .nav-wrap {
+        width: min(1040px, calc(100% - 24px));
+        gap: 7px;
+    }
+
+    .nav-wrap .logo {
+        min-width: 122px;
+    }
+
+    .nav-wrap nav {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        gap: 0;
+    }
+
+    .nav-wrap nav a {
+        padding-inline: 8px;
+        font-size: 13px;
+    }
+
+    .nav-wrap .search {
+        min-width: 170px;
+        max-width: 190px;
+        flex-basis: 180px;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-left: auto;
+    }
+}
+
+/* 메인 장르별 도서 */
+.category {
+    background: #fbf8f2;
+}
+
+.category .book-card {
+    background: #fff;
+    border: 1px solid #e6dfd5;
+    box-shadow: none !important;
+}
+
+.category .book-card:hover {
+    border-color: #cfc5b8;
+    box-shadow: none !important;
+    transform: translateY(-2px);
+}
+
+.category .video-cover {
+    background: #f1ece4;
+    border: 1px solid #e3dbd0;
+    box-shadow: none !important;
+}
+
+.category .video-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.video-title-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 40px;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+}
+
+.video-title-row h3 {
+    display: -webkit-box;
+    margin: 0;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+}
+
+.video-play-button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #43bed4;
+    color: #fff;
+    font-size: 15px;
+    line-height: 1;
+    box-shadow: none;
+}
+
+/* 알라딘 도서 표지 */
+.api-card,
+.mini-book {
+    box-shadow: none !important;
+}
+
+.api-card .cover-frame,
+.mini-book .mini-cover-frame,
+.detail-cover-frame {
+    background: #fff !important;
+    border: 1px solid #dedede;
+    box-shadow: none !important;
+}
+
+.api-card .cover-frame img,
+.mini-book .mini-cover-frame img,
+.detail-cover-frame img.real-cover {
+    object-fit: contain;
+    background: #fff;
+}
+
+@media (max-width: 900px) {
+    .header-actions {
+        display: contents;
+    }
+
+    .menu-btn {
+        background: #43bed4;
+        color: #fff;
+        border: 1px solid #2da9c0;
+    }
+}
+
+.comment-toggle {
+    border-color: #211e1c;
+    color: #211e1c
+}
+
+.community-comments {
+    border-top-color: #ddd
+}
+
+.community-comments input {
+    border: 1px solid #ddd
+}
+
+.signup-dark,
+.signup-complete {
+    background: #fffdf8;
+    color: #211e1c
+}
+
+.signup-form {
+    background: #fff;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    padding: 55px;
+    border: 1px solid #e1dbd5;
+    border-radius: 25px;
+    box-shadow: 0 12px 32px rgba(47, 40, 27, .08)
+}
+
+.signup-complete {
+    background:
+        radial-gradient(circle at center, #fffed1 0 18%, transparent 45%),
+        #fffdf8
+}
+
+.signup-complete a {
+    color: #211e1c
+}
+
+.near,
+.browse,
+.detail,
+.auth {
+    background: #fffdf8
+}
+
+.pin {
+    font-size: 32px
+}
+
+.search button {
+    background: transparent;
+    font-size: 15px
+}
+
+.big-search button {
+    font-size: 19px
+}
+
+.person {
+    background: #222;
+    font-size: 17px
+}
+
+@media(max-width:540px) {
+    .signup-form {
+        width: calc(100% - 24px);
+        padding: 35px 22px
+    }
+}
+
+/* 소개 페이지 우선 적용값: 아래 규칙이 기존 공통 스타일보다 먼저 적용되지 않도록 파일 끝에 둡니다. */
+.about-top {
+    width: 100%;
+    min-height: 650px;
+    padding: 85px 20px 65px;
+    background: #fff;
+    text-align: center
+}
+
+.about-top h1 {
+    width: 510px;
+    max-width: 100%;
+    margin: 38px auto 48px;
+    font-size: 82px;
+    line-height: .92;
+    letter-spacing: -6px
+}
+
+.about-top h1 span,
+.about-top h1 em {
+    display: block
+}
+
+.about-top h1 span {
+    text-align: left
+}
+
+.about-top h1 em {
+    margin-top: 20px;
+    padding-left: 165px;
+    text-align: left;
+    color: var(--red);
+    font-style: normal
+}
+
+.about-top p {
+    color: #777;
+    line-height: 1.9;
+    font-size: 14px
+}
+
+.about-top h2 {
+    margin-top: 28px;
+    font-size: 25px
+}
+
+.about-mood {
+    background: #101010;
+    color: #fff;
+    text-align: center
+}
+
+.about-mood .section {
+    min-height: 920px;
+    padding-top: 90px;
+    padding-bottom: 85px
+}
+
+.about-mood h2 {
+    font-size: 30px;
+    line-height: 1.45
+}
+
+.about-mood em {
+    color: var(--red);
+    font-style: normal
+}
+
+.about-mood p {
+    color: #c6c2bf;
+    line-height: 1.8
+}
+
+.about-mood .about-cards {
+    width: min(760px, 100%);
+    grid-template-columns: repeat(3, 1fr);
+    margin: 60px auto 55px;
+    gap: 40px
+}
+
+.about-mood .about-cards article {
+    min-height: 215px;
+    padding: 35px 20px 25px;
+    box-shadow: none
+}
+
+.about-mood .about-cards b {
+    font-size: 54px
+}
+
+.about-mood .about-cards h3 {
+    margin: 7px 0;
+    font-size: 25px
+}
+
+.mood-line {
+    width: 1px;
+    height: 90px;
+    margin: 38px auto;
+    background: #8c8987
+}
+
+.about-journey {
+    background: #fff;
+    color: #211e1c;
+    text-align: center
+}
+
+.about-journey .section {
+    min-height: 1180px;
+    padding-top: 80px
+}
+
+.about-quote {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 65px
+}
+
+.about-quote>b {
+    color: var(--red);
+    font-size: 78px;
+    line-height: .7
+}
+
+.about-quote p {
+    font-size: 21px
+}
+
+.about-journey .about-steps {
+    width: min(900px, 100%);
+    grid-template-columns: repeat(4, 1fr);
+    margin: 0 auto 100px;
+    gap: 18px
+}
+
+.about-journey .about-steps article {
+    min-height: 210px;
+    padding: 28px 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 8px 22px rgba(47, 40, 27, .08)
+}
+
+.about-journey .about-steps b {
+    font-size: 48px
+}
+
+.about-journey .about-steps h3 {
+    font-size: 23px;
+    margin: 22px 0 8px
+}
+
+.about-journey .about-steps p {
+    color: #777;
+    font-size: 13px
+}
+
+.journey-copy {
+    font-size: 20px;
+    line-height: 1.7;
+    margin: 0 0 95px
+}
+
+.reading-copy {
+    font-family: Georgia, serif;
+    font-size: 43px;
+    font-style: italic;
+    margin-bottom: 40px
+}
+
+.reading-copy em {
+    color: var(--cyan);
+    font-style: italic
+}
+
+.about-journey .start-link {
+    margin-top: 35px;
+    padding: 13px 24px;
+    border-radius: 28px;
+    background: #211e1c;
+    color: #fff;
+    font-size: 14px
+}
+
+.live-head>a {
+    border-color: #161412;
+    background: #161412;
+    color: #fff;
+    font-weight: 700
+}
+
+.live-head>a:hover {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: #111;
+    transform: translateY(-2px)
+}
+
+.person {
+    padding: 0
+}
+
+.person svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: #fff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round
+}
+
+@media(max-width:700px) {
+    .about-top {
+        min-height: 560px
+    }
+
+    .about-top h1 {
+        width: 330px;
+        font-size: 58px;
+        letter-spacing: -4px
+    }
+
+    .about-top h1 em {
+        padding-left: 105px
+    }
+
+    .about-mood .section,
+    .about-journey .section {
+        min-height: auto
+    }
+
+    .about-mood .about-cards,
+    .about-journey .about-steps {
+        grid-template-columns: 1fr
+    }
+
+    .about-quote {
+        gap: 10px
+    }
+
+    .about-quote>b {
+        font-size: 50px
+    }
+
+    .reading-copy {
+        font-size: 30px
+    }
+}

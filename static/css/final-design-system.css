@@ -1,0 +1,3093 @@
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("../fonts/noto-sans-kr/noto-sans-kr-400.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("../fonts/noto-sans-kr/noto-sans-kr-700.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("../fonts/noto-sans-kr/noto-sans-kr-900.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+}
+
+/* 디핑북 최종 디자인 시스템: 기존 화면 위에 공통 규칙만 정리 */
+:root {
+  --dp-title: #171513;
+  --dp-coral: #e86f3d;
+  --dp-yellow: #fffd53;
+  --dp-yellow-hover: #ffffcc;
+  --dp-soft-yellow: #ffffd7;
+  --dp-sky: #43bed4;
+  --dp-motion-fast: .25s;
+  --dp-motion-normal: .45s;
+}
+
+html,
+body,
+body *,
+button,
+input,
+textarea,
+select {
+  font-family: "Noto Sans KR", "Apple SD Gothic Neo", sans-serif !important;
+}
+
+body {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.section-title h2,
+.live-head h2,
+.book-results > h2 {
+  color: var(--dp-title) !important;
+  font-family: inherit !important;
+}
+
+.hero h1,
+.visual-page-hero h1,
+.search-hero h1,
+.about-top h1,
+.community-hero h1,
+.nearby-hero h1,
+.signup-hero h1 {
+  font-size: clamp(48px, 5vw, 68px) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.035em;
+}
+
+.section-title h2,
+.live-head h2,
+.browse > h2,
+.book-results > h2 {
+  font-size: clamp(34px, 3.2vw, 40px) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.025em;
+}
+
+.book-card h3,
+.browse-book h3,
+.mini-book-title,
+.api-card h3 {
+  color: var(--dp-title) !important;
+  font-size: clamp(15px, 1.25vw, 17px) !important;
+  font-weight: 700 !important;
+}
+
+p,
+.section-title p,
+.live-head p,
+.browse > p,
+.book-results > p {
+  font-size: clamp(14px, 1.2vw, 17px);
+  font-weight: 400;
+}
+
+.book-card p,
+.browse-book p,
+.mini-book > span,
+.api-card p,
+.book-card small,
+.browse-book span {
+  font-size: clamp(12px, 1vw, 14px) !important;
+  font-weight: 400 !important;
+}
+
+button,
+.more-books,
+.detail-link,
+.start-link,
+.shelf-arrow,
+.signup-complete-button {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+/* 모든 페이지 헤더: 메뉴 네 개의 시작선과 간격 통일 */
+@media (min-width: 941px) {
+  body header .nav-wrap,
+  body[data-page="home"] header .nav-wrap {
+    display: flex !important;
+    align-items: center !important;
+    width: min(1240px, calc(100% - 48px)) !important;
+  }
+
+  body header nav,
+  body[data-page="home"] header nav {
+    position: static !important;
+    display: flex !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 0 0 68px !important;
+    padding: 0 !important;
+    gap: 68px !important;
+    transform: none !important;
+  }
+
+  body header nav a,
+  body[data-page="home"] header nav a {
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+    padding: 8px 0 !important;
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    white-space: nowrap !important;
+  }
+
+  body header .header-actions,
+  body[data-page="home"] header .header-actions {
+    margin-left: auto !important;
+    gap: 18px !important;
+  }
+}
+
+/* 기존 메뉴 색상과 방식은 유지하고 둥근 배경만 금지 */
+header nav a,
+header nav a:hover,
+header nav a:focus-visible,
+header nav a.current {
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body[data-page="home"] header nav a:hover,
+body[data-page="home"] header nav a:focus-visible {
+  color: var(--dp-yellow) !important;
+}
+
+body:not([data-page="home"]) header nav a:hover,
+body:not([data-page="home"]) header nav a:focus-visible {
+  color: var(--dp-coral) !important;
+  transform: translateY(-2px) scale(1.04) !important;
+}
+
+/* 화면 전환과 카드 움직임 */
+.section,
+.genre-row {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity .45s ease, transform .45s cubic-bezier(.22, .8, .3, 1) !important;
+}
+
+.section.show,
+.genre-row.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.book-card,
+.browse-book,
+.mini-book {
+  transition: transform var(--dp-motion-fast) ease !important;
+}
+
+.book-card:hover,
+.browse-book:hover,
+.mini-book:hover {
+  transform: translateY(-2px) !important;
+}
+
+.feature-story-video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+  transform: scale(1.002);
+  transition: transform .45s ease, filter .35s ease;
+}
+
+body[data-page="home"] .feature .feature-visual::before,
+body[data-page="home"] .feature .feature-visual::after {
+  content: none !important;
+  display: none !important;
+}
+
+body[data-page="home"] .feature-big:hover .feature-story-video,
+body[data-page="home"] .feature-big:focus-visible .feature-story-video {
+  filter: saturate(1.03) brightness(1.02);
+  transform: scale(1.012);
+}
+
+body[data-page="detail"] #detail .easy,
+body[data-page="nearby"] #nearby .map-panel,
+body[data-page="nearby"] #nearby .place-list,
+.post-form.open {
+  animation: dp-soft-rise .5s cubic-bezier(.22, .8, .3, 1) both;
+}
+
+@keyframes dp-soft-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 메인 장르별 도서 8권: 책 표지 아래 검은 그림자 제거 */
+body[data-page="home"] .category .preview-grid .book-card,
+body[data-page="home"] .category .preview-grid .book-card:hover,
+body[data-page="home"] .category .preview-grid .video-cover,
+body[data-page="home"] .category .preview-grid .video-cover:hover,
+body[data-page="home"] .category .preview-grid .video-cover img,
+body[data-page="home"] .category .preview-grid .video-cover img:hover {
+  box-shadow: none !important;
+}
+
+body[data-page="home"] .category .preview-grid .video-cover::before,
+body[data-page="home"] .category .preview-grid .video-cover::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+body[data-page="home"] .category .preview-grid .video-card .hover-preview,
+body[data-page="home"] .category .preview-grid .video-card:hover .hover-preview,
+body[data-page="home"] .category .preview-grid .video-card:focus-visible .hover-preview {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+body[data-page="home"] .category .preview-grid .video-card .video-cover img,
+body[data-page="home"] .category .preview-grid .video-card:hover .video-cover img,
+body[data-page="home"] .category .preview-grid .video-card:focus-visible .video-cover img {
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+button,
+.more-books,
+.detail-link,
+.start-link,
+.shelf-arrow,
+.signup-complete-button {
+  transition: color var(--dp-motion-fast) ease,
+              background-color var(--dp-motion-fast) ease,
+              border-color var(--dp-motion-fast) ease,
+              transform var(--dp-motion-fast) ease,
+              box-shadow var(--dp-motion-fast) ease !important;
+}
+
+button:hover,
+.more-books:hover,
+.detail-link:hover,
+.start-link:hover,
+.signup-complete-button:hover {
+  transform: translateY(-1px) !important;
+}
+
+button:active,
+.more-books:active,
+.detail-link:active,
+.start-link:active,
+.shelf-arrow:active,
+.signup-complete-button:active {
+  transform: scale(.98) !important;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(67, 190, 212, .45) !important;
+  outline-offset: 3px !important;
+}
+
+/* 베스트셀러 목록으로 이동하는 화살표 */
+body[data-page="home"] .live-head .shelf-arrow {
+  display: grid !important;
+  place-items: center !important;
+  min-width: 42px !important;
+  width: 42px !important;
+  height: 42px !important;
+  padding: 0 !important;
+  border: 1px solid rgba(83, 77, 46, .28) !important;
+  border-radius: 50% !important;
+  background: rgba(255, 255, 255, .42) !important;
+  color: #736b3c !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+body[data-page="home"] .live-head .shelf-arrow:hover,
+body[data-page="home"] .live-head .shelf-arrow:focus-visible {
+  border-color: rgba(83, 77, 46, .42) !important;
+  background: rgba(255, 255, 255, .72) !important;
+  color: #4f492b !important;
+  transform: translateX(3px) !important;
+}
+
+body[data-page="home"] .live-head .shelf-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 두 번째 책 목록을 이어 붙여 빈 공간 없이 반복한다. */
+body[data-page="home"] #home .live .book-marquee {
+  padding-left: max(20px, calc((100vw - 1120px) / 2));
+}
+
+body[data-page="home"] #home .live .book-track {
+  display: flex;
+  gap: 0 !important;
+  width: max-content;
+  padding-left: 0 !important;
+  animation: books 32s linear infinite;
+}
+
+body[data-page="home"] #home .live .book-sequence {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 28px;
+  padding-right: 28px;
+}
+
+@keyframes books {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 621px) {
+  body[data-page="home"] #home .live .live-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: min(1120px, calc(100% - 40px)) !important;
+    margin: 0 auto !important;
+    padding: 28px 0 18px !important;
+    gap: 40px !important;
+  }
+
+  body[data-page="home"] #home .live .live-head > div {
+    min-width: 0 !important;
+  }
+
+  body[data-page="home"] #home .live .live-head .shelf-arrow {
+    flex: 0 0 auto !important;
+    align-self: center !important;
+    margin: 8px 30px 0 auto !important;
+  }
+}
+
+@media (max-width: 620px) {
+  body[data-page="home"] #home .live .live-head {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    height: auto !important;
+    padding: 32px 16px 22px !important;
+  }
+
+  body[data-page="home"] #home .live .live-head > div {
+    width: 100% !important;
+  }
+
+  body[data-page="home"] #home .live .live-head h2 {
+    margin: 8px 0 6px !important;
+    font-size: clamp(29px, 8vw, 34px) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="home"] #home .live .live-head p {
+    margin: 0 !important;
+    font-size: 13px !important;
+    font-weight: 400 !important;
+    line-height: 1.55 !important;
+  }
+
+  body[data-page="home"] #home .live .live-head .shelf-arrow,
+  body[data-page="home"] #home .live .live-head .shelf-arrow:hover,
+  body[data-page="home"] #home .live .live-head .shelf-arrow:focus-visible {
+    align-self: flex-end !important;
+    min-width: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
+    margin-top: 14px !important;
+    padding: 0 !important;
+  }
+}
+
+/* 도서 프리뷰: 8권 그리드와 마지막 버튼을 화면 중앙에 배치 */
+body[data-page="browse"] #browse .browse.section {
+  width: min(1100px, calc(100% - 40px)) !important;
+  margin-inline: auto !important;
+}
+
+body[data-page="browse"] #browse .browse-books-wrap {
+  width: 100% !important;
+  max-width: 1100px !important;
+  margin-inline: auto !important;
+}
+
+body[data-page="browse"] #browse .browse-preview-row {
+  display: grid !important;
+  grid-template-columns: repeat(4, 170px) !important;
+  justify-content: center !important;
+  justify-items: stretch !important;
+  gap: 52px 60px !important;
+  width: 100% !important;
+  margin-inline: auto !important;
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: fit-content !important;
+  gap: 8px !important;
+  min-width: 224px !important;
+  min-height: 50px !important;
+  margin: 64px auto 0 !important;
+  padding: 0 30px !important;
+  float: none !important;
+  clear: both !important;
+  position: relative !important;
+  isolation: isolate;
+  overflow: hidden !important;
+  border: 1px solid #3A3532 !important;
+  border-radius: 999px !important;
+  background: #3A3532 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  transition: color .28s ease, border-color .28s ease, transform .25s ease !important;
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  border-radius: inherit;
+  background: #FF544C;
+  transform: translateX(-102%);
+  transition: transform .38s cubic-bezier(.22, .75, .28, 1);
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books:hover,
+body[data-page="browse"] #browse .browse-books-wrap .more-books:focus-visible {
+  border-color: #FF544C !important;
+  background: #3A3532 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books:hover::before,
+body[data-page="browse"] #browse .browse-books-wrap .more-books:focus-visible::before {
+  transform: translateX(0);
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books b {
+  display: inline-block;
+  font: inherit;
+  transition: transform .28s ease;
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books:hover b,
+body[data-page="browse"] #browse .browse-books-wrap .more-books:focus-visible b {
+  transform: translateX(5px);
+}
+
+body[data-page="browse"] #browse .browse-books-wrap .more-books:active {
+  transform: translateY(0) scale(.98) !important;
+}
+
+/* 도서 검색: 12권 목록을 일정한 간격으로 화면 중앙에 배치 */
+body[data-page="books"] #books .book-results.section {
+  width: min(1100px, calc(100% - 40px)) !important;
+  margin-inline: auto !important;
+}
+
+body[data-page="books"] #books .result-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 220px) !important;
+  justify-content: center !important;
+  align-items: stretch !important;
+  gap: 48px 36px !important;
+  width: 100% !important;
+  margin-inline: auto !important;
+}
+
+.result-grid .api-card h3 {
+  display: block !important;
+  min-height: 42px;
+  overflow: visible !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+  letter-spacing: -.025em !important;
+  white-space: normal !important;
+  overflow-wrap: anywhere;
+  -webkit-box-orient: initial;
+  -webkit-line-clamp: unset;
+}
+
+.result-grid .api-card p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 로그인: 디자인 시스템 색상 적용 및 과한 버튼 그림자 제거 */
+body[data-page="login"] #login .oauth-panel .local-login button {
+  border: 1px solid #F87B75 !important;
+  background: #F87B75 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  transition: background-color .25s ease, border-color .25s ease, transform .25s ease !important;
+}
+
+body[data-page="login"] #login .oauth-panel .local-login button:hover,
+body[data-page="login"] #login .oauth-panel .local-login button:focus-visible {
+  border-color: #EB6D67 !important;
+  background: #EB6D67 !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login a {
+  box-shadow: none !important;
+  transition: border-color .25s ease, background-color .25s ease, transform .25s ease !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login .google {
+  border-color: #D9D9D9 !important;
+  background: #FFFFFF !important;
+  color: #292624 !important;
+  box-shadow: none !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login .github {
+  border-color: #2B2B2B !important;
+  background: #2B2B2B !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login .github-login-icon {
+  display: block !important;
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+  fill: currentColor !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login a:hover,
+body[data-page="login"] #login .oauth-panel .social-login a:focus-visible {
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="login"] #login .auth-reference .auth-intro {
+  background-color: #FFFD53 !important;
+  background-image: url("../images/login-background-bookmark-v30.jpg") !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+}
+
+body[data-page="login"] #login .auth-reference .auth-intro .bookmark-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 4px !important;
+  width: fit-content !important;
+  padding: 5px 10px !important;
+  border-radius: 999px !important;
+  background: #43BED4 !important;
+  color: #FFFFFF !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  letter-spacing: .08em !important;
+}
+
+body[data-page="login"] #login .auth-reference .auth-intro .bookmark-badge-icon {
+  display: block !important;
+  flex: 0 0 9px !important;
+  width: 9px !important;
+  height: 9px !important;
+  fill: currentColor !important;
+}
+
+/* 내 근처 독서공간: 첨부 시안과 같은 지도 + 오른쪽 목록 구조 */
+body[data-page="nearby"] #nearby {
+  background: #FFFFFF !important;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-image {
+  position: relative;
+  width: 100%;
+  min-height: 470px;
+  overflow: hidden;
+  background: #FFFDF8 url("../images/nearby-hero-wide.png") center / cover no-repeat;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-copy {
+  width: min(1120px, calc(100% - 40px));
+  margin: 0 auto;
+  padding-top: 84px;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-copy small {
+  display: inline-flex;
+  align-items: center;
+  height: 28px;
+  padding: 0 15px;
+  border-radius: 999px;
+  background: #FFEF3F;
+  color: #43BED4;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-copy h1 {
+  margin: 24px 0 20px;
+  color: #171513;
+  font-size: clamp(30px, 4vw, 58px);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -.055em;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-copy h1 em {
+  color: #FF544C;
+  font-style: normal;
+}
+
+body[data-page="nearby"] #nearby .nearby-hero-copy p {
+  margin: 0;
+  color: #77716C;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+body[data-page="nearby"] #nearby .near-reference {
+  width: min(1120px, calc(100% - 40px)) !important;
+  margin: 0 auto !important;
+  padding: 94px 0 120px !important;
+}
+
+body[data-page="nearby"] #nearby .near-copy {
+  padding-right: 0;
+}
+
+body[data-page="nearby"] #nearby .near-copy h1 {
+  margin: 0 0 10px !important;
+  color: #171513 !important;
+  font-size: clamp(32px, 3vw, 40px) !important;
+  font-weight: 900 !important;
+  letter-spacing: -.035em !important;
+}
+
+body[data-page="nearby"] #nearby .near-copy p {
+  margin: 0 !important;
+  color: #77716C !important;
+  font-size: 14px !important;
+}
+
+body[data-page="nearby"] #nearby .map-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 66px;
+  padding: 11px 12px 11px 18px;
+  border-bottom: 1px solid #E8E3DE;
+  background: #FFFFFF;
+}
+
+body[data-page="nearby"] #nearby .locate-button {
+  position: static;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 0 17px !important;
+  border: 1px solid #D9D4CF !important;
+  border-radius: 8px !important;
+  background: #FFFFFF !important;
+  color: #2B2825 !important;
+  box-shadow: none !important;
+  flex: none;
+}
+
+body[data-page="nearby"] #nearby .locate-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+body[data-page="nearby"] #nearby #locationStatus {
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #77716C !important;
+  font-size: 13px !important;
+}
+
+body[data-page="nearby"] #nearby .near-grid {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.9fr) minmax(300px, .95fr) !important;
+  gap: 24px !important;
+  align-items: stretch !important;
+}
+
+body[data-page="nearby"] #nearby .map-panel,
+body[data-page="nearby"] #nearby .place-list {
+  height: 570px !important;
+  border: 1px solid #E2DDD8 !important;
+  border-radius: 18px !important;
+  background: #FFFFFF !important;
+  box-shadow: none !important;
+  overflow: hidden !important;
+}
+
+body[data-page="nearby"] #nearby .map-panel {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+body[data-page="nearby"] #nearby #nearbyMap {
+  flex: 1 1 auto !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+}
+
+body[data-page="nearby"] #nearby #largeMapLink {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  align-self: flex-end !important;
+  width: auto !important;
+  min-width: 178px !important;
+  min-height: 42px !important;
+  margin: 10px 12px 12px auto !important;
+  padding: 0 17px !important;
+  border: 1px solid #EF8D87 !important;
+  border-radius: 999px !important;
+  background: #EF8D87 !important;
+  color: #FFFFFF !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body[data-page="nearby"] #nearby #largeMapLink:hover,
+body[data-page="nearby"] #nearby #largeMapLink:focus-visible {
+  border-color: #F87B75 !important;
+  background: #F87B75 !important;
+  color: #FFFFFF !important;
+  box-shadow: none !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="nearby"] #nearby .place-list {
+  padding: 14px !important;
+  overflow-y: auto !important;
+}
+
+body[data-page="nearby"] #nearby .place-intro {
+  margin-bottom: 12px;
+  padding: 18px 18px 16px;
+  border: 1px solid #EAE5E0;
+  border-radius: 16px;
+}
+
+body[data-page="nearby"] #nearby .place-intro-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+body[data-page="nearby"] #nearby .place-intro-title img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+body[data-page="nearby"] #nearby .place-intro h3 {
+  margin: 0 !important;
+  color: #171513 !important;
+  font-size: 16px !important;
+  font-weight: 800 !important;
+}
+
+body[data-page="nearby"] #nearby .place-intro p {
+  margin: 13px 0 !important;
+  color: #77716C !important;
+  font-size: 12px !important;
+  line-height: 1.65 !important;
+}
+
+body[data-page="nearby"] #nearby .place-legend {
+  display: flex;
+  gap: 16px;
+  padding-top: 11px;
+  border-top: 1px solid #EEEAE6;
+  color: #4F4A46;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+body[data-page="nearby"] #nearby .place-legend span::before {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+body[data-page="nearby"] #nearby .library-dot::before { background: #6B9DFB; }
+body[data-page="nearby"] #nearby .store-dot::before { background: #F87B75; }
+
+body[data-page="nearby"] #nearby .place-card {
+  display: grid !important;
+  grid-template-columns: 50px minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 10px 0 0 !important;
+  padding: 15px !important;
+  border: 1px solid #E8E3DE !important;
+  border-radius: 16px !important;
+  background: #FFFFFF !important;
+  transition: border-color .25s ease, transform .25s ease !important;
+}
+
+body[data-page="nearby"] #nearby .place-card:hover {
+  border-color: #D8D1CB !important;
+  transform: translateY(-2px);
+}
+
+body[data-page="nearby"] #nearby .place-type-icon {
+  display: block;
+  width: 50px;
+  height: 50px;
+}
+
+body[data-page="nearby"] #nearby .place-type-icon img {
+  display: block;
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+body[data-page="nearby"] #nearby .library-icon,
+body[data-page="nearby"] #nearby .store-icon { background: transparent; }
+
+body[data-page="nearby"] #nearby .place-card div {
+  min-width: 0;
+}
+
+body[data-page="nearby"] #nearby .place-card small,
+body[data-page="nearby"] #nearby .place-card b,
+body[data-page="nearby"] #nearby .place-card span {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+body[data-page="nearby"] #nearby .place-card b {
+  margin: 3px 0;
+  color: #171513;
+  font-size: 14px;
+}
+
+body[data-page="nearby"] #nearby .place-card small,
+body[data-page="nearby"] #nearby .place-card span {
+  color: #77716C;
+  font-size: 11px;
+}
+
+body[data-page="nearby"] #nearby .place-card > a {
+  padding: 8px 10px !important;
+  border-radius: 999px !important;
+  background: #F3F1EF !important;
+  color: #4F4A46 !important;
+  font-size: 11px !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body[data-page="nearby"] #nearby .place-empty {
+  padding: 36px 18px !important;
+  color: #8C8681 !important;
+  text-align: center !important;
+}
+
+@media (max-width: 900px) {
+  body[data-page="nearby"] #nearby .near-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body[data-page="nearby"] #nearby .map-panel,
+  body[data-page="nearby"] #nearby .place-list {
+    height: 520px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  body[data-page="nearby"] #nearby .near-reference {
+    width: calc(100% - 40px) !important;
+    padding: 64px 0 80px !important;
+  }
+
+  body[data-page="nearby"] #nearby .near-copy {
+    padding-right: 0;
+  }
+
+  body[data-page="nearby"] #nearby .map-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px;
+  }
+
+  body[data-page="nearby"] #nearby .locate-button {
+    width: 100%;
+  }
+
+  body[data-page="nearby"] #nearby .map-panel {
+    height: 440px !important;
+  }
+
+  body[data-page="nearby"] #nearby .place-list {
+    height: auto !important;
+    max-height: 560px;
+  }
+}
+
+/* 서브페이지 글자 간격과 클릭 요소의 반응을 한 가지 기준으로 정리 */
+body:not([data-page="home"]) main h1,
+body:not([data-page="home"]) main h2,
+body:not([data-page="home"]) main h3 {
+  line-height: 1.28;
+  word-break: keep-all;
+}
+
+body:not([data-page="home"]) main p,
+body:not([data-page="home"]) main a,
+body:not([data-page="home"]) main button,
+body:not([data-page="home"]) main input,
+body:not([data-page="home"]) main textarea {
+  letter-spacing: -.01em;
+}
+
+body:not([data-page="home"]) main a,
+body:not([data-page="home"]) main button {
+  transition: color .2s ease, background-color .2s ease,
+              border-color .2s ease, transform .2s ease,
+              box-shadow .2s ease !important;
+}
+
+body:not([data-page="home"]) main a:focus-visible,
+body:not([data-page="home"]) main button:focus-visible {
+  outline: 2px solid #43BED4;
+  outline-offset: 3px;
+}
+
+/* 메인을 제외한 화면의 좌우 시작선을 같은 간격으로 정리 */
+body:not([data-page="home"]) #onepageApp > section.active > .section,
+body:not([data-page="home"]) #onepageApp > section.active > section > .section,
+body:not([data-page="home"]) #onepageApp > section.active > .near-reference,
+body:not([data-page="home"]) #onepageApp > section.active > .detail-reference,
+body:not([data-page="home"]) #onepageApp > section.active > .mypage-area,
+body:not([data-page="home"]) #onepageApp > section.active > .auth-reference {
+  width: min(1100px, calc(100% - 64px)) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (max-width: 768px) {
+  body:not([data-page="home"]) #onepageApp > section.active > .section,
+  body:not([data-page="home"]) #onepageApp > section.active > section > .section,
+  body:not([data-page="home"]) #onepageApp > section.active > .near-reference,
+  body:not([data-page="home"]) #onepageApp > section.active > .detail-reference,
+  body:not([data-page="home"]) #onepageApp > section.active > .mypage-area,
+  body:not([data-page="home"]) #onepageApp > section.active > .auth-reference {
+    width: calc(100% - 32px) !important;
+  }
+}
+
+.about-steps-image {
+  width: min(900px, 100%);
+  margin: 0 auto 100px;
+}
+
+.about-mood-cards-image {
+  width: min(758px, 100%);
+  margin: 60px auto 55px;
+}
+
+.about-mood-cards-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.about-steps-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 책 상세 버튼 정렬 */
+body[data-page="detail"] #detail .detail-reference .easy {
+  padding: 28px 30px 30px !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 24px !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head-copy {
+  min-width: 0;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head-copy h2,
+body[data-page="detail"] #detail .detail-reference .easy-head-copy p {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head-copy p {
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 9px !important;
+  width: auto !important;
+  min-width: 210px !important;
+  min-height: 46px !important;
+  margin: 0 !important;
+  padding: 0 20px !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+  background: #43BED4 !important;
+  color: #FFFFFF !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  white-space: nowrap !important;
+  box-shadow: 0 5px 12px rgba(33, 142, 162, .14) !important;
+  transition: background-color .2s ease,
+              box-shadow .2s ease,
+              transform .2s ease !important;
+}
+
+/* 사선 광택 대신 색과 눌림 효과만 적용한다. */
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton::before {
+  display: none !important;
+  content: none !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton span {
+  display: inline-block;
+  transition: transform .25s ease;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton:hover,
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton:focus-visible {
+  background: #32AFC5 !important;
+  box-shadow: 0 7px 16px rgba(33, 142, 162, .22) !important;
+  transform: translateY(-1px) !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton:hover span,
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton:focus-visible span {
+  transform: translateX(3px);
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton:active {
+  box-shadow: 0 3px 8px rgba(33, 142, 162, .16) !important;
+  transform: translateY(1px) !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-columns {
+  position: relative !important;
+  margin-top: 24px !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .easy-columns::after {
+  content: "›" !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  z-index: 3 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+  width: 34px !important;
+  height: 34px !important;
+  padding: 0 0 3px 1px !important;
+  border: 1px solid #D7D1CA !important;
+  border-radius: 50% !important;
+  background: #FFFFFF !important;
+  color: #77716C !important;
+  font-family: Arial, sans-serif !important;
+  font-size: 25px !important;
+  font-weight: 400 !important;
+  line-height: 1 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .comments button {
+  width: 68px !important;
+  min-width: 68px !important;
+  padding: 0 15px !important;
+  border: 1px solid #EFE39B !important;
+  background: #FFF4A8 !important;
+  color: #2B2825 !important;
+  box-shadow: none !important;
+  transition: background-color .25s ease, transform .25s ease !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .comments form {
+  grid-template-columns: minmax(0, 1fr) 68px !important;
+}
+
+body[data-page="detail"] #detail .detail-reference .comments button:hover,
+body[data-page="detail"] #detail .detail-reference .comments button:focus-visible {
+  background: #FFEA76 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 선택된 글 분류는 밝은 글자로 읽기 쉽게 맞춘다 */
+body[data-page="community"] #community .post-form label input:checked + span,
+body[data-page="community"] #community .post-form label:hover span {
+  color: #FFFDF8 !important;
+}
+
+@media (max-width: 760px) {
+  body[data-page="detail"] #detail .detail-reference .easy-head {
+    grid-template-columns: 1fr !important;
+    gap: 18px !important;
+  }
+
+  body[data-page="detail"] #detail .detail-reference .easy-head > #easyButton {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+}
+
+/* TOP 버튼 */
+.page-top-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  border: 1px solid var(--dp-title);
+  border-radius: 8px;
+  background: var(--dp-title);
+  color: #fff;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  cursor: pointer;
+  transition: opacity var(--dp-motion-fast) ease,
+              visibility var(--dp-motion-fast) ease,
+              transform var(--dp-motion-fast) ease,
+              background-color var(--dp-motion-fast) ease !important;
+}
+
+.page-top-button.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.page-top-button:hover,
+.page-top-button:focus-visible {
+  border-color: var(--dp-yellow) !important;
+  background: var(--dp-yellow) !important;
+  color: var(--dp-title) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 메인 데스크톱에서만 약한 스크롤 스냅 */
+@media (min-width: 1025px) and (prefers-reduced-motion: no-preference) {
+  html.home-scroll-snap {
+    scroll-snap-type: y proximity;
+    scroll-behavior: smooth;
+  }
+
+  html.home-scroll-snap #home > .video-hero,
+  html.home-scroll-snap #home > .feature,
+  html.home-scroll-snap #home > .live,
+  html.home-scroll-snap #home > .category {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+}
+
+@media (max-width: 1024px) {
+  body[data-page="books"] #books .result-grid {
+    grid-template-columns: repeat(3, 220px) !important;
+    gap: 34px 24px !important;
+  }
+}
+
+@media (max-width: 900px) {
+  body[data-page="browse"] #browse .browse-books-wrap {
+    width: max-content !important;
+    max-width: 100% !important;
+  }
+
+  body[data-page="browse"] #browse .browse-preview-row {
+    grid-template-columns: repeat(2, 170px) !important;
+    justify-content: center !important;
+    gap: 46px 32px !important;
+  }
+
+  header .header-search-form input,
+  header .header-login-text {
+    display: none !important;
+  }
+
+  header .header-search-form {
+    width: 42px !important;
+    min-width: 42px !important;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .section {
+    width: calc(100% - 40px) !important;
+  }
+
+  .hero h1,
+  .visual-page-hero h1,
+  .search-hero h1,
+  .about-top h1 {
+    font-size: clamp(36px, 10vw, 48px) !important;
+  }
+
+  body[data-page="books"] #books .result-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 30px 18px !important;
+  }
+
+  button,
+  .more-books,
+  .detail-link,
+  .start-link,
+  .signup-complete-button {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 480px) {
+  body[data-page="browse"] #browse .browse-books-wrap {
+    width: 100% !important;
+  }
+
+  body[data-page="browse"] #browse .browse-preview-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 34px 16px !important;
+  }
+
+  body[data-page="browse"] #browse .browse-book {
+    width: 100% !important;
+  }
+
+  body[data-page="browse"] #browse .browse-book img {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 2 / 3 !important;
+  }
+
+  .result-grid {
+    gap: 26px 14px !important;
+  }
+
+  .page-top-button {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+    scroll-snap-type: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+/* 메인 영상은 다른 표지 이미지와 분리 */
+body[data-page="home"] #home .video-hero {
+  background: #111111 !important;
+}
+
+body[data-page="home"] #home .video-hero > video {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+body[data-page="home"] #home .video-hero .hero-shade {
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
+
+/* 모바일 햄버거: 기본·선택 모두 밝은 회색 */
+@media (max-width: 940px) {
+  body header .nav-wrap,
+  body[data-page="home"] header .nav-wrap {
+    gap: 8px !important;
+  }
+
+  body header .header-actions,
+  body[data-page="home"] header .header-actions {
+    gap: 8px !important;
+    margin-left: auto !important;
+  }
+
+  body header .menu-btn,
+  body[data-page="home"] header .menu-btn {
+    flex: 0 0 36px !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    min-height: 36px !important;
+    margin-left: 4px !important;
+    border-color: #C9C9C9 !important;
+    background: #D9D9D9 !important;
+    color: #171513 !important;
+  }
+
+  body header .menu-btn:hover,
+  body header .menu-btn:focus-visible,
+  body header .menu-btn.is-open,
+  body[data-page="home"] header .menu-btn:hover,
+  body[data-page="home"] header .menu-btn:focus-visible,
+  body[data-page="home"] header .menu-btn.is-open {
+    border-color: #E3E3E3 !important;
+    background: #F1F1F1 !important;
+    color: #171513 !important;
+  }
+}
+
+/* 메인 모바일 메뉴 */
+@media (max-width: 940px) {
+  body[data-page="home"] header .nav-wrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="home"] header .logo {
+    flex: 0 0 auto !important;
+    margin-right: auto !important;
+  }
+
+  body[data-page="home"] header .header-actions {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin-left: 0 !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="home"] header .menu-btn {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 36px !important;
+    order: initial !important;
+    margin: 0 0 0 2px !important;
+  }
+
+  body[data-page="home"] header nav,
+  body[data-page="home"] header nav.open {
+    position: absolute !important;
+    top: 72px !important;
+    right: auto !important;
+    left: -16px !important;
+    width: calc(100% + 32px) !important;
+    margin: 0 !important;
+    padding: 14px 20px 18px !important;
+    gap: 4px !important;
+    border: 1px solid #D8D8D8 !important;
+    border-top: 0 !important;
+    border-radius: 0 0 12px 12px !important;
+    background: #F2F2F2 !important;
+    box-shadow: 0 10px 20px rgba(23, 21, 19, .08) !important;
+    transform: none !important;
+  }
+
+  body[data-page="home"] header nav a,
+  body[data-page="home"] header nav.open a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-height: 42px !important;
+    color: #171513 !important;
+    background: transparent !important;
+  }
+}
+
+@media (max-width: 620px) {
+  body[data-page="home"] header .header-search-form {
+    flex: 0 0 38px !important;
+    width: 38px !important;
+    min-width: 38px !important;
+    padding: 0 !important;
+  }
+
+  body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+    display: none !important;
+  }
+}
+
+/* 모바일 도서 분류 메뉴 */
+@media (max-width: 620px) {
+  body[data-page="home"] #home .category .video-filter,
+  body[data-page="browse"] #browse .browse-chips,
+  body[data-page="books"] #books .search-hero .chips {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 18px 0 24px !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    overflow-x: visible !important;
+    overflow-y: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="home"] #home .category .video-filter::-webkit-scrollbar,
+  body[data-page="browse"] #browse .browse-chips::-webkit-scrollbar,
+  body[data-page="books"] #books .search-hero .chips::-webkit-scrollbar {
+    display: none !important;
+  }
+
+  body[data-page="home"] #home .category .video-filter button,
+  body[data-page="browse"] #browse .browse-chips a,
+  body[data-page="books"] #books .search-hero .chips a {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    margin: 0 !important;
+    padding: 7px 8px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    color: #171513 !important;
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+    writing-mode: horizontal-tb !important;
+    white-space: nowrap !important;
+    word-break: keep-all !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="home"] #home .category .video-filter button.active,
+  body[data-page="browse"] #browse .browse-chips a.active,
+  body[data-page="books"] #books .search-hero .chips a.active {
+    background: #FFFD53 !important;
+    color: #171513 !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body[data-page="home"] #home .category .video-filter button,
+  body[data-page="browse"] #browse .browse-chips a,
+  body[data-page="books"] #books .search-hero .chips a {
+    min-width: 0 !important;
+    min-height: 36px !important;
+    padding-right: 6px !important;
+    padding-left: 6px !important;
+    font-size: 9px !important;
+  }
+}
+
+/* 도서 프리뷰 카테고리를 마우스로 구분하기 쉽게 표시 */
+body[data-page="browse"] #browse .browse-chips a,
+body[data-page="books"] #books .search-hero .chips a {
+  transition: background-color .2s ease, transform .2s ease !important;
+}
+
+body[data-page="browse"] #browse .browse-chips a:hover,
+body[data-page="browse"] #browse .browse-chips a:focus-visible,
+body[data-page="books"] #books .search-hero .chips a:hover,
+body[data-page="books"] #books .search-hero .chips a:focus-visible {
+  background: #FFFD53 !important;
+  color: #171513 !important;
+  transform: translateY(-2px) !important;
+}
+
+/* 마이페이지 대시보드 */
+body[data-page="mypage"] #mypage .mypage-hero {
+  min-height: 170px !important;
+}
+
+body[data-page="mypage"] #mypage .mypage-area {
+  display: grid !important;
+  grid-template-columns: 210px minmax(0, 1fr) !important;
+  align-items: start !important;
+  gap: 22px !important;
+  width: min(1020px, calc(100% - 48px)) !important;
+  margin: 0 auto !important;
+  padding: 64px 0 100px !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card,
+body[data-page="mypage"] #mypage .activity-grid article,
+body[data-page="mypage"] #mypage .recent-activity {
+  border: 1px solid #DDD9D4 !important;
+  border-radius: 18px !important;
+  background: #FFFFFF !important;
+  box-shadow: none !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  min-height: 270px !important;
+  padding: 24px 18px 18px !important;
+  text-align: center !important;
+}
+
+body[data-page="mypage"] #mypage .profile-avatar {
+  width: 54px !important;
+  height: 54px !important;
+  margin: 0 auto 10px !important;
+  background: #FFFBCB !important;
+  color: #171513 !important;
+  font-size: 20px !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card h2 {
+  margin: 0 !important;
+  color: #171513 !important;
+  font-size: 18px !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card p {
+  margin: 3px 0 0 !important;
+  color: #8C8681 !important;
+  font-size: 11px !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card > a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 34px !important;
+  margin: 8px 0 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid #E4E0DB !important;
+  border-radius: 999px !important;
+  background: #FFFFFF !important;
+  color: #171513 !important;
+  font-size: 11px !important;
+  text-decoration: none !important;
+  box-shadow: none !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card > a:first-of-type {
+  margin-top: auto !important;
+  border-color: #FFFD53 !important;
+  background: #FFFD53 !important;
+  color: #171513 !important;
+  font-weight: 800 !important;
+}
+
+body[data-page="mypage"] #mypage .profile-card > a:first-of-type:hover,
+body[data-page="mypage"] #mypage .profile-card > a:first-of-type:focus-visible {
+  border-color: #FFFFCC !important;
+  background: #FFFFCC !important;
+  color: #171513 !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="mypage"] #mypage .activity-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+}
+
+body[data-page="mypage"] #mypage .activity-grid article {
+  min-height: 110px !important;
+  padding: 18px 20px !important;
+}
+
+body[data-page="mypage"] #mypage .activity-grid strong {
+  margin: 3px 0 0 !important;
+  color: #171513 !important;
+  font-size: 30px !important;
+  line-height: 1.1 !important;
+}
+
+body[data-page="mypage"] #mypage .activity-grid small,
+body[data-page="mypage"] #mypage .recent-activity > small {
+  color: #43BED4 !important;
+  font-size: 9px !important;
+  letter-spacing: .12em !important;
+}
+
+body[data-page="mypage"] #mypage .activity-grid span {
+  color: #8C8681 !important;
+  font-size: 10px !important;
+}
+
+body[data-page="mypage"] #mypage .recent-activity {
+  min-height: 250px !important;
+  margin-top: 26px !important;
+  padding: 18px 20px !important;
+}
+
+body[data-page="mypage"] #mypage .recent-activity h2 {
+  margin: 4px 0 13px !important;
+  color: #171513 !important;
+  font-size: 18px !important;
+}
+
+body[data-page="mypage"] #mypage .empty-activity {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 165px !important;
+  padding: 20px 24px !important;
+  border: 1px solid #E7E2C5 !important;
+  border-radius: 14px !important;
+  background: #FFFFF2 !important;
+}
+
+body[data-page="mypage"] #mypage .empty-activity a {
+  padding: 8px 24px !important;
+  border-radius: 999px !important;
+  background: #FFFD53 !important;
+  color: #171513 !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-decoration: none !important;
+}
+
+body[data-page="mypage"] #mypage .empty-activity a:hover,
+body[data-page="mypage"] #mypage .empty-activity a:focus-visible {
+  background: #FFFFCC !important;
+  color: #171513 !important;
+}
+
+@media (max-width: 760px) {
+  body[data-page="mypage"] #mypage .mypage-area {
+    grid-template-columns: 1fr !important;
+    width: calc(100% - 40px) !important;
+  }
+}
+
+/* 모바일 메인 화면 정렬 */
+@media (max-width: 620px) {
+  .notice {
+    width: 100% !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    overflow: hidden !important;
+    font-size: 10px !important;
+    line-height: 30px !important;
+  }
+
+  .notice-track {
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    width: max-content !important;
+  }
+
+  .notice-group {
+    flex: 0 0 auto !important;
+    gap: 24px !important;
+    padding-right: 24px !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="home"] header,
+  body[data-page="home"] header .nav-wrap {
+    height: 62px !important;
+    min-height: 62px !important;
+  }
+
+  body[data-page="home"] header .nav-wrap {
+    width: calc(100% - 24px) !important;
+    margin: 0 auto !important;
+    gap: 5px !important;
+  }
+
+  body[data-page="home"] header .logo {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    margin-right: auto !important;
+    gap: 6px !important;
+  }
+
+  body[data-page="home"] header .header-logo-mark {
+    width: 30px !important;
+    height: 30px !important;
+  }
+
+  body[data-page="home"] header .logo strong {
+    font-size: 19px !important;
+    white-space: nowrap !important;
+  }
+
+  body[data-page="home"] header .header-actions {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    margin: 0 !important;
+    gap: 5px !important;
+  }
+
+  body[data-page="home"] header .header-login-text,
+  body[data-page="home"] header .logout-link {
+    display: none !important;
+  }
+
+  body[data-page="home"] header .header-search-form {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    padding: 0 !important;
+  }
+
+  body[data-page="home"] header .header-search-form button {
+    position: static !important;
+    display: grid !important;
+    width: 34px !important;
+    height: 34px !important;
+    place-items: center !important;
+    top: auto !important;
+    right: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+  }
+
+  body[data-page="home"] header .header-search-form button svg {
+    display: block !important;
+    width: 17px !important;
+    height: 17px !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  body[data-page="home"] header .header-user-icon {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+  }
+
+  body[data-page="home"] header .menu-btn {
+    flex: 0 0 36px !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    margin: 0 !important;
+  }
+
+  body[data-page="home"] header nav,
+  body[data-page="home"] header nav.open {
+    top: 62px !important;
+    left: -12px !important;
+    width: calc(100% + 24px) !important;
+  }
+
+  body[data-page="home"] #home .video-hero {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 220px !important;
+    aspect-ratio: 16 / 9 !important;
+  }
+
+  body[data-page="home"] #home .video-hero > video {
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
+
+/* 데스크톱 메인 영상은 공지 띠 아래 화면 높이를 채움 */
+@media (min-width: 941px) {
+  body[data-page="home"] #home .video-hero {
+    width: 100% !important;
+    height: calc(100vh - 40px) !important;
+    min-height: 818px !important;
+  }
+}
+
+@media (max-width: 380px) {
+  body[data-page="home"] header .logo strong {
+    font-size: 17px !important;
+  }
+
+  body[data-page="home"] header .header-logo-mark {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  body[data-page="home"] #home .video-hero {
+    min-height: 200px !important;
+  }
+}
+
+/* 모바일 검색창 복구: 입력창은 유지하고 돋보기만 가운데 정렬 */
+@media (max-width: 620px) {
+  body[data-page="home"] header .header-search-form {
+    position: relative !important;
+    display: block !important;
+    flex: 0 1 150px !important;
+    width: clamp(120px, 34vw, 150px) !important;
+    min-width: 120px !important;
+    height: 38px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, .58) !important;
+    border-radius: 999px !important;
+    background: rgba(255, 255, 255, .08) !important;
+  }
+
+  body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 38px 0 13px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    color: #fff !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="home"] header .header-search-form input::placeholder {
+    color: rgba(255, 255, 255, .72) !important;
+  }
+
+  body[data-page="home"] header .header-search-form button {
+    position: absolute !important;
+    top: 50% !important;
+    right: 5px !important;
+    display: grid !important;
+    width: 28px !important;
+    height: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    place-items: center !important;
+    border: 0 !important;
+    background: transparent !important;
+    transform: translateY(-50%) !important;
+  }
+}
+
+@media (max-width: 390px) {
+  body[data-page="home"] header .header-search-form {
+    flex-basis: 112px !important;
+    width: 112px !important;
+    min-width: 112px !important;
+  }
+
+  body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+    padding-left: 10px !important;
+    font-size: 9px !important;
+  }
+}
+
+/* 커뮤니티 글쓰기 */
+body[data-page="community"] #community .post-form > .chips {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  width: 100% !important;
+  margin: 0 0 16px !important;
+  overflow: hidden !important;
+  border: 1px solid #DDD8D3 !important;
+  border-radius: 12px !important;
+  background: #FFFFFF !important;
+}
+
+body[data-page="community"] #community .post-form > .chips label {
+  display: block !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+  cursor: pointer !important;
+}
+
+body[data-page="community"] #community .post-form > .chips label + label {
+  border-left: 1px solid #E7E2DE !important;
+}
+
+body[data-page="community"] #community .post-form > .chips label span {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  min-height: 44px !important;
+  padding: 8px 6px !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #FFFFFF !important;
+  color: #2B2825 !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-align: center !important;
+  transition: background-color .24s ease, color .24s ease, transform .24s ease !important;
+}
+
+body[data-page="community"] #community .post-form > .chips label:hover span,
+body[data-page="community"] #community .post-form > .chips label:focus-within span {
+  background: #FFF5E9 !important;
+  color: #E86F3D !important;
+}
+
+body[data-page="community"] #community .post-form > .chips label input:checked + span,
+body[data-page="community"] #community .post-form > .chips label:hover input:checked + span,
+body[data-page="community"] #community .post-form > .chips label:focus-within input:checked + span {
+  background: #43BED4 !important;
+  color: #171513 !important;
+  box-shadow: inset 0 -3px 0 rgba(23, 21, 19, .14) !important;
+}
+
+body[data-page="community"] #community .community-toolbar > .chips a {
+  color: #2B2825 !important;
+  transition: background-color .24s ease, color .24s ease, transform .24s ease !important;
+}
+
+body[data-page="community"] #community .community-toolbar > .chips a:hover,
+body[data-page="community"] #community .community-toolbar > .chips a:focus-visible {
+  background: #FFF0E2 !important;
+  color: #E86F3D !important;
+  transform: translateY(-2px) !important;
+}
+
+body[data-page="community"] #community .community-toolbar > .chips a.active,
+body[data-page="community"] #community .community-toolbar > .chips a.active:hover,
+body[data-page="community"] #community .community-toolbar > .chips a.active:focus-visible {
+  background: #FFFD53 !important;
+  color: #171513 !important;
+}
+
+@media (max-width: 620px) {
+  body[data-page="community"] #community .community-area .section {
+    width: calc(100% - 32px) !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px !important;
+    padding-bottom: 16px !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar > .chips {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    margin: 0 !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar > .chips a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    min-width: 0 !important;
+    min-height: 38px !important;
+    padding: 7px 4px !important;
+    font-size: 11px !important;
+    line-height: 1.15 !important;
+    text-align: center !important;
+  }
+
+  body[data-page="community"] #community #writeToggle {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    align-self: flex-end !important;
+    width: auto !important;
+    min-width: 92px !important;
+    min-height: 36px !important;
+    margin: 0 !important;
+    padding: 7px 13px !important;
+    border-radius: 999px !important;
+    font-size: 12px !important;
+  }
+
+  body[data-page="community"] #community .post-form {
+    padding: 16px !important;
+    border-radius: 16px !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label,
+  body[data-page="community"] #community .post-form > .chips label + label {
+    border: 0 !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label:last-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label span {
+    min-height: 40px !important;
+    border: 1px solid #DDD8D3 !important;
+    border-radius: 9px !important;
+    font-size: 11px !important;
+  }
+
+  body[data-page="community"] #community .post-form > input,
+  body[data-page="community"] #community .post-form > textarea {
+    margin: 8px 0 !important;
+    padding: 12px !important;
+    border-radius: 9px !important;
+  }
+
+  body[data-page="community"] #community .post-form > button {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    float: none !important;
+    width: 100% !important;
+    min-height: 42px !important;
+    margin-top: 10px !important;
+  }
+}
+
+/* 글쓰기 상태 */
+body[data-page="community"] #community .community-list-filters {
+  max-width: 760px !important;
+  max-height: 60px !important;
+  overflow: hidden !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+  transition: max-width .32s ease, max-height .32s ease, margin .32s ease,
+              opacity .22s ease, transform .32s ease, visibility .22s ease !important;
+}
+
+body[data-page="community"] #community .community-list-filters.is-hidden {
+  max-width: 0 !important;
+  max-height: 0 !important;
+  margin: 0 !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(-8px) !important;
+}
+
+body[data-page="community"] #community #writeToggle {
+  flex: 0 0 auto !important;
+  transition: background-color .24s ease, color .24s ease, transform .24s ease !important;
+}
+
+body[data-page="community"] #community #writeToggle.is-open {
+  background: #FFFD53 !important;
+  color: #171513 !important;
+}
+
+body[data-page="community"] #community .post-type-heading {
+  display: flex !important;
+  align-items: baseline !important;
+  gap: 10px !important;
+  margin: 0 0 12px !important;
+  color: #171513 !important;
+}
+
+body[data-page="community"] #community .post-type-heading strong {
+  font-size: 14px !important;
+  font-weight: 800 !important;
+}
+
+body[data-page="community"] #community .post-type-heading span {
+  color: #77716C !important;
+  font-size: 12px !important;
+}
+
+@media (max-width: 620px) {
+  body[data-page="community"] #community .community-list-filters {
+    max-width: 100% !important;
+    max-height: 110px !important;
+  }
+
+  body[data-page="community"] #community .community-list-filters.is-hidden {
+    max-width: 100% !important;
+    max-height: 0 !important;
+  }
+
+  body[data-page="community"] #community .post-type-heading {
+    display: block !important;
+    margin-bottom: 10px !important;
+  }
+
+  body[data-page="community"] #community .post-type-heading strong,
+  body[data-page="community"] #community .post-type-heading span {
+    display: block !important;
+  }
+
+  body[data-page="community"] #community .post-type-heading span {
+    margin-top: 3px !important;
+    font-size: 10px !important;
+  }
+}
+
+/* 데스크톱 글쓰기 화면 */
+@media (min-width: 621px) {
+  body[data-page="community"] #community .community-list-filters.is-hidden {
+    max-width: 760px !important;
+    max-height: 60px !important;
+    margin: 24px 0 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+  }
+
+  body[data-page="community"] #community .post-type-heading {
+    display: none !important;
+  }
+
+  body[data-page="community"] #community .post-form {
+    margin: 20px 0 !important;
+    padding: 18px !important;
+    border: 1px solid #E8E3D7 !important;
+    border-radius: 16px !important;
+    background: #FFFFF2 !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    width: auto !important;
+    margin: 0 0 12px !important;
+    gap: 7px !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label,
+  body[data-page="community"] #community .post-form > .chips label + label {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    border: 0 !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label span {
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 64px !important;
+    min-height: 30px !important;
+    padding: 6px 12px !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: transparent !important;
+    color: #2B2825 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label:hover span,
+  body[data-page="community"] #community .post-form > .chips label:focus-within span {
+    background: #FFF0E2 !important;
+    color: #E86F3D !important;
+  }
+
+  body[data-page="community"] #community .post-form > .chips label input:checked + span,
+  body[data-page="community"] #community .post-form > .chips label:hover input:checked + span,
+  body[data-page="community"] #community .post-form > .chips label:focus-within input:checked + span {
+    background: #43BED4 !important;
+    color: #171513 !important;
+    box-shadow: none !important;
+  }
+
+  body[data-page="community"] #community .post-form > input {
+    height: 42px !important;
+    margin: 8px 0 !important;
+    padding: 0 14px !important;
+    border-radius: 9px !important;
+  }
+
+  body[data-page="community"] #community .post-form > textarea {
+    min-height: 120px !important;
+    margin: 8px 0 !important;
+    padding: 13px 14px !important;
+    border-radius: 9px !important;
+  }
+
+  body[data-page="community"] #community .post-form > button {
+    min-height: 38px !important;
+    margin-top: 4px !important;
+    padding: 9px 18px !important;
+  }
+}
+
+body[data-page="community"] #community #writeToggle.is-open img {
+  display: none !important;
+}
+
+@media (max-width: 620px) {
+  body[data-page="mypage"] #mypage .activity-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid article {
+    position: relative !important;
+    min-width: 0 !important;
+    min-height: 92px !important;
+    padding: 12px 9px 10px !important;
+    overflow: hidden !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid article > img {
+    position: absolute !important;
+    top: 10px !important;
+    right: 8px !important;
+    width: 15px !important;
+    height: 15px !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid small {
+    display: block !important;
+    width: 100% !important;
+    padding-right: 19px !important;
+    overflow: hidden !important;
+    color: #43BED4 !important;
+    font-size: 8px !important;
+    line-height: 15px !important;
+    letter-spacing: .04em !important;
+    white-space: nowrap !important;
+    text-overflow: clip !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid strong {
+    display: block !important;
+    margin: 7px 0 2px !important;
+    font-size: 23px !important;
+    line-height: 1 !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid span {
+    display: block !important;
+    overflow: hidden !important;
+    font-size: 8px !important;
+    line-height: 1.25 !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+}
+
+@media (max-width: 360px) {
+  body[data-page="mypage"] #mypage .activity-grid {
+    gap: 6px !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid article {
+    padding-right: 7px !important;
+    padding-left: 7px !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid article > img {
+    right: 6px !important;
+    width: 13px !important;
+    height: 13px !important;
+  }
+
+  body[data-page="mypage"] #mypage .activity-grid small {
+    padding-right: 16px !important;
+    font-size: 7px !important;
+  }
+}
+
+/* 모바일 글 종류와 게시글 카드 */
+body[data-page="community"] #community .mobile-post-type-selector {
+  display: none !important;
+}
+
+@media (max-width: 620px) {
+  body[data-page="community"] #community .community-toolbar.writing .mobile-post-type-selector {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    order: 1 !important;
+    width: 100% !important;
+    gap: 6px !important;
+    margin: 0 !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar.writing .mobile-post-type-selector label {
+    display: block !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar.writing .mobile-post-type-selector label:last-child {
+    grid-column: 1 / -1 !important;
+  }
+
+  body[data-page="community"] #community .mobile-post-type-selector input {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  body[data-page="community"] #community .mobile-post-type-selector span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important;
+    min-height: 36px !important;
+    padding: 7px 6px !important;
+    border: 1px solid #DDD8D3 !important;
+    border-radius: 9px !important;
+    background: #FFFFFF !important;
+    color: #2B2825 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    line-height: 1.15 !important;
+    transition: background-color .22s ease, border-color .22s ease, color .22s ease !important;
+  }
+
+  body[data-page="community"] #community .mobile-post-type-selector label:hover span,
+  body[data-page="community"] #community .mobile-post-type-selector label:focus-within span {
+    border-color: #F4B099 !important;
+    background: #FFF0E2 !important;
+    color: #E86F3D !important;
+  }
+
+  body[data-page="community"] #community .mobile-post-type-selector input:checked + span,
+  body[data-page="community"] #community .mobile-post-type-selector label:hover input:checked + span {
+    border-color: #43BED4 !important;
+    background: #43BED4 !important;
+    color: #171513 !important;
+  }
+
+  body[data-page="community"] #community .community-toolbar.writing #writeToggle {
+    order: 2 !important;
+    align-self: flex-end !important;
+    width: auto !important;
+    min-width: 82px !important;
+    min-height: 34px !important;
+    margin-top: 2px !important;
+    padding: 6px 12px !important;
+  }
+
+  body[data-page="community"] #community .post-list {
+    width: 100% !important;
+    margin: 18px 0 0 !important;
+  }
+
+  body[data-page="community"] #community .post-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 16px 0 !important;
+    padding: 18px !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="community"] #community .post-card > .post-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 28px !important;
+    padding: 5px 10px !important;
+    color: #171513 !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="community"] #community .post-card > small {
+    display: inline !important;
+    margin-left: 6px !important;
+    color: #4F4A46 !important;
+    font-size: 10px !important;
+    line-height: 1.5 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-page="community"] #community .post-card h3 {
+    margin: 14px 0 8px !important;
+    font-size: 16px !important;
+    line-height: 1.4 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-page="community"] #community .post-card > p {
+    margin: 0 !important;
+    font-size: 13px !important;
+    line-height: 1.65 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  body[data-page="community"] #community .post-meta {
+    display: flex !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    margin-top: 16px !important;
+    padding-top: 13px !important;
+    gap: 8px !important;
+  }
+
+  body[data-page="community"] #community .post-meta span {
+    min-width: 0 !important;
+    overflow: hidden !important;
+    font-size: 10px !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  body[data-page="community"] #community .post-card > .like-form {
+    display: inline-block !important;
+    margin: 12px 6px 0 0 !important;
+    vertical-align: top !important;
+  }
+
+  body[data-page="community"] #community .post-card > .like-form button,
+  body[data-page="community"] #community .post-card > .comment-toggle {
+    min-height: 36px !important;
+    padding: 7px 11px !important;
+    font-size: 10px !important;
+  }
+
+  body[data-page="community"] #community .post-card > .comment-toggle {
+    float: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 12px 0 0 !important;
+    vertical-align: top !important;
+  }
+
+  body[data-page="community"] #community .community-comments {
+    width: 100% !important;
+    margin-top: 14px !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="community"] #community .community-comments form {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    width: 100% !important;
+    gap: 7px !important;
+  }
+
+  body[data-page="community"] #community .community-comments input {
+    width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  body[data-page="community"] #community .community-comments button {
+    padding: 0 13px !important;
+  }
+}
+
+/* 모바일 공통 헤더와 도서 검색 결과 정렬 */
+@media (max-width: 620px) {
+  body header .nav-wrap,
+  body[data-page="home"] header .nav-wrap {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    width: calc(100% - 32px) !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    margin: 0 16px !important;
+    gap: 6px !important;
+  }
+
+  body header .logo,
+  body[data-page="home"] header .logo {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center !important;
+    min-width: 0 !important;
+    margin: 0 auto 0 0 !important;
+    gap: 7px !important;
+    overflow: visible !important;
+  }
+
+  body header .logo .header-logo-mark,
+  body[data-page="home"] header .logo .header-logo-mark {
+    display: grid !important;
+    flex: 0 0 32px !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    place-items: center !important;
+    overflow: hidden !important;
+    border-radius: 7px !important;
+  }
+
+  body header .logo .header-logo-mark img,
+  body[data-page="home"] header .logo .header-logo-mark img {
+    display: block !important;
+    width: 32px !important;
+    height: 32px !important;
+    max-width: 32px !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    transform: none !important;
+  }
+
+  body header .logo strong,
+  body[data-page="home"] header .logo strong {
+    font-size: 19px !important;
+    line-height: 1 !important;
+  }
+
+  body header .header-actions,
+  body[data-page="home"] header .header-actions {
+    display: flex !important;
+    flex: 0 1 auto !important;
+    align-items: center !important;
+    width: auto !important;
+    margin: 0 !important;
+    gap: 6px !important;
+  }
+
+  body header .header-search-form,
+  body[data-page="home"] header .header-search-form {
+    position: relative !important;
+    display: block !important;
+    flex: 0 1 132px !important;
+    width: clamp(108px, 32vw, 132px) !important;
+    min-width: 108px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border: 1px solid #D8D5D2 !important;
+    border-radius: 999px !important;
+    background: #F5F4F2 !important;
+  }
+
+  body header .header-search-form input:not([type="hidden"]),
+  body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 35px 0 11px !important;
+    border: 0 !important;
+    outline: 0 !important;
+    background: transparent !important;
+    color: #4F4A46 !important;
+    font-size: 9px !important;
+  }
+
+  body header .header-search-form input::placeholder {
+    color: #8C8681 !important;
+    opacity: 1 !important;
+  }
+
+  body header .header-search-form button,
+  body[data-page="home"] header .header-search-form button {
+    position: absolute !important;
+    top: 50% !important;
+    right: 4px !important;
+    display: grid !important;
+    width: 28px !important;
+    height: 28px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    place-items: center !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #171513 !important;
+    transform: translateY(-50%) !important;
+  }
+
+  body[data-page="home"] header .header-search-form {
+    border-color: rgba(255, 255, 255, .62) !important;
+    background: rgba(255, 255, 255, .12) !important;
+  }
+
+  body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+    color: #FFFFFF !important;
+  }
+
+  body[data-page="home"] header .header-search-form input::placeholder {
+    color: rgba(255, 255, 255, .76) !important;
+  }
+
+  body[data-page="home"] header .header-search-form button {
+    color: #FFFFFF !important;
+  }
+
+  body header .header-user-icon,
+  body[data-page="home"] header .header-user-icon {
+    flex: 0 0 34px !important;
+    width: 34px !important;
+    min-width: 34px !important;
+    height: 34px !important;
+    margin: 0 !important;
+  }
+
+  body header .menu-btn,
+  body[data-page="home"] header .menu-btn {
+    flex: 0 0 36px !important;
+    width: 36px !important;
+    min-width: 36px !important;
+    height: 36px !important;
+    margin: 0 !important;
+  }
+
+  body[data-page="books"] #books .book-results.section {
+    width: calc(100% - 32px) !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+  }
+
+  body[data-page="books"] #books .result-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    width: 100% !important;
+    margin: 0 auto !important;
+    column-gap: 14px !important;
+    row-gap: 24px !important;
+    align-items: stretch !important;
+    justify-content: center !important;
+  }
+
+  body[data-page="books"] #books .api-card {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: 8px !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="books"] #books .api-card .cover-frame,
+  body[data-page="books"] #books .api-card .book-cover {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 2 / 3 !important;
+    margin: 0 0 10px !important;
+    padding: 7px !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="books"] #books .api-card .cover-frame img,
+  body[data-page="books"] #books .api-card .book-cover img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+  }
+}
+
+@media (max-width: 390px) {
+  body header .nav-wrap,
+  body[data-page="home"] header .nav-wrap {
+    width: calc(100% - 24px) !important;
+    margin-right: 12px !important;
+    margin-left: 12px !important;
+    gap: 5px !important;
+  }
+
+  body header .header-search-form,
+  body[data-page="home"] header .header-search-form {
+    flex-basis: 102px !important;
+    width: 102px !important;
+    min-width: 102px !important;
+  }
+
+  body header .logo strong,
+  body[data-page="home"] header .logo strong {
+    font-size: 18px !important;
+  }
+
+  body[data-page="books"] #books .result-grid {
+    column-gap: 12px !important;
+    row-gap: 22px !important;
+  }
+}
+
+body[data-page="about"] #about .about-mood-message-image {
+  display: block;
+  width: min(350px, 100%);
+  height: auto;
+  margin: 0 auto 34px;
+  object-fit: contain;
+}
+
+body[data-page="about"] #about .reading-copy img {
+  display: block;
+  width: min(620px, 100%);
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login a {
+  gap: 10px !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login .social-login-icon {
+  display: block !important;
+  flex: 0 0 18px !important;
+  width: 18px !important;
+  height: 18px !important;
+}
+
+body[data-page="login"] #login .oauth-panel .social-login .github-login-icon {
+  fill: currentColor !important;
+}
+
+.notice-track {
+  animation: notice-continuous-v32 42s linear infinite !important;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+@keyframes notice-continuous-v32 {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333333%, 0, 0);
+  }
+}
+
+/* 소개 카드 */
+body[data-page="about"] #about .about-quote {
+  gap: 18px;
+  margin: 0 auto 42px;
+}
+
+body[data-page="about"] #about .about-quote > b {
+  color: #FF544C;
+  font-size: 76px;
+  font-weight: 900;
+  line-height: .65;
+}
+
+body[data-page="about"] #about .about-quote p {
+  margin: 0;
+  color: #171513;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+body[data-page="about"] #about .about-quote strong {
+  font-weight: 900;
+}
+
+body[data-page="about"] #about .about-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: min(900px, 100%);
+  gap: 18px;
+  margin: 0 auto 100px;
+}
+
+body[data-page="about"] #about .about-steps article {
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #4F4A46;
+  border-radius: 0;
+  background: #FFFFFF;
+  box-shadow: none;
+  text-align: left;
+}
+
+body[data-page="about"] #about .step-icon {
+  display: grid;
+  place-items: center;
+  height: 196px;
+  background: #101010;
+}
+
+body[data-page="about"] #about .step-icon img {
+  display: block;
+  width: 92px;
+  height: 92px;
+  margin: 0;
+  object-fit: contain;
+  filter: none;
+}
+
+body[data-page="about"] #about .step-copy {
+  position: relative;
+  min-height: 100px;
+  padding: 16px 36px 15px 13px;
+  background: #FFFFFF;
+}
+
+body[data-page="about"] #about .step-copy h3 {
+  margin: 0 0 12px;
+  color: #171513;
+  font-size: 25px;
+  font-weight: 900;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body[data-page="about"] #about .step-copy h3 em {
+  color: #FF544C;
+  font-style: normal;
+}
+
+body[data-page="about"] #about .step-copy p {
+  margin: 0;
+  color: #77716C;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+body[data-page="about"] #about .step-arrow {
+  position: absolute;
+  top: 12px;
+  right: 10px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #77716C;
+  border-radius: 50%;
+  color: #171513;
+  font-size: 12px;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  body[data-page="about"] #about .about-quote {
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  body[data-page="about"] #about .about-quote > b {
+    font-size: 46px;
+  }
+
+  body[data-page="about"] #about .about-quote p {
+    font-size: 17px;
+  }
+
+  body[data-page="about"] #about .about-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  body[data-page="about"] #about .step-icon {
+    height: 138px;
+  }
+
+  body[data-page="about"] #about .step-icon img {
+    width: 70px;
+    height: 70px;
+  }
+
+  body[data-page="about"] #about .step-copy {
+    min-height: 108px;
+    padding: 14px 26px 13px 11px;
+  }
+
+  body[data-page="about"] #about .step-copy h3 {
+    font-size: 18px;
+  }
+
+  body[data-page="about"] #about .step-arrow {
+    top: 10px;
+    right: 7px;
+    width: 17px;
+    height: 17px;
+    font-size: 10px;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="nearby"] #nearby .near-reference {
+    width: min(1100px, calc(100% - 64px)) !important;
+    max-width: 1100px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  body[data-page="nearby"] #nearby .near-grid {
+    width: calc(100% - 70px) !important;
+    max-width: 1030px !important;
+    margin-left: 32px !important;
+    margin-right: 38px !important;
+    grid-template-columns: minmax(0, 2fr) minmax(280px, .9fr) !important;
+    gap: 24px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="browse"] #browse .browse-hero h1,
+  body[data-page="community"] #community .community-hero h1,
+  body[data-page="nearby"] #nearby .nearby-hero-copy h1 {
+    font-size: 58px !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  body[data-page="nearby"] #nearby .near-copy h1 {
+    font-size: 32px !important;
+    line-height: 1.18 !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="nearby"] #nearby .near-copy h1 {
+    margin-left: 32px !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="browse"] #browse .browse.section > h2,
+  body[data-page="books"] #books .book-results.section > h2,
+  body[data-page="nearby"] #nearby .near-copy > h1 {
+    font-size: 38px !important;
+    line-height: 1.2 !important;
+    margin-left: 32px !important;
+  }
+
+  body[data-page="browse"] #browse .browse.section > p,
+  body[data-page="books"] #books .book-results.section > p,
+  body[data-page="nearby"] #nearby .near-copy > p {
+    margin-left: 32px !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="about"] #about .about-top > h1 {
+    transform: translateX(28px) !important;
+  }
+
+  body[data-page="browse"] #browse .browse.section > .browse-chips {
+    margin-left: 32px !important;
+  }
+
+  body[data-page="books"] #books .book-results.section > h2,
+  body[data-page="books"] #books .book-results.section > p {
+    margin-left: 56px !important;
+  }
+}
+
+/* 소개/마이페이지 최종 정렬 */
+@media (min-width: 901px) {
+  body[data-page="about"] #about .about-top > h1 {
+    width: max-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    transform: none !important;
+  }
+
+  body[data-page="mypage"] #mypage .mypage-hero h1 {
+    font-size: 58px !important;
+    line-height: 1.08 !important;
+    letter-spacing: -0.045em !important;
+  }
+}
+
+@media (min-width: 901px) {
+  body[data-page="nearby"] #nearby .map-panel,
+  body[data-page="nearby"] #nearby .place-list {
+    border: 0 !important;
+  }
+}
+
+/* 도서 프리뷰 본문 정렬 */
+@media (min-width: 901px) {
+  body[data-page="browse"] #browse .browse.section > h2,
+  body[data-page="browse"] #browse .browse.section > p,
+  body[data-page="browse"] #browse .browse.section > .browse-chips {
+    margin-left: 120px !important;
+  }
+}

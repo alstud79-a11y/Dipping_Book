@@ -1,0 +1,561 @@
+:root {
+    --yellow: #fffc38;
+    --cyan: #43c4df;
+    --coral: #ff514d;
+    --ink: #211d1b;
+    --cream: #fffaf2
+}
+ html {
+    scroll-behavior: smooth
+}
+body {
+    overflow-x: hidden
+}
+.spa-view {
+    display: none
+}
+.spa-view.active {
+    display: block;
+    animation: viewIn .35s ease both
+}
+@keyframes viewIn {
+    from {
+        opacity: .25;
+        transform: translateY(8px)
+    }
+    to {
+        opacity: 1;
+        transform: none
+    }
+
+}
+ .logo {
+    width: 122px;
+    display: flex;
+    align-items: center
+}
+.logo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain
+}
+.logo.light img {
+    filter: none
+}
+.header-actions .search {
+    width: 205px;
+    height: 38px;
+    display: flex;
+    border: 1px solid #a9a49f;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #fff
+}
+.header-actions .search input {
+    display: block!important;
+    width: 160px;
+    padding: 0 14px;
+    border: 0;
+    outline: 0;
+    font-size: 12px
+}
+.header-actions .search button {
+    width: 42px;
+    border: 0;
+    background: #fff
+}
+.header-actions .search button img {
+    width: 20px;
+    height: 20px
+}
+.person {
+    padding: 0;
+    background: transparent!important
+}
+.person img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain
+}
+.member-person img {
+    filter: none
+}
+ .video-hero {
+    position: relative;
+    height: min(680px, 72vh);
+    min-height: 500px;
+    overflow: hidden;
+    background: #111
+}
+.video-hero video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+.hero-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(0, 0, 0, .78), rgba(0, 0, 0, .25) 65%, rgba(0, 0, 0, .45))
+}
+.video-hero .hero-copy {
+    position: relative;
+    z-index: 2
+}
+.video-hero .hero-copy h1,
+.video-hero .hero-copy p,
+.video-hero .hero-copy small {
+    color: #fff
+}
+.video-hero .hero-copy em {
+    color: var(--yellow)
+}
+ .feature-visual {
+    min-height: 390px;
+    display: grid;
+    place-items: center;
+    background: url('../images/feature-mood.jpg') center/cover no-repeat;
+    color: #fff
+}
+.feature-big>div:last-child {
+    background: var(--yellow)!important
+}
+.feature-cards a {
+    min-height: 130px
+}
+.feature-cards img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    margin-bottom: 12px
+}
+.outline-link {
+    border: 1px solid #222!important;
+    background: transparent!important;
+    color: #222!important
+}
+.live-head p {
+    margin: 6px 0 0
+}
+.mini-book span {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+.preview-grid .book-card {
+    text-align: left;
+    cursor: pointer
+}
+.video-cover {
+    position: relative;
+    overflow: hidden
+}
+.hover-preview {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(16, 14, 13, .68);
+    color: #fff;
+    opacity: 0;
+    transition: .25s
+}
+.video-card:hover .hover-preview,
+.video-card:focus-visible .hover-preview {
+    opacity: 1
+}
+.hover-preview b {
+    font-size: 20px
+}
+.video-card:hover .video-cover img {
+    transform: scale(1.025)
+}
+.video-cover img {
+    transition: .3s
+}
+.preview-grid .video-card>p {
+    margin-left: 8px;
+    font-size: 12px;
+    color: #888
+}
+ .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0
+}
+ .browse-hero,
+.community-hero,
+.nearby-hero,
+.mypage-hero,
+.signup-hero,
+.search-hero {
+    background: linear-gradient(105deg, #fffaf2 0%, #fffaf2 58%, #fff0ee 100%)
+}
+.browse-hero .section {
+    min-height: 390px;
+    padding-top: 100px
+}
+.browse-hero h1 {
+    font-size: 58px;
+    line-height: 1.12
+}
+.browse-hero em,
+.community-hero em,
+.nearby-hero em,
+.mypage-hero em {
+    color: var(--coral);
+    font-style: normal
+}
+.browse-preview-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 35px
+}
+.browse-book {
+    color: inherit;
+    text-decoration: none;
+    min-width: 0
+}
+.browse-book img {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: contain;
+    background: #f5f2ed;
+    border-radius: 5px
+}
+.browse-book span {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #f4f2ee;
+    font-size: 11px
+}
+.browse-book h3 {
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
+.more-books {
+    display: table;
+    margin: 55px auto 0;
+    padding: 13px 25px;
+    border-radius: 24px;
+    background: #111;
+    color: #fff;
+    text-decoration: none
+}
+.book-results {
+    padding-top: 70px;
+    padding-bottom: 120px
+}
+ .community-toolbar button img,
+.post-form button img,
+.comment-toggle img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    vertical-align: middle;
+    margin-right: 5px
+}
+.community-area {
+    background: #fff!important;
+    color: #222!important
+}
+.community-area .post-card {
+    background: #fff!important;
+    border-color: #d8d4cf!important;
+    color: #222!important
+}
+.community-area .post-card p {
+    color: #69645f!important
+}
+.community-area .post-form {
+    background: #fffef3!important
+}
+.community-area .post-card input {
+    background: #fff!important
+}
+.community-area .comment-toggle,
+.community-area .like-form button {
+    color: #222!important;
+    border-color: #ddd!important
+}
+.community-area .community-comments {
+    background: #fffef3
+}
+.community-area .community-comments p {
+    color: #222!important
+}
+ .signup-light {
+    background: #fff;
+    padding: 70px 20px 120px
+}
+.signup-light .signup-form {
+    color: #24211f
+}
+.signup-light .signup-form h2 {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 22px
+}
+.signup-light .signup-form h2 span {
+    font-size: 16px;
+    color: #aaa;
+    font-weight: 500;
+    margin-left: 24px
+}
+.signup-light .signup-form input,
+.signup-light .signup-form select {
+    background: #f7f5f1;
+    color: #222;
+    border: 1px solid transparent
+}
+.signup-light .terms {
+    background: #fff;
+    border: 1px solid #aaa;
+    color: #444
+}
+.signup-light .form-actions a {
+    background: #111;
+    color: #fff
+}
+.signup-light .form-actions button {
+    background: var(--yellow);
+    color: #111
+}
+.signup-complete {
+    padding: 75px 20px 120px;
+    text-align: center
+}
+.signup-complete>small {
+    color: var(--coral)
+}
+.signup-complete h1 {
+    font-size: 62px
+}
+.signup-complete h1 em {
+    color: var(--coral);
+    font-style: normal
+}
+.signup-complete i {
+    display: block;
+    width: 1px;
+    height: 75px;
+    background: #222;
+    margin: 35px auto
+}
+.signup-complete h2 {
+    font-size: 24px
+}
+.signup-complete>a {
+    display: inline-block;
+    margin-top: 35px;
+    padding: 17px 42px;
+    border-radius: 30px;
+    background: #111;
+    color: #fff;
+    text-decoration: none
+}
+ .about-cards img {
+    width: 54px;
+    height: 54px;
+    object-fit: contain
+}
+.about-steps img {
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+    margin-bottom: 15px
+}
+.auth-intro ul {
+    list-style: none;
+    padding: 150px 0 0;
+    margin: 0
+}
+.auth-intro li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    font-weight: 700
+}
+.auth-intro li img {
+    width: 31px;
+    height: 31px;
+    object-fit: contain
+}
+.activity-grid article {
+    position: relative
+}
+.activity-grid article>img {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    width: 22px;
+    height: 22px
+}
+.profile-card>a:first-of-type {
+    background: var(--yellow);
+    color: #111;
+    border: 0
+}
+ .flash {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 115px;
+    transform: translateX(-50%);
+    padding: 12px 22px;
+    border-radius: 25px;
+    background: #222;
+    color: #fff;
+    box-shadow: 0 5px 20px #0003
+}
+ @media(max-width:980px) {
+    .header-actions .search {
+        display: none
+    }
+    .logo {
+        width: 105px
+    }
+    .browse-preview-row {
+        grid-template-columns: repeat(2, 1fr)
+    }
+    .video-hero {
+        min-height: 460px
+    }
+    .browse-hero h1 {
+        font-size: 43px
+    }
+
+}
+ @media(max-width:640px) {
+    .video-hero {
+        height: 520px
+    }
+    .video-hero .hero-copy {
+        padding-left: 24px;
+        padding-right: 24px
+    }
+    .feature-visual {
+        min-height: 250px;
+        font-size: 25px
+    }
+    .browse-preview-row {
+        grid-template-columns: 1fr 1fr;
+        gap: 18px
+    }
+    .browse-hero h1 {
+        font-size: 36px
+    }
+    .signup-complete h1 {
+        font-size: 42px
+    }
+    .hover-preview b {
+        font-size: 15px
+    }
+
+}
+ /* 기존 화면을 바꾸지 않고 로그인과 카카오맵 기능만 보완 */ .social-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 18px 0;
+    color: #8a8580;
+    font-size: 12px
+}
+.social-divider::before,
+.social-divider::after {
+    content: "";
+    height: 1px;
+    flex: 1;
+    background: #e5e1dc
+}
+.social-login {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 20px
+}
+.social-login a {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border: 1px solid #d8d4cf;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700
+}
+.social-login .google {
+    background: #fff;
+    color: #292624
+}
+.social-login .github {
+    background: #24292f;
+    color: #fff;
+    border-color: #24292f
+}
+.social-login b {
+    font-size: 16px
+}
+.map-panel #nearbyMap {
+    display: block;
+    width: 100%;
+    height: 520px;
+    border: 0
+}
+ @media(max-width:640px) {
+    .social-login {
+        grid-template-columns: 1fr
+    }
+    .map-panel #nearbyMap {
+        height: 400px
+    }
+
+}
+ /* 메인에서는 흰 로고, 흰 배경의 다른 화면에서는 검은 로고 */ header .logo {
+    width: 122px;
+    gap: 8px;
+    overflow: visible
+}
+header .logo .header-logo-mark {
+    display: block;
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    flex: 0 0 36px
+}
+header .logo .header-logo-mark img {
+    display: block;
+    width: 95px;
+    max-width: none;
+    height: 36px;
+    object-fit: contain;
+    object-position: left center
+}
+header .logo>strong {
+    color: #222;
+    font-size: 22px;
+    line-height: 1;
+    white-space: nowrap
+}
+body[data-page="home"] header .logo>strong {
+    color: #fff
+}
+footer .logo img {
+    filter: none!important
+}

@@ -1,0 +1,156 @@
+/* 도서 프리뷰 목록 */
+body[data-page="browse"] .browse-preview-row {
+    display: grid !important;
+    grid-template-columns: repeat(4, 170px) !important;
+    gap: 55px 40px !important;
+    justify-content: center !important;
+    margin-top: 35px !important;
+}
+
+
+/* 책 카드 */
+body[data-page="browse"] .browse-book {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 170px !important;
+    min-width: 0 !important;
+    color: #171513 !important;
+    text-decoration: none !important;
+}
+
+
+/* 책 표지 */
+body[data-page="browse"] .browse-book img {
+    display: block !important;
+    width: 170px !important;
+    height: 255px !important;
+    margin: 0 auto !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+
+    background: transparent !important;
+    border-radius: 5px !important;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease !important;
+}
+
+
+/* 책 표지 호버 */
+body[data-page="browse"] .browse-book:hover img {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+
+/* 장르 */
+body[data-page="browse"] .browse-book span {
+    align-self: flex-start !important;
+    margin-top: 12px !important;
+}
+
+
+/* 책 제목 */
+body[data-page="browse"] .browse-book h3 {
+    display: -webkit-box !important;
+    width: 100% !important;
+    min-height: 44px !important;
+    margin: 10px 0 5px !important;
+    overflow: hidden !important;
+
+    color: #171513 !important;
+    font-size: 15px !important;
+    line-height: 1.45 !important;
+
+    white-space: normal !important;
+    word-break: keep-all !important;
+
+    -webkit-box-orient: vertical !important;
+    -webkit-line-clamp: 2 !important;
+}
+
+
+/* 저자 */
+body[data-page="browse"] .browse-book p {
+    margin: 0 !important;
+    color: #6f6963 !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+
+
+/* 도서 검색 더 보기 버튼 */
+body[data-page="browse"] .more-books {
+    display: table !important;
+    margin: 55px auto 0 !important;
+    padding: 13px 25px !important;
+
+    border: 1px solid #fffc38 !important;
+    border-radius: 999px !important;
+
+    background: #fffc38 !important;
+    color: #171513 !important;
+
+    font-size: 14px !important;
+    font-weight: 800 !important;
+    text-decoration: none !important;
+
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease !important;
+}
+
+
+/* 더 보기 버튼 호버 */
+body[data-page="browse"] .more-books:hover {
+    background: #171513 !important;
+    border-color: #171513 !important;
+    color: #ffffff !important;
+
+    transform: translateY(-3px) !important;
+
+    box-shadow:
+        0 10px 22px rgba(0, 0, 0, 0.18) !important;
+}
+
+
+/* 키보드 포커스 */
+body[data-page="browse"] .more-books:focus-visible {
+    outline: 3px solid rgba(255, 252, 56, 0.45) !important;
+    outline-offset: 4px !important;
+}
+
+
+/* 태블릿 */
+@media (max-width: 900px) {
+    body[data-page="browse"] .browse-preview-row {
+        grid-template-columns: repeat(2, 170px) !important;
+        gap: 45px 35px !important;
+    }
+}
+
+
+/* 모바일 */
+@media (max-width: 480px) {
+    body[data-page="browse"] .browse-preview-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 35px 16px !important;
+    }
+
+    body[data-page="browse"] .browse-book {
+        width: 100% !important;
+    }
+
+    body[data-page="browse"] .browse-book img {
+        width: 100% !important;
+        height: auto !important;
+        aspect-ratio: 2 / 3 !important;
+        object-fit: cover !important;
+    }
+}
