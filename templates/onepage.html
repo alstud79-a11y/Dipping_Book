@@ -1,0 +1,2535 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>디핑북 | AI 도서 프리뷰</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css', v='20260819') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/ui-fixes.css', v='20260729b') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/onepage.css', v='20260803') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/reference-final.css', v='20260819') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/detail-exact-v16.css', v='20260812-nav-coral-motion-v12') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-cards-v19.css', v='20260810-v19') }}">
+
+    <style>
+      /* 도서 상세·쉬운 글 최종 디자인 */
+      #detail .detail-reference .book-like-form button {
+        display: grid !important;
+        grid-template-columns: 1fr 72px !important;
+        width: 100% !important;
+        min-height: 44px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: 1px solid #d7d2ca !important;
+        border-radius: 999px !important;
+        background: #ebe8e2 !important;
+        color: #2d2a27 !important;
+      }
+
+      #detail .book-like-form button i {
+        display: none !important;
+      }
+
+      #detail .book-like-form button span {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 7px !important;
+        height: 100% !important;
+        background: #e1ddd6 !important;
+        color: #2d2a27 !important;
+      }
+
+      #detail .book-like-form button span::before {
+        display: none !important;
+        content: none !important;
+      }
+
+      #detail .book-like-form button svg {
+        width: 18px !important;
+        height: 18px !important;
+        fill: none !important;
+        stroke: currentColor !important;
+        stroke-width: 1.8 !important;
+      }
+
+      #detail .book-like-form button b {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        height: 100% !important;
+        border: 0 !important;
+        border-left: 1px solid #d7d2ca !important;
+        background: #f8f7f4 !important;
+        color: #2d2a27 !important;
+      }
+
+      #detail .detail-meta {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 7px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        background: transparent !important;
+      }
+
+      #detail .detail-meta p {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto !important;
+        align-items: center !important;
+        min-height: 46px !important;
+        margin: 0 !important;
+        padding: 9px 12px !important;
+        border: 1px solid #ded9d1 !important;
+        border-radius: 10px !important;
+        background: transparent !important;
+      }
+
+      #detail .detail-meta span {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        color: #858078 !important;
+      }
+
+      #detail .detail-meta span::before {
+        display: none !important;
+        content: none !important;
+      }
+
+      #detail .meta-icon {
+        display: block !important;
+        width: 17px !important;
+        height: 17px !important;
+        flex: 0 0 17px !important;
+        fill: none !important;
+        stroke: #43b9cf !important;
+        stroke-width: 1.7 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+
+      #detail .easy {
+        position: relative !important;
+        min-height: 0 !important;
+        margin-top: 30px !important;
+        padding: 34px 38px 36px !important;
+        border: 1px solid #dedbc4 !important;
+        border-radius: 28px !important;
+        background: #fffed8 !important;
+        color: #292723 !important;
+      }
+
+      #detail .easy-head {
+        display: block !important;
+        width: auto !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
+
+      #detail .easy-head h2 {
+        display: flex !important;
+        align-items: center !important;
+        gap: 9px !important;
+        margin: 0 !important;
+        color: #292723 !important;
+        font-size: 21px !important;
+      }
+
+      #detail .easy-head h2 svg {
+        width: 21px !important;
+        height: 21px !important;
+        fill: none !important;
+        stroke: #34bdd5 !important;
+        stroke-width: 1.8 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+
+      #detail .easy-head p {
+        margin: 10px 230px 0 0 !important;
+        color: #77736d !important;
+        font-size: 14px !important;
+        line-height: 1.6 !important;
+      }
+
+      #detail .easy > #easyButton {
+        position: absolute !important;
+        top: 31px !important;
+        right: 38px !important;
+        width: auto !important;
+        min-height: 40px !important;
+        margin: 0 !important;
+        padding: 0 20px !important;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: #403d39 !important;
+        color: #fff !important;
+        font-size: 13px !important;
+        font-weight: 800 !important;
+        white-space: nowrap !important;
+      }
+
+      #detail .easy-columns {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 14px !important;
+        margin-top: 24px !important;
+      }
+
+      #detail .easy-columns > div {
+        min-height: 196px !important;
+        padding: 20px !important;
+        border: 1px solid #ece9e2 !important;
+        border-radius: 16px !important;
+        background: #fff !important;
+      }
+
+      #detail .easy-columns > .easy-result {
+        border: 5px solid #fff629 !important;
+      }
+
+      #detail .easy-columns b {
+        display: block !important;
+        margin-bottom: 8px !important;
+        color: #292723 !important;
+      }
+
+      #detail .easy-columns p {
+        margin: 0 !important;
+        color: #77736d !important;
+        font-size: 13px !important;
+        line-height: 1.65 !important;
+      }
+
+      #detail .comments {
+        margin-top: 28px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #292723 !important;
+      }
+
+      #detail .comments h2 {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        margin: 0 0 16px !important;
+        color: #292723 !important;
+        font-size: 19px !important;
+      }
+
+      #detail .comments h2 svg {
+        width: 22px !important;
+        height: 22px !important;
+        fill: none !important;
+        stroke: #34bdd5 !important;
+        stroke-width: 1.8 !important;
+        stroke-linejoin: round !important;
+      }
+
+      #detail .comments form {
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) 76px !important;
+        gap: 10px !important;
+        margin-bottom: 14px !important;
+      }
+
+      #detail .comments input {
+        width: 100% !important;
+        min-width: 0 !important;
+        min-height: 48px !important;
+        padding: 0 17px !important;
+        border: 1px solid #d8d4cd !important;
+        border-radius: 999px !important;
+        background: #fff !important;
+        color: #292723 !important;
+      }
+
+      #detail .comments button {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 76px !important;
+        min-width: 76px !important;
+        min-height: 48px !important;
+        padding: 0 16px !important;
+        border: 0 !important;
+        border-radius: 999px !important;
+        background: #fff629 !important;
+        color: #171513 !important;
+        font-size: 14px !important;
+        font-weight: 900 !important;
+        line-height: 1 !important;
+        white-space: nowrap !important;
+        writing-mode: horizontal-tb !important;
+      }
+
+      #detail .comments button span {
+        display: inline !important;
+        white-space: nowrap !important;
+      }
+
+      #detail .comments > p {
+        margin: 10px 0 0 !important;
+        padding: 20px !important;
+        border: 1px solid #ebe7e0 !important;
+        border-radius: 14px !important;
+        background: #f7f5f1 !important;
+        color: #77736d !important;
+      }
+
+      #detail .comment-empty {
+        text-align: center !important;
+      }
+
+      @media (max-width: 700px) {
+        #detail .easy {
+          padding: 26px 22px !important;
+        }
+
+        #detail .easy-head p {
+          margin-right: 0 !important;
+        }
+
+        #detail .easy > #easyButton {
+          position: static !important;
+          margin-top: 16px !important;
+        }
+
+        #detail .easy-columns {
+          grid-template-columns: 1fr !important;
+        }
+      }
+
+      /* 상단 메뉴 최종 규칙: 모든 외부 CSS 다음에 적용 */
+      header nav a {
+        position: relative !important;
+        transition: color .22s ease, transform .22s ease, letter-spacing .22s ease !important;
+      }
+
+      header nav a:hover,
+      header nav a:focus-visible {
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        transform: translateY(-2px) !important;
+        letter-spacing: .025em !important;
+      }
+
+      body[data-page="home"] header nav a:hover,
+      body[data-page="home"] header nav a:focus-visible {
+        color: #ffef3f !important;
+      }
+
+      body:not([data-page="home"]) header nav a:hover,
+      body:not([data-page="home"]) header nav a:focus-visible {
+        color: #ff5c55 !important;
+        transform: translateY(-2px) scale(1.04) !important;
+        text-shadow: 0 5px 12px rgba(255, 92, 85, .18) !important;
+      }
+
+      body[data-page="about"] header nav .nav-about,
+      body[data-page="browse"] header nav .nav-books,
+      body[data-page="books"] header nav .nav-books,
+      body[data-page="detail"] header nav .nav-books,
+      body[data-page="nearby"] header nav .nav-nearby,
+      body[data-page="community"] header nav .nav-community {
+        border-color: transparent !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #ff5c55 !important;
+        box-shadow: none !important;
+      }
+
+      header nav a::after {
+        content: "" !important;
+        position: absolute !important;
+        left: 50% !important;
+        bottom: 2px !important;
+        width: 0 !important;
+        height: 2px !important;
+        border-radius: 999px !important;
+        background: currentColor !important;
+        transform: translateX(-50%) !important;
+        transition: width .22s ease !important;
+        pointer-events: none !important;
+      }
+
+      body[data-page="home"] header nav a:hover::after,
+      body[data-page="home"] header nav a:focus-visible::after {
+        width: 62% !important;
+      }
+
+      body:not([data-page="home"]) header nav a::after {
+        display: none !important;
+        content: none !important;
+      }
+
+      header nav a:focus-visible {
+        outline: 2px solid currentColor !important;
+        outline-offset: 4px !important;
+      }
+
+      /* 메인 장르별 도서 상세보기: 캡슐형 대신 각진 사각 버튼 */
+      body[data-page="home"] .category .detail-link {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: auto !important;
+        min-width: 112px !important;
+        min-height: 38px !important;
+        margin-top: 14px !important;
+        padding: 0 17px !important;
+        overflow: hidden !important;
+        border: 1px solid #24211f !important;
+        border-radius: 5px !important;
+        background: #24211f !important;
+        color: #fff !important;
+        box-shadow: 3px 3px 0 rgba(36, 33, 31, .14) !important;
+        transition: color .2s ease, background-color .2s ease,
+                    border-color .2s ease, transform .2s ease,
+                    box-shadow .2s ease !important;
+      }
+
+      body[data-page="home"] .category .detail-link:hover,
+      body[data-page="home"] .category .detail-link:focus-visible {
+        border-color: #ffef3f !important;
+        border-radius: 5px !important;
+        background: #ffef3f !important;
+        color: #24211f !important;
+        box-shadow: 5px 5px 0 rgba(36, 33, 31, .18) !important;
+        transform: translate(2px, -2px) !important;
+      }
+
+      /* 책과 가까워지는 방법: 이미지 위를 지나는 사선 빛 제거 */
+      body[data-page="home"] .feature .dollargoot-hover::after {
+        display: none !important;
+        content: none !important;
+        animation: none !important;
+        background: none !important;
+      }
+
+      /* 소개 마지막: 카드와 문구 사이의 여백 정리 */
+      body[data-page="about"] .about-journey .about-steps-image {
+        margin-bottom: 46px !important;
+      }
+
+      body[data-page="about"] .about-final-message {
+        margin-top: 0 !important;
+      }
+
+      /* 소개 마지막: 디핑북 시작하기 */
+      body[data-page="about"] .about-final-message .start-link {
+        min-width: 148px !important;
+        min-height: 44px !important;
+        border: 1px solid #FF544C !important;
+        border-radius: 7px !important;
+        background: #FF544C !important;
+        color: #fff !important;
+        box-shadow: 0 7px 18px rgba(255, 84, 76, .20) !important;
+        transition: transform .24s ease, box-shadow .24s ease,
+                    background-color .24s ease !important;
+      }
+
+      body[data-page="about"] .about-final-message .start-link:hover,
+      body[data-page="about"] .about-final-message .start-link:focus-visible {
+        background: #FF544C !important;
+        border-color: #FF544C !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 5px 12px rgba(255, 84, 76, .24),
+                    inset 0 0 0 2px rgba(255, 255, 255, .34) !important;
+      }
+
+      body[data-page="about"] .about-final-message .start-link:active {
+        transform: translateY(0) scale(.98) !important;
+      }
+
+      /* 도서 프리뷰 8권: 제목과 장르 메뉴의 왼쪽 시작선에 정렬 */
+      body[data-page="browse"] .browse-preview-row {
+        grid-template-columns: repeat(4, 170px) !important;
+        justify-content: start !important;
+        justify-items: start !important;
+        width: 100% !important;
+      }
+
+      body[data-page="browse"] .browse-book,
+      body[data-page="browse"] .browse-book img {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+      }
+
+      /* 도서 프리뷰 마지막: 도서 검색으로 더 보기 */
+      body[data-page="browse"] .more-books {
+        border-color: #F87B75 !important;
+        border-radius: 7px !important;
+        background: #F87B75 !important;
+        color: #fff !important;
+        box-shadow: 0 7px 18px rgba(248, 123, 117, .20) !important;
+      }
+
+      body[data-page="browse"] .more-books:hover,
+      body[data-page="browse"] .more-books:focus-visible {
+        border-color: #df6964 !important;
+        background: #df6964 !important;
+        color: #fff !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 24px rgba(248, 123, 117, .28) !important;
+      }
+
+      body[data-page="browse"] .more-books:active {
+        transform: translateY(0) scale(.98) !important;
+      }
+
+      /* 자연스러운 등장 효과 */
+      body[data-page="about"] .about-journey .section.show .about-final-message > * {
+        animation: dipping-soft-up .58s cubic-bezier(.2, .72, .2, 1) both;
+      }
+
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(2) { animation-delay: .07s; }
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(3) { animation-delay: .14s; }
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(4) { animation-delay: .21s; }
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(5) { animation-delay: .28s; }
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(6) { animation-delay: .35s; }
+      body[data-page="about"] .about-journey .section.show .about-final-message > :nth-child(7) { animation-delay: .42s; }
+
+      body[data-page="browse"] .browse.show .browse-book {
+        animation: dipping-card-in .54s cubic-bezier(.2, .72, .2, 1) both;
+      }
+
+      body[data-page="browse"] .browse.show .browse-book:nth-child(1) { animation-delay: .03s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(2) { animation-delay: .08s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(3) { animation-delay: .13s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(4) { animation-delay: .18s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(5) { animation-delay: .23s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(6) { animation-delay: .28s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(7) { animation-delay: .33s; }
+      body[data-page="browse"] .browse.show .browse-book:nth-child(8) { animation-delay: .38s; }
+
+      body[data-page="browse"] .browse-book {
+        transition: transform .28s ease !important;
+      }
+
+      body[data-page="browse"] .browse-book:hover {
+        transform: translateY(-5px) !important;
+      }
+
+      @keyframes dipping-soft-up {
+        from { opacity: 0; transform: translateY(18px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes dipping-card-in {
+        from { opacity: 0; transform: translateY(20px) scale(.985); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="about"] .about-journey .section.show .about-final-message > *,
+        body[data-page="browse"] .browse.show .browse-book {
+          animation: none !important;
+        }
+      }
+
+      /* 도서 검색 결과: 카드와 표지 프레임을 고정 픽셀로 통일 */
+      body[data-page="books"] #books .result-grid {
+        grid-template-columns: repeat(4, 220px) !important;
+        gap: 42px 36px !important;
+        justify-content: start !important;
+        align-items: stretch !important;
+      }
+
+      body[data-page="books"] #books .api-card {
+        width: 220px !important;
+        min-height: 430px !important;
+        padding: 10px !important;
+      }
+
+      body[data-page="books"] #books .api-card .cover-frame,
+      body[data-page="books"] #books .api-card .book-cover {
+        width: 198px !important;
+        height: 300px !important;
+        min-height: 300px !important;
+        aspect-ratio: auto !important;
+        margin: 0 !important;
+        padding: 11px !important;
+        box-sizing: border-box !important;
+      }
+
+      body[data-page="books"] #books .api-card .cover-frame img {
+        width: auto !important;
+        height: auto !important;
+        max-width: 176px !important;
+        max-height: 278px !important;
+        margin: auto !important;
+        object-fit: contain !important;
+      }
+
+      /* 도서 검색: 검은 원 안에 흰색 돋보기 */
+      body[data-page="books"] #books .big-search button,
+      body[data-page="books"] #books .big-search button:hover,
+      body[data-page="books"] #books .big-search button:focus-visible {
+        flex: 0 0 42px !important;
+        width: 42px !important;
+        height: 42px !important;
+        border: 0 !important;
+        border-radius: 50% !important;
+        background: #111 !important;
+        box-shadow: none !important;
+      }
+
+      body[data-page="books"] #books .big-search button img {
+        width: 19px !important;
+        height: 19px !important;
+        filter: brightness(0) invert(1) !important;
+        opacity: 1 !important;
+      }
+
+      body[data-page="books"] #books .big-search button:hover {
+        background: #2e2b29 !important;
+        transform: scale(1.06) !important;
+      }
+
+      body[data-page="books"] #books .book-results.show .api-card {
+        animation: dipping-card-in .54s cubic-bezier(.2, .72, .2, 1) both;
+      }
+
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(1) { animation-delay: .03s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(2) { animation-delay: .08s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(3) { animation-delay: .13s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(4) { animation-delay: .18s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(5) { animation-delay: .23s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(6) { animation-delay: .28s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(7) { animation-delay: .33s; }
+      body[data-page="books"] #books .book-results.show .api-card:nth-child(8) { animation-delay: .38s; }
+
+      @media (max-width: 1000px) {
+        body[data-page="books"] #books .result-grid {
+          grid-template-columns: repeat(3, 220px) !important;
+        }
+      }
+
+      @media (max-width: 760px) {
+        body[data-page="books"] #books .result-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          gap: 30px 16px !important;
+        }
+
+        body[data-page="books"] #books .api-card {
+          width: 100% !important;
+        }
+
+        body[data-page="books"] #books .api-card .cover-frame,
+        body[data-page="books"] #books .api-card .book-cover {
+          width: 100% !important;
+        }
+      }
+
+      /* 모든 페이지 공통 헤더: 로고 / 메뉴 / SVG 아이콘 간격 통일 */
+      body header,
+      body[data-page="home"] header {
+        position: sticky !important;
+        top: 0 !important;
+        left: auto !important;
+        width: 100% !important;
+        height: 68px !important;
+        min-height: 68px !important;
+        z-index: 1000 !important;
+        border: 0 !important;
+        border-bottom: 1px solid #ecebea !important;
+        background: rgba(255, 255, 255, .98) !important;
+        color: #171513 !important;
+        box-shadow: none !important;
+        backdrop-filter: blur(10px) !important;
+      }
+
+      body header .nav-wrap,
+      body[data-page="home"] header .nav-wrap {
+        display: grid !important;
+        grid-template-columns: 190px minmax(500px, 1fr) auto !important;
+        align-items: center !important;
+        width: min(1120px, calc(100% - 40px)) !important;
+        height: 68px !important;
+        min-height: 68px !important;
+        margin: 0 auto !important;
+        column-gap: 28px !important;
+      }
+
+      body header .logo,
+      body[data-page="home"] header .logo {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-self: start !important;
+        min-width: 0 !important;
+        gap: 9px !important;
+        color: #171513 !important;
+        text-decoration: none !important;
+      }
+
+      body header .logo .header-logo-mark {
+        display: grid !important;
+        place-items: center !important;
+        flex: 0 0 34px !important;
+        width: 34px !important;
+        height: 34px !important;
+        overflow: hidden !important;
+        border-radius: 8px !important;
+      }
+
+      body header .logo .header-logo-mark img {
+        display: block !important;
+        width: 34px !important;
+        height: 34px !important;
+        object-fit: contain !important;
+      }
+
+      body header .logo strong,
+      body[data-page="home"] header .logo strong {
+        color: #171513 !important;
+        font-size: 20px !important;
+        font-weight: 900 !important;
+        letter-spacing: -.04em !important;
+        white-space: nowrap !important;
+      }
+
+      body header nav,
+      body[data-page="home"] header nav {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        justify-self: center !important;
+        gap: 38px !important;
+        width: 100% !important;
+      }
+
+      body header nav a,
+      body[data-page="home"] header nav a {
+        min-width: 0 !important;
+        padding: 8px 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #77736f !important;
+        box-shadow: none !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        letter-spacing: -.015em !important;
+        white-space: nowrap !important;
+      }
+
+      body header nav a.current,
+      body header nav a:hover,
+      body header nav a:focus-visible {
+        background: transparent !important;
+        color: #171513 !important;
+        box-shadow: none !important;
+      }
+
+      body[data-page="home"] header nav a:hover,
+      body[data-page="home"] header nav a:focus-visible {
+        color: #d7c900 !important;
+      }
+
+      body header .header-actions,
+      body[data-page="home"] header .header-actions {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-end !important;
+        justify-self: end !important;
+        gap: 16px !important;
+        min-width: max-content !important;
+        color: #171513 !important;
+      }
+
+      body header .header-search-icon,
+      body header .header-user-icon {
+        display: grid !important;
+        place-items: center !important;
+        flex: 0 0 auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        text-decoration: none !important;
+      }
+
+      body header .header-search-icon {
+        width: 28px !important;
+        height: 34px !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #171513 !important;
+      }
+
+      body header .header-search-icon svg {
+        width: 20px !important;
+        height: 20px !important;
+        fill: none !important;
+        stroke: currentColor !important;
+        stroke-width: 2.1 !important;
+        stroke-linecap: round !important;
+      }
+
+      body header .header-login-text,
+      body[data-page="home"] header .header-login-text {
+        display: inline-flex !important;
+        align-items: center !important;
+        min-height: 34px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 0 !important;
+        background: transparent !important;
+        color: #171513 !important;
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        letter-spacing: -.015em !important;
+        text-decoration: none !important;
+        white-space: nowrap !important;
+      }
+
+      body header .header-user-icon {
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        background: #292624 !important;
+        color: #fff !important;
+      }
+
+      body header .header-user-icon svg {
+        width: 27px !important;
+        height: 27px !important;
+        fill: #fff !important;
+        stroke: #fff !important;
+        stroke-width: 1.5 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+
+      body header .header-search-icon:hover,
+      body header .header-login-text:hover {
+        color: #FF544C !important;
+        transform: translateY(-1px) !important;
+      }
+
+      body header .header-user-icon:hover {
+        background: #FF544C !important;
+        transform: translateY(-2px) scale(1.04) !important;
+      }
+
+      body header .logout-link,
+      body[data-page="home"] header .logout-link {
+        min-height: 34px !important;
+        color: #77736f !important;
+        font-size: 10px !important;
+      }
+
+      @media (max-width: 980px) {
+        body header .nav-wrap,
+        body[data-page="home"] header .nav-wrap {
+          grid-template-columns: 170px 1fr auto !important;
+          column-gap: 14px !important;
+        }
+
+        body header nav,
+        body[data-page="home"] header nav {
+          gap: 20px !important;
+        }
+
+        body header nav a,
+        body[data-page="home"] header nav a {
+          font-size: 12px !important;
+        }
+      }
+
+      @media (max-width: 760px) {
+        body header .nav-wrap,
+        body[data-page="home"] header .nav-wrap {
+          display: flex !important;
+          justify-content: space-between !important;
+          gap: 12px !important;
+        }
+
+        body header nav,
+        body[data-page="home"] header nav {
+          position: absolute !important;
+          top: 68px !important;
+          left: 0 !important;
+          display: none !important;
+          width: 100% !important;
+          padding: 16px 20px !important;
+          flex-direction: column !important;
+          gap: 5px !important;
+          border-bottom: 1px solid #ecebea !important;
+          background: #fff !important;
+        }
+
+        body header nav.open {
+          display: flex !important;
+        }
+
+        body header .header-login-text,
+        body header .logout-link {
+          display: none !important;
+        }
+
+        body header .header-actions {
+          margin-left: auto !important;
+          gap: 10px !important;
+        }
+
+        body header .menu-btn {
+          display: grid !important;
+          place-items: center !important;
+          width: 36px !important;
+          height: 36px !important;
+          margin: 0 !important;
+          border: 0 !important;
+          border-radius: 6px !important;
+          background: transparent !important;
+          color: #171513 !important;
+          font-size: 20px !important;
+        }
+      }
+
+      /* 최종 헤더 재정렬: 메뉴는 좌우 요소와 무관하게 정확히 중앙 */
+      body header,
+      body[data-page="home"] header {
+        height: 72px !important;
+        min-height: 72px !important;
+        background: #fff !important;
+        color: #171513 !important;
+      }
+
+      body header .nav-wrap,
+      body[data-page="home"] header .nav-wrap {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        width: min(1240px, calc(100% - 48px)) !important;
+        height: 72px !important;
+        min-height: 72px !important;
+        margin: 0 auto !important;
+        gap: 0 !important;
+      }
+
+      body header .logo,
+      body[data-page="home"] header .logo {
+        flex: 0 0 auto !important;
+        min-width: 170px !important;
+        gap: 10px !important;
+      }
+
+      body header .logo .header-logo-mark {
+        flex-basis: 40px !important;
+        width: 40px !important;
+        height: 40px !important;
+        border-radius: 9px !important;
+      }
+
+      body header .logo .header-logo-mark img {
+        width: 40px !important;
+        height: 40px !important;
+      }
+
+      body header .logo strong,
+      body[data-page="home"] header .logo strong {
+        font-size: 22px !important;
+      }
+
+      body header nav,
+      body[data-page="home"] header nav {
+        position: absolute !important;
+        left: 50% !important;
+        top: 50% !important;
+        width: auto !important;
+        transform: translate(-50%, -50%) !important;
+        gap: 36px !important;
+      }
+
+      body header .header-actions,
+      body[data-page="home"] header .header-actions {
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 0 auto !important;
+        min-width: 0 !important;
+        margin-left: auto !important;
+        gap: 14px !important;
+      }
+
+      body header .header-actions.is-logged-in {
+        gap: 10px !important;
+      }
+
+      body header .header-actions.is-logged-in .header-search-form {
+        flex-basis: 170px !important;
+        width: 170px !important;
+      }
+
+      body header .header-search-form {
+        position: relative !important;
+        display: flex !important;
+        align-items: center !important;
+        flex: 0 0 220px !important;
+        width: 220px !important;
+        height: 38px !important;
+        margin: 0 !important;
+        padding: 0 38px 0 14px !important;
+        border: 1px solid #cfcac5 !important;
+        border-radius: 999px !important;
+        background: #fff !important;
+        box-sizing: border-box !important;
+      }
+
+      body header .header-search-form input:not([type="hidden"]) {
+        display: block !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: 34px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        outline: 0 !important;
+        background: transparent !important;
+        color: #171513 !important;
+        font-size: 11px !important;
+      }
+
+      body header .header-search-form button {
+        position: absolute !important;
+        top: 50% !important;
+        right: 5px !important;
+        display: grid !important;
+        place-items: center !important;
+        width: 30px !important;
+        height: 30px !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 50% !important;
+        background: transparent !important;
+        color: #171513 !important;
+        box-shadow: none !important;
+        transform: translateY(-50%) !important;
+      }
+
+      body header .header-search-form button svg {
+        display: block !important;
+        width: 18px !important;
+        height: 18px !important;
+        fill: none !important;
+        stroke: currentColor !important;
+        stroke-width: 2 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+
+      body header .header-search-form:focus-within {
+        border-color: #171513 !important;
+        box-shadow: 0 0 0 3px rgba(23, 21, 19, .06) !important;
+      }
+
+      /* 도서 검색 돋보기: 이미지 제거, 흰색 선 SVG만 표시 */
+      body[data-page="books"] #books .big-search button svg {
+        display: block !important;
+        width: 20px !important;
+        height: 20px !important;
+        fill: none !important;
+        stroke: #fff !important;
+        stroke-width: 2.2 !important;
+        stroke-linecap: round !important;
+        stroke-linejoin: round !important;
+      }
+
+      /* 장르별 도서 상세보기: 형태만 각지게, 기존 색상 복원 */
+      body[data-page="home"] .category .detail-link {
+        border: 1px solid #222 !important;
+        border-radius: 5px !important;
+        background: #fff !important;
+        color: #222 !important;
+        box-shadow: none !important;
+      }
+
+      body[data-page="home"] .category .detail-link:hover,
+      body[data-page="home"] .category .detail-link:focus-visible {
+        border-color: #43bed4 !important;
+        background: #43bed4 !important;
+        color: #fff !important;
+        box-shadow: 0 8px 18px rgba(67, 190, 212, .20) !important;
+        transform: translateY(-2px) !important;
+      }
+
+      @media (max-width: 1120px) {
+        body header .nav-wrap,
+        body[data-page="home"] header .nav-wrap {
+          width: min(100% - 32px, 1060px) !important;
+        }
+
+        body header nav,
+        body[data-page="home"] header nav {
+          gap: 22px !important;
+        }
+
+        body header .header-search-form {
+          flex-basis: 180px !important;
+          width: 180px !important;
+        }
+      }
+
+      @media (max-width: 940px) {
+        body header .nav-wrap,
+        body[data-page="home"] header .nav-wrap {
+          display: flex !important;
+          width: calc(100% - 32px) !important;
+        }
+
+        body header nav,
+        body[data-page="home"] header nav {
+          position: absolute !important;
+          top: 72px !important;
+          left: -16px !important;
+          display: none !important;
+          width: calc(100% + 32px) !important;
+          padding: 16px 20px !important;
+          flex-direction: column !important;
+          gap: 5px !important;
+          border-bottom: 1px solid #ecebea !important;
+          background: #fff !important;
+          transform: none !important;
+        }
+
+        body header nav.open,
+        body[data-page="home"] header nav.open {
+          display: flex !important;
+        }
+
+        body header .menu-btn {
+          display: grid !important;
+        }
+      }
+
+      @media (max-width: 620px) {
+        body header .logo,
+        body[data-page="home"] header .logo {
+          min-width: 0 !important;
+        }
+
+        body header .header-search-form {
+          flex-basis: 42px !important;
+          width: 42px !important;
+          padding: 0 !important;
+          border-color: transparent !important;
+        }
+
+        body header .header-search-form input:not([type="hidden"]) {
+          display: none !important;
+        }
+
+        body header .header-search-form button {
+          right: 6px !important;
+        }
+      }
+
+      /* 메인 헤더는 검정, 나머지 페이지는 흰색 */
+      body[data-page="home"] header {
+        border-bottom-color: rgba(255, 255, 255, .12) !important;
+        background: #111 !important;
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header .logo strong,
+      body[data-page="home"] header nav a,
+      body[data-page="home"] header .header-login-text,
+      body[data-page="home"] header .logout-link {
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header nav a {
+        color: rgba(255, 255, 255, .72) !important;
+      }
+
+      body[data-page="home"] header nav a.current {
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header nav a:hover,
+      body[data-page="home"] header nav a:focus-visible {
+        color: #ffef3f !important;
+      }
+
+      body[data-page="home"] header .header-search-form {
+        border-color: rgba(255, 255, 255, .58) !important;
+        background: rgba(255, 255, 255, .08) !important;
+      }
+
+      body[data-page="home"] header .header-search-form input:not([type="hidden"]) {
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header .header-search-form input::placeholder {
+        color: rgba(255, 255, 255, .66) !important;
+      }
+
+      body[data-page="home"] header .header-search-form button {
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header .header-user-icon {
+        background: #fff !important;
+        color: #171513 !important;
+      }
+
+      body[data-page="home"] header .header-user-icon svg {
+        fill: #171513 !important;
+        stroke: #171513 !important;
+      }
+
+      body[data-page="home"] header .header-user-icon:hover {
+        background: #ffef3f !important;
+      }
+
+      @media (max-width: 940px) {
+        body[data-page="home"] header nav {
+          border-bottom-color: rgba(255, 255, 255, .14) !important;
+          background: #111 !important;
+        }
+
+        body[data-page="home"] header .menu-btn {
+          color: #fff !important;
+        }
+      }
+
+      /* 실제 최종 헤더: 기본은 메인 검정, 메뉴는 로고 다음 왼쪽 정렬 */
+      body header {
+        border-bottom-color: rgba(255, 255, 255, .12) !important;
+        background: #111 !important;
+        color: #fff !important;
+      }
+
+      body[data-page="about"] header,
+      body[data-page="browse"] header,
+      body[data-page="books"] header,
+      body[data-page="detail"] header,
+      body[data-page="nearby"] header,
+      body[data-page="community"] header,
+      body[data-page="login"] header,
+      body[data-page="signup"] header,
+      body[data-page="signup-complete"] header,
+      body[data-page="mypage"] header {
+        border-bottom-color: #ecebea !important;
+        background: #fff !important;
+        color: #171513 !important;
+      }
+
+      body header .logo {
+        min-width: 170px !important;
+      }
+
+      body header .logo .header-logo-mark,
+      body header .logo .header-logo-mark img {
+        width: 40px !important;
+        height: 40px !important;
+      }
+
+      body header .logo strong {
+        color: #fff !important;
+        font-size: 22px !important;
+      }
+
+      body:not([data-page="home"]) header .logo strong {
+        color: #171513 !important;
+      }
+
+      @media (min-width: 941px) {
+        body header .nav-wrap,
+        body[data-page="home"] header .nav-wrap {
+          display: flex !important;
+          align-items: center !important;
+          width: min(1240px, calc(100% - 48px)) !important;
+        }
+
+        body header nav,
+        body[data-page="home"] header nav {
+          position: static !important;
+          left: auto !important;
+          top: auto !important;
+          display: flex !important;
+          width: auto !important;
+          margin: 0 0 0 64px !important;
+          padding: 0 !important;
+          gap: 30px !important;
+          transform: none !important;
+        }
+
+        body header .header-actions,
+        body[data-page="home"] header .header-actions {
+          margin-left: auto !important;
+        }
+      }
+
+      body[data-page="home"] header nav a {
+        color: rgba(255, 255, 255, .75) !important;
+      }
+
+      body[data-page="home"] header nav a.current {
+        color: #fff !important;
+      }
+
+      body[data-page="home"] header nav a:hover,
+      body[data-page="home"] header nav a:focus-visible {
+        color: #ffef3f !important;
+      }
+
+      /* TOP 10 전체보기 버튼: 노란색 유지, 화살표만 이동 */
+      body[data-page="home"] .live-head .shelf-arrow {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        width: auto !important;
+        min-width: 112px !important;
+        height: 42px !important;
+        padding: 0 16px !important;
+        border: 1px solid #ffef3f !important;
+        border-radius: 7px !important;
+        background: #ffef3f !important;
+        color: #171513 !important;
+        box-shadow: none !important;
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        text-decoration: none !important;
+        transform: none !important;
+      }
+
+      body[data-page="home"] .live-head .shelf-arrow b {
+        display: inline-block !important;
+        font-size: 18px !important;
+        line-height: 1 !important;
+        transition: transform .24s ease !important;
+      }
+
+      body[data-page="home"] .live-head .shelf-arrow:hover,
+      body[data-page="home"] .live-head .shelf-arrow:focus-visible {
+        border-color: #ffef3f !important;
+        background: #ffef3f !important;
+        color: #171513 !important;
+        box-shadow: 0 8px 18px rgba(188, 174, 0, .20) !important;
+        transform: translateY(-2px) !important;
+      }
+
+      body[data-page="home"] .live-head .shelf-arrow:hover b,
+      body[data-page="home"] .live-head .shelf-arrow:focus-visible b {
+        transform: translateX(5px) !important;
+      }
+
+      body[data-page="home"] .live-head .shelf-arrow:active {
+        transform: translateY(0) scale(.98) !important;
+      }
+
+      /* 책과 가까워지는 방법: 사선 없이 두 겹의 자연스러운 별빛 */
+      body[data-page="home"] .feature .dollargoot-hover::before,
+      body[data-page="home"] .feature .dollargoot-hover::after {
+        display: block !important;
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 2 !important;
+        width: auto !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+        transform: none !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::before {
+        background:
+          radial-gradient(circle at 32% 24%, #fff 0 1px, rgba(255,235,133,.92) 2px, transparent 6px),
+          radial-gradient(circle at 46% 31%, #fff 0 1.5px, rgba(255,221,91,.90) 2.5px, transparent 8px),
+          radial-gradient(circle at 61% 27%, #fff 0 1px, rgba(255,239,157,.88) 2px, transparent 7px),
+          radial-gradient(circle at 38% 48%, #fff 0 1px, rgba(255,218,75,.86) 2px, transparent 6px),
+          radial-gradient(circle at 55% 52%, #fff 0 1.5px, rgba(255,235,133,.90) 2.5px, transparent 8px),
+          radial-gradient(circle at 68% 45%, #fff 0 1px, rgba(255,218,75,.84) 2px, transparent 6px),
+          radial-gradient(ellipse at 51% 48%, rgba(255,209,79,.17), transparent 38%) !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::after {
+        background:
+          radial-gradient(circle at 27% 39%, #fff 0 1px, rgba(255,240,170,.84) 2px, transparent 5px),
+          radial-gradient(circle at 42% 20%, #fff 0 1px, rgba(255,222,96,.88) 2px, transparent 6px),
+          radial-gradient(circle at 52% 39%, #fff 0 1.5px, rgba(255,241,171,.88) 2.5px, transparent 7px),
+          radial-gradient(circle at 64% 59%, #fff 0 1px, rgba(255,222,96,.84) 2px, transparent 6px),
+          radial-gradient(circle at 73% 32%, #fff 0 1px, rgba(255,239,157,.82) 2px, transparent 5px) !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover > img,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover > img {
+        transform: scale(1.01) !important;
+        filter: brightness(1.08) saturate(1.05) drop-shadow(0 0 13px rgba(255,211,91,.38)) !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::before {
+        animation: dipping-stars-a 1.35s ease-in-out infinite alternate !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::after,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::after {
+        animation: dipping-stars-b 1.8s .22s ease-in-out infinite alternate !important;
+      }
+
+      @keyframes dipping-stars-a {
+        0% { opacity: .12; filter: brightness(.86); }
+        48% { opacity: .92; filter: brightness(1.35); }
+        100% { opacity: .34; filter: brightness(1.02); }
+      }
+
+      @keyframes dipping-stars-b {
+        0% { opacity: .46; filter: brightness(1.05); }
+        55% { opacity: .10; filter: brightness(.85); }
+        100% { opacity: .88; filter: brightness(1.28); }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::after {
+          animation: none !important;
+          opacity: .55 !important;
+        }
+      }
+
+      /* 헤더 최종 간격 보정 */
+      @media (min-width: 941px) {
+        body header nav,
+        body[data-page="home"] header nav {
+          margin-left: 54px !important;
+          gap: 58px !important;
+        }
+
+        body header .header-actions,
+        body[data-page="home"] header .header-actions {
+          position: relative !important;
+          right: 28px !important;
+        }
+      }
+
+      /* 베스트셀러 전체보기: 호버 시 흰색 네모 테두리 */
+      body[data-page="home"] .live-head .shelf-arrow:hover,
+      body[data-page="home"] .live-head .shelf-arrow:focus-visible {
+        border-color: #fff !important;
+      }
+
+      /* 반짝임 최종 보정: 호버 시 확실하게 보이도록 표시 */
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::before,
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::after,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::after {
+        display: block !important;
+        opacity: 1 !important;
+        mix-blend-mode: screen !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::before {
+        background:
+          radial-gradient(circle at 28% 22%, #fff 0 2px, #ffe36b 3px, transparent 9px),
+          radial-gradient(circle at 42% 29%, #fff 0 2.5px, #ffd84f 4px, transparent 11px),
+          radial-gradient(circle at 57% 21%, #fff 0 2px, #ffec9c 3.5px, transparent 10px),
+          radial-gradient(circle at 68% 34%, #fff 0 2.5px, #ffd84f 4px, transparent 11px),
+          radial-gradient(circle at 35% 47%, #fff 0 2px, #ffdf62 3.5px, transparent 9px),
+          radial-gradient(circle at 51% 50%, #fff 0 3px, #ffe878 4.5px, transparent 13px),
+          radial-gradient(circle at 63% 59%, #fff 0 2px, #ffd84f 3.5px, transparent 10px),
+          radial-gradient(ellipse at 50% 47%, rgba(255,214,72,.32), transparent 42%) !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::after {
+        background:
+          radial-gradient(circle at 23% 38%, #fff 0 1.5px, #fff0a8 3px, transparent 8px),
+          radial-gradient(circle at 38% 17%, #fff 0 2px, #ffde5b 3.5px, transparent 10px),
+          radial-gradient(circle at 48% 38%, #fff 0 2px, #fff0a8 4px, transparent 11px),
+          radial-gradient(circle at 59% 43%, #fff 0 1.5px, #ffde5b 3px, transparent 9px),
+          radial-gradient(circle at 72% 25%, #fff 0 2px, #fff0a8 3.5px, transparent 10px),
+          radial-gradient(circle at 75% 55%, #fff 0 1.5px, #ffde5b 3px, transparent 8px) !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::before {
+        animation: dipping-visible-stars-a 1.05s ease-in-out infinite alternate !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::after,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::after {
+        animation: dipping-visible-stars-b 1.45s .18s ease-in-out infinite alternate !important;
+      }
+
+      @keyframes dipping-visible-stars-a {
+        0% { transform: scale(.985); filter: brightness(.78) drop-shadow(0 0 1px #ffe36b); }
+        50% { transform: scale(1.018); filter: brightness(1.75) drop-shadow(0 0 7px #ffe36b); }
+        100% { transform: scale(.997); filter: brightness(1.05) drop-shadow(0 0 3px #fff0a8); }
+      }
+
+      @keyframes dipping-visible-stars-b {
+        0% { transform: scale(1.012); filter: brightness(1.55) drop-shadow(0 0 6px #fff0a8); }
+        55% { transform: scale(.99); filter: brightness(.72) drop-shadow(0 0 1px #ffe36b); }
+        100% { transform: scale(1.02); filter: brightness(1.65) drop-shadow(0 0 7px #ffe36b); }
+      }
+
+      @media (min-width: 941px) and (max-width: 1120px) {
+        body header nav,
+        body[data-page="home"] header nav {
+          margin-left: 38px !important;
+          gap: 38px !important;
+        }
+
+        body header .header-actions,
+        body[data-page="home"] header .header-actions {
+          right: 12px !important;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::after {
+          animation: none !important;
+          opacity: .82 !important;
+          filter: brightness(1.2) !important;
+        }
+      }
+
+      /* 최종 메뉴 간격 */
+      @media (min-width: 1121px) {
+        body header nav,
+        body[data-page="home"] header nav {
+          gap: 72px !important;
+        }
+      }
+
+      @media (min-width: 941px) and (max-width: 1120px) {
+        body header nav,
+        body[data-page="home"] header nav {
+          gap: 44px !important;
+        }
+      }
+
+      /* 책과 가까워지는 방법: 별빛 제거, 원본 이미지 위 플래시 효과 */
+      body[data-page="home"] .feature .dollargoot-hover > img {
+        transform: none !important;
+        filter: none !important;
+        transition: filter .28s ease !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::before {
+        display: block !important;
+        content: "" !important;
+        position: absolute !important;
+        inset: 0 !important;
+        z-index: 2 !important;
+        width: auto !important;
+        opacity: 0 !important;
+        background: radial-gradient(ellipse at 50% 47%, rgba(255,255,255,.72) 0%, rgba(255,243,170,.32) 31%, transparent 67%) !important;
+        mix-blend-mode: screen !important;
+        transform: none !important;
+        filter: none !important;
+        pointer-events: none !important;
+        animation: none !important;
+      }
+
+      body[data-page="home"] .feature .dollargoot-hover::after {
+        display: none !important;
+        content: none !important;
+        background: none !important;
+        animation: none !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover > img,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover > img {
+        transform: none !important;
+        animation: dipping-image-flash 1.45s ease-in-out infinite !important;
+      }
+
+      body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before,
+      body[data-page="home"] .feature .feature-big:focus-visible .dollargoot-hover::before {
+        opacity: 1 !important;
+        animation: dipping-overlay-flash 1.45s ease-in-out infinite !important;
+      }
+
+      @keyframes dipping-image-flash {
+        0%, 100% { filter: brightness(1) saturate(1); }
+        18% { filter: brightness(1.24) saturate(1.05); }
+        36% { filter: brightness(1.04) saturate(1.02); }
+      }
+
+      @keyframes dipping-overlay-flash {
+        0%, 100% { opacity: 0; }
+        16% { opacity: .56; }
+        34% { opacity: 0; }
+      }
+
+      /* 베스트셀러 전체보기: 노란 배경과 어울리는 짙은 올리브 브라운 */
+      body[data-page="home"] .live-head .shelf-arrow,
+      body[data-page="home"] .live-head .shelf-arrow:hover,
+      body[data-page="home"] .live-head .shelf-arrow:focus-visible {
+        color: #5a5018 !important;
+      }
+
+      /* 전체 도서 목록: 가로·세로 간격을 일정한 gap으로 통일 */
+      body[data-page="books"] #books .result-grid {
+        grid-template-columns: repeat(4, 220px) !important;
+        column-gap: 36px !important;
+        row-gap: 48px !important;
+        justify-content: start !important;
+        align-items: stretch !important;
+      }
+
+      body[data-page="books"] #books .api-card {
+        width: 220px !important;
+        margin: 0 !important;
+      }
+
+      body[data-page="books"] #books .api-card h3 {
+        display: -webkit-box !important;
+        min-height: 44px !important;
+        max-height: 44px !important;
+        overflow: hidden !important;
+        white-space: normal !important;
+        text-overflow: ellipsis !important;
+        word-break: keep-all !important;
+        -webkit-box-orient: vertical !important;
+        -webkit-line-clamp: 2 !important;
+      }
+
+      body[data-page="books"] #books .api-card p:first-of-type {
+        display: block !important;
+        width: 100% !important;
+        overflow: hidden !important;
+        white-space: nowrap !important;
+        text-overflow: ellipsis !important;
+      }
+
+      @media (max-width: 1000px) {
+        body[data-page="books"] #books .result-grid {
+          grid-template-columns: repeat(3, 220px) !important;
+          column-gap: 28px !important;
+          row-gap: 40px !important;
+        }
+      }
+
+      @media (max-width: 760px) {
+        body[data-page="books"] #books .result-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+          column-gap: 16px !important;
+          row-gap: 34px !important;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover > img,
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before {
+          animation: none !important;
+        }
+
+        body[data-page="home"] .feature .feature-big:hover .dollargoot-hover::before {
+          opacity: .22 !important;
+        }
+      }
+
+      /* 헤더 오른쪽 묶음: 왼쪽 이동 + 요소 사이 간격 확대 */
+      @media (min-width: 1121px) {
+        body header .header-actions,
+        body[data-page="home"] header .header-actions {
+          right: 58px !important;
+          gap: 20px !important;
+        }
+      }
+
+      @media (min-width: 941px) and (max-width: 1120px) {
+        body header .header-actions,
+        body[data-page="home"] header .header-actions {
+          right: 24px !important;
+          gap: 16px !important;
+        }
+      }
+
+      /* 메인 상단에서는 영상과 합쳐지고, 스크롤하면 검은 헤더 표시 */
+      body[data-page="home"] header:not(.is-scrolled) {
+        position: absolute !important;
+        top: 40px !important;
+        left: 0 !important;
+        border-bottom-color: transparent !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+      }
+
+      body[data-page="home"] header.is-scrolled {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        background: rgba(17, 17, 17, .97) !important;
+        border-bottom-color: rgba(255, 255, 255, .14) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, .20) !important;
+        backdrop-filter: blur(10px) !important;
+        animation: dipping-header-down .28s ease both !important;
+      }
+
+      @keyframes dipping-header-down {
+        from { opacity: 0; transform: translateY(-14px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      /* 도서 프리뷰 마지막 버튼: 섹션 기준 정확한 가운데 정렬 */
+      body[data-page="browse"] #browse .more-books {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: fit-content !important;
+        min-width: 190px !important;
+        margin: 55px auto 0 !important;
+        float: none !important;
+        clear: both !important;
+      }
+    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/final-design-system.css', v='20260820') }}">
+  </head>
+
+  <body data-page="{{ page }}">
+    {% macro view_class(name) %}spa-view{{ ' active' if active_view == name else '' }}{% endmacro %}
+
+  <!-- 상단 알림 띠 -->
+    <div class="notice">
+      <div class="notice-track">
+        {% for repeat in range(3) %}
+          <div class="notice-group" aria-hidden="{{ 'false' if repeat == 0 else 'true' }}">
+            <span>AI 도서 프리뷰로 읽기 전에 미리 경험하세요</span>
+            <b>·</b>
+            <span>어려운 문장도 쉬운 글로 해석해 드려요</span>
+            <b>·</b>
+            <span>내 근처 서점 / 도서관을 지도에서 한눈에</span>
+            <b>·</b>
+            <span>오늘의 인기 도서를 디핑북에서 발견하세요</span>
+            <b>·</b>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  <!-- 공통 헤더 -->
+    <header>
+      <div class="nav-wrap">
+        <a class="logo spa-link" href="/?view=home#home" data-view="home" aria-label="디핑북 메인">
+          <span class="header-logo-mark">
+            <img src="{{ url_for('static', filename='images/icons/logo-mark.png', v='20260811') }}" alt="">
+          </span>
+          <strong>디핑북</strong>
+        </a>
+
+        <nav>
+          <a class="nav-about spa-link" href="/?view=about#about" data-view="about">소개</a>
+          <a class="nav-books spa-link" href="/?view=browse#browse" data-view="browse">도서 프리뷰</a>
+          <a class="nav-nearby spa-link" href="/?view=nearby#nearby" data-view="nearby">내 근처 도서 찾기</a>
+          <a class="nav-community spa-link" href="/?view=community#community" data-view="community">북 커뮤니티</a>
+        </nav>
+
+        <div class="header-actions{% if logged_in_user %} is-logged-in{% endif %}">
+          <form class="header-search-form" action="/" method="get">
+            <input type="hidden" name="view" value="books">
+            <input name="q" placeholder="검색어를 입력해 보세요." aria-label="도서 검색어">
+            <button type="submit" aria-label="도서 검색">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="10.5" cy="10.5" r="5.8"></circle>
+                <path d="m14.8 14.8 4.4 4.4"></path>
+              </svg>
+            </button>
+          </form>
+
+          {% if logged_in_user %}
+            <a class="header-login-text spa-link" href="/?view=mypage#mypage" data-view="mypage">MY PAGE</a>
+            <a class="header-user-icon spa-link" href="/?view=mypage#mypage" data-view="mypage" aria-label="마이페이지로 이동">
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="11" r="5"></circle>
+                <path d="M7.5 27c.8-6 4.1-9 8.5-9s7.7 3 8.5 9"></path>
+              </svg>
+            </a>
+            <a class="logout-link" href="/logout">LOGOUT</a>
+          {% else %}
+            <a class="header-login-text spa-link" href="/?view=login#login" data-view="login">로그인</a>
+            <a class="header-user-icon spa-link" href="/?view=login#login" data-view="login" aria-label="로그인 화면으로 이동">
+              <svg viewBox="0 0 32 32" aria-hidden="true">
+                <circle cx="16" cy="11" r="5"></circle>
+                <path d="M7.5 27c.8-6 4.1-9 8.5-9s7.7 3 8.5 9"></path>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+
+        <button class="menu-btn" type="button" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      </div>
+    </header>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="flash">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <main>
+      <div id="onepageApp" data-initial-view="{{ active_view }}">
+        <section class="{{ view_class('home') }}" id="home" data-view="home">
+          <section class="hero video-hero">
+            <video autoplay muted loop playsinline preload="auto" aria-label="디핑북 메인 소개 영상">
+              <source src="{{ url_for('static', filename='videos/hero-main.mp4', v='20260814-restored') }}" type="video/mp4">
+            </video>
+            <div class="hero-shade">
+            </div>
+          </section>
+
+          <section class="feature section">
+            <div class="section-title">
+              <small>FEATURE</small>
+              <h2>책과 가까워지는 새로운 방법</h2>
+            </div>
+            <div class="feature-grid">
+              <a class="feature-big" href="/?view=detail&amp;book=preview-1#detail">
+                <div class="feature-visual dollargoot-hover">
+                  <video class="feature-story-video" autoplay muted loop playsinline preload="metadata" aria-label="책과 가까워지는 새로운 방법 소개 영상">
+                    <source src="{{ url_for('static', filename='videos/feature-reading.mp4', v='20260814') }}" type="video/mp4">
+                  </video>
+                </div>
+                <div>
+                  <small>AI MOOD</small>
+                  <h3>이미지로 먼저 만나는 책</h3>
+                  <p>궁금했던 책의 분위기를 먼저 경험하세요.</p>
+                </div>
+              </a>
+              <div class="feature-cards">
+                <a class="spa-link" href="#browse" data-view="browse">
+                  <img src="{{ url_for('static', filename='images/icons/preview.png') }}" alt="">
+                  <small>PREVIEW</small>
+                  <b>도서 프리뷰</b>
+                  <span>실제 도서 정보를 살펴봐요. ↗</span>
+                </a>
+                <a class="spa-link" href="#nearby" data-view="nearby">
+                  <img src="{{ url_for('static', filename='images/icons/nearby.png') }}" alt="">
+                  <small>LIBRARY</small>
+                  <b>내 근처 도서 찾기</b>
+                  <span>주변 도서관과 서점을 찾아요. ↗</span>
+                </a>
+                <a class="spa-link" href="#community" data-view="community">
+                  <img src="{{ url_for('static', filename='images/icons/community.png') }}" alt="">
+                  <small>COMMUNITY</small>
+                  <b>북 커뮤니티</b>
+                  <span>좋아요와 댓글로 이야기해요. ↗</span>
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section class="live">
+            <div class="section live-head">
+              <div>
+                <small>LIVE BOOK SHELF</small>
+                <h2>베스트셀러 TOP 10</h2>
+                <p>흐르는 책장 속, 오늘의 인기 도서를 만나보세요.</p>
+              </div>
+              <a class="spa-link shelf-arrow" href="#books" data-view="books" aria-label="전체 도서 보기">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m9 5 7 7-7 7"></path>
+                </svg>
+              </a>
+            </div>
+            <div class="book-marquee">
+              <div class="book-track">
+                {% for repeat in range(2) %}
+                  <div class="book-sequence" {% if repeat == 1 %}aria-hidden="true"{% endif %}>
+                    {% for book in bestsellers %}
+                      <a class="mini-book" href="/?view=detail&book={{ book.id }}#detail">
+                        {% if book.cover %}
+                          <div class="cover-frame mini-cover-frame">
+                            <img src="{{ book.cover }}" alt="{{ book.title }} 표지" loading="lazy">
+                          </div>
+                        {% endif %}
+                        <b class="mini-book-title">{{ book.title }}</b>
+                        <span>{{ book.author }}</span>
+                      </a>
+                    {% endfor %}
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+
+          <section class="category section">
+            <div class="section-title">
+              <small>CATEGORY SHELF</small>
+              <h2>장르별 도서</h2>
+              <p>관심 있는 장르를 골라, 나에게 맞는 책을 탐색해 보세요.</p>
+            </div>
+            <div class="chips video-filter">
+              {% for item in ['전체','소설','에세이','예술/대중문화','유아'] %}
+                <button class="{{ 'active' if loop.first }}">{{ item }}</button>
+              {% endfor %}
+            </div>
+            <div class="book-grid preview-grid">
+              {% set custom_books = [('달러구트 꿈 백화점','소설','1','cover-book1-v4.jpg'),('프로젝트 헤일메리','소설','2','cover-book2-v4.jpg'),
+              ('긴긴밤','에세이','3','cover-book3-v4.jpg'),('괴테는 모든 것을 말했다','소설','4','cover-book4-v4.jpg'),
+              ('어서 오세요, 휴남동 서점입니다','소설','5','cover-book5-v4.jpg'),('노인과 바다','소설','6','cover-book6-v4.jpg'),
+              ('방구석 미술관','예술/대중문화','7','cover-book7-v4.jpg'),('만희네 집','유아','8','cover-book8-v4.jpg')] %}
+              {% for title, genre_name, number, cover_image in custom_books %}
+                <article class="book-card video-card" data-genre="{{ genre_name }}" data-title="{{ title }}"
+                         data-video="{{ url_for('static', filename='videos/book' ~ number ~ '.mp4') }}">
+                  <div class="video-cover">
+                    <img src="{{ url_for('static', filename='images/' ~ cover_image) }}" alt="{{ title }} 책 표지">
+                    <span class="hover-preview">
+                      <button class="preview-trigger" type="button" aria-label="{{ title }} 예고편 보기">▶ 예고편 보기</button>
+                    </span>
+                  </div>
+                  <small>{{ genre_name }}</small>
+                  <div class="video-title-row">
+                    <h3>{{ title }}</h3>
+                    <span class="video-play-button" aria-hidden="true">▶</span>
+                  </div>
+                  <p>표지에 마우스를 올려보세요.</p>
+                  <a class="detail-link" href="/?view=detail&book=preview-{{ number }}#detail" aria-label="{{ title }} 상세 및 쉬운 글 페이지로 이동">상세보기 →</a>
+                </article>
+              {% endfor %}
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('about') }} about-page" id="about" data-view="about">
+          <section class="about-top section">
+            <small>• ABOUT</small>
+            <h1>
+              <span>읽을까?</span>
+              <em>말까?</em>
+            </h1>
+            <p>책 한 권 고르는데도 생각보다 고민이 많습니다.<br>줄거리도 보고, 평점도 보고, 리뷰도 보고,<br>그래도 아직 모르겠죠.</p>
+            <h2>이 책, 진짜 내 취향일까?</h2>
+          </section>
+          <section class="about-mood">
+            <div class="section about-mood-inner">
+              <img class="about-mood-message-image" src="{{ url_for('static', filename='images/about-mood-message-v32.png') }}" alt="그래서 우리는 생각했습니다. 책도 먼저 찍먹 해보자고. 한 입 먹어보고 맛있으면 더 먹듯 책도 먼저 경험하고, 마음에 들면 읽으면 되니까요.">
+              <div class="about-mood-cards-image">
+                <img src="{{ url_for('static', filename='images/about-mood-cards.png') }}" alt="영화 같고, 여행 같고, 위로 같고">
+              </div>
+              <h2 class="about-mood-closing">같은 책이라도,<br>느껴지는 분위기는 모두 다르니까.</h2>
+              <i class="about-divider" aria-hidden="true">
+              </i>
+              <p>독서는 첫 페이지를 넘길 때가 아니라,<br>
+                <strong>궁금해지는 순간부터 시작됩니다.</strong>
+              </p>
+            </div>
+          </section>
+          <section class="about-journey">
+            <div class="section">
+              <div class="about-quote">
+                <b>“</b>
+                <p>디핑북은 책을 <strong>이렇게 만납니다.</strong>
+                </p>
+                <b>”</b>
+              </div>
+              <div class="about-steps-image">
+                <img src="{{ url_for('static', filename='images/about-steps.png', v='20260815') }}" alt="찍어보고, 느껴보고, 이해하고, 남겨두고">
+              </div>
+              <div class="about-final-message">
+                <p class="about-final-intro">우리는 책을 추천하지 않습니다.<br>대신 <mark>읽고 싶은 마음</mark>을 만듭니다.</p>
+                <p class="about-final-detail">책을 고르는 시간이 조금 더 즐거워지고,<br>독서가 조금 더 가까워지도록.</p>
+                <p class="journey-copy">그래서 우리는,<br>
+                  <strong>책을 읽기 전의 순간까지도<br>즐거운 경험으로 만들고 싶었습니다.</strong>
+                </p>
+                <i class="about-final-divider" aria-hidden="true">
+                </i>
+                <h2 class="reading-copy">
+                  <img src="{{ url_for('static', filename='images/about-reading-script-v32.png') }}" alt="Don't worry, Be Reading!">
+                </h2>
+                <p class="reading-question">오늘의 책,<br>아직 만나지 못했나요?</p>
+                <a class="start-link spa-link" href="#browse" data-view="browse">디핑북 시작하기</a>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('browse') }}" id="browse" data-view="browse">
+          <section class="browse-hero visual-page-hero">
+            <div class="section">
+              <small>• BROWSE</small>
+              <h1>내 취향의 책,<br>
+                <em>장르별로</em> 둘러보기</h1>
+              <p>관심 있는 장르를 골라 나에게 맞는 책을 탐색하고,<br>AI 프리뷰와 쉬운 글 해석으로 읽기 전 분위기까지 먼저 만나보세요.</p>
+            </div>
+          </section>
+          <section class="browse section">
+            <h2>도서 둘러보기</h2>
+            <p>관심있는 장르를 선택하고, 취향에 맞는 책을 찾아보세요</p>
+            <p>AI요약과 분위기 이미지로 읽기 전 책의 느낌을 먼저 확인할 수 있어요.</p>
+            <div class="chips browse-chips">
+              {% for item in ['전체','소설','에세이','자기계발','시','여행'] %}
+                <a href="/?view=books&genre={{ item }}#books">{{ item }}</a>
+              {% endfor %}
+            </div>
+            <div class="browse-books-wrap">
+              <div class="browse-preview-row">
+                {% for book in books[:8] %}
+                  <a class="browse-book" href="/?view=detail&book={{ book.id }}#detail">
+                    {% if book.cover %}
+                      <img src="{{ book.cover }}" alt="{{ book.title }} 표지">
+                    {% endif %}
+                    <span>{{ book.genre }}</span>
+                    <h3>{{ book.title }}</h3>
+                    <p>{{ book.author }}</p>
+                  </a>
+                {% endfor %}
+              </div>
+              <a class="more-books spa-link" href="#books" data-view="books">
+                <span>도서 검색으로 더 보기</span>
+                <b aria-hidden="true">→</b>
+              </a>
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('books') }}" id="books" data-view="books">
+          <section class="search-hero">
+            <div class="section">
+              <small>• BOOK SEARCH</small>
+              <h1>도서 검색</h1>
+              <form class="big-search" action="/">
+                <input type="hidden" name="view" value="books">
+                <input name="q" value="{{ query }}" placeholder="검색어를 입력하세요">
+                <button type="submit" aria-label="도서 검색">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <circle cx="10.5" cy="10.5" r="5.8"></circle>
+                    <path d="m14.8 14.8 4.4 4.4"></path>
+                  </svg>
+                </button>
+              </form>
+              <div class="chips">
+                {% for item in ['전체','소설','에세이','자기계발','시','여행'] %}
+                  <a class="{{ 'active' if genre == item }}" href="/?view=books&genre={{ item }}#books">{{ item }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+          <section class="book-results section">
+            <h2>{{ heading }}</h2>
+            <p>총 {{ books|length }}개의 도서를 찾았습니다.</p>
+            <div class="book-grid result-grid">
+              {% for book in books %}
+                <a class="book-card api-card" href="/?view=detail&book={{ book.id }}#detail">
+                  {% if book.cover %}
+                    <div class="cover-frame">
+                      <img src="{{ book.cover }}" alt="{{ book.title }} 표지">
+                    </div>
+                  {% else %}
+                    <div class="book-cover">책 표지 이미지</div>
+                  {% endif %}
+                  <small>{{ book.genre }}</small>
+                  <h3>{{ book.title }}</h3>
+                  <p>{{ book.author }}</p>
+                  <p>{{ book.publisher }}</p>
+                </a>
+              {% endfor %}
+            </div>
+          </section>
+        </section>
+
+        {% if selected_book %}
+          <section class="{{ view_class('detail') }}" id="detail" data-view="detail">
+            <section class="detail detail-reference section">
+              <aside>
+                {% if selected_book.cover %}
+                  <div class="cover-frame detail-cover-frame">
+                    <img src="{{ selected_book.cover }}" alt="{{ selected_book.title }} 표지">
+                  </div>
+                {% endif %}
+
+                <form class="book-like-form" method="post" action="/book/{{ selected_book.id }}/like">
+                  <button type="submit" class="{{ 'liked' if book_liked }}" aria-label="이 책 좋아요">
+                    <i>{{ '♥' if book_liked else '♡' }}</i>
+                    <span>
+                      <img class="detail-like-icon" src="{{ url_for('static', filename='images/icons/detail-like-user.png', v='20260811') }}" alt="">
+                      좋아요
+                    </span>
+                    <b>{{ book_like_count }}</b>
+                  </button>
+                </form>
+
+                <div class="detail-meta">
+                  <p>
+                    <span>
+                      <svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M5 4.5h14a1.5 1.5 0 0 1 1.5 1.5v11A1.5 1.5 0 0 1 19 18.5H8L3.5 21V6A1.5 1.5 0 0 1 5 4.5Z"></path>
+                        <path d="M8 9h8M8 13h5"></path>
+                      </svg>
+                      장르
+                    </span>
+                    <b>{{ selected_book.genre }}</b>
+                  </p>
+                  <p>
+                    <span>
+                      <svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M4.5 5.5A2.5 2.5 0 0 1 7 3h5v16H7a2.5 2.5 0 0 0-2.5 2V5.5Z"></path>
+                        <path d="M19.5 5.5A2.5 2.5 0 0 0 17 3h-5v16h5a2.5 2.5 0 0 1 2.5 2V5.5Z"></path>
+                      </svg>
+                      페이지
+                    </span>
+                    <b>{{ selected_book.pages }}</b>
+                  </p>
+                  <p>
+                    <span>
+                      <svg class="meta-icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <rect x="3.5" y="5" width="17" height="15.5" rx="2"></rect>
+                        <path d="M7.5 3v4M16.5 3v4M3.5 9.5h17"></path>
+                      </svg>
+                      출판일
+                    </span>
+                    <b>{{ selected_book.pub_date }}</b>
+                  </p>
+                </div>
+              </aside>
+
+              <article>
+                <small class="tag">{{ selected_book.genre }}</small>
+                <h1>{{ selected_book.title }}</h1>
+                <p class="author">{{ selected_book.author }}</p>
+                <hr>
+                <h3>도서 소개</h3>
+                <p id="originalDescription">{{ selected_book.description }}</p>
+
+                <section class="easy">
+                  <div class="easy-head">
+                    <div class="easy-head-copy">
+                      <h2>
+                        <img class="detail-section-icon" src="{{ url_for('static', filename='images/icons/detail-easy-user.png', v='20260811') }}" alt="">
+                        쉬운 글 해석
+                      </h2>
+                      <p>버튼을 누르면 제미나이가 책 소개를 쉬운 문장으로 바꿔 줍니다.</p>
+                    </div>
+                    <button id="easyButton" type="button" data-book-key="{{ selected_book.id }}">쉬운 글과 이미지 만들기 <span aria-hidden="true">→</span></button>
+                  </div>
+
+                  <div class="easy-columns" id="easyColumns">
+                    <div>
+                      <b>일반 AI 요약</b>
+                      <p>{{ selected_book.description }}</p>
+                    </div>
+                    <div class="easy-result">
+                      <b>독서 약자용 쉬운 요약</b>
+                      <p id="easyResult">아직 변환하지 않았습니다.</p>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="preview ai-preview-stage" id="previewSection" hidden>
+                  <div class="preview-heading-row">
+                    <div class="preview-title">
+                      <small>AI VISUAL PREVIEW</small>
+                      <h2>
+                        <img src="{{ url_for('static', filename='images/icons/detail-ai-user.png', v='20260811') }}" alt="">책의 분위기를 이미지로 만나요</h2>
+                    </div>
+                    <p id="imageStatus">AI가 상상한 책의 분위기입니다 ✨</p>
+                  </div>
+                  <div id="aiImageLoading">잠시만 기다려 주세요.</div>
+                  <img id="moodImage" class="mood-image" alt="AI 생성 이미지" hidden>
+                </section>
+
+                <section class="comments">
+                  <h2>
+                    <img class="detail-section-icon" src="{{ url_for('static', filename='images/icons/detail-comment-user.png', v='20260811') }}" alt="">
+                    댓글 {{ book_comments|length }}
+                  </h2>
+                  <form method="post" action="/book/{{ selected_book.id }}/comment">
+                    <input name="content" required placeholder="감상을 남겨보세요." aria-label="댓글 내용">
+                    <button type="submit">등록</button>
+                  </form>
+                  {% for comment in book_comments %}
+                    <p><b>{{ comment.nickname }}</b> {{ comment.content }}</p>
+                  {% else %}
+                    <p class="comment-empty">아직 댓글이 없습니다. 첫 댓글을 남겨보세요!</p>
+                  {% endfor %}
+                </section>
+              </article>
+            </section>
+          </section>
+        {% endif %}
+
+        <section class="{{ view_class('nearby') }}" id="nearby" data-view="nearby">
+          <div class="nearby-hero-image">
+            <div class="nearby-hero-copy">
+              <small>• FIND NEARBY</small>
+              <h1>가까운 곳에서<br><em>오늘의 책</em>을 만나다</h1>
+              <p>내 위치 주변의 서점과 도서관을 한눈에 확인하고,<br>책을 만날 수 있는 가까운 공간을 찾아보세요.</p>
+            </div>
+          </div>
+          <section class="near near-reference section">
+            <div class="near-copy">
+              <h1>내 근처 독서공간 찾기</h1>
+              <p>현재 위치를 기준으로 주변의 도서관 및 서점 위치를 안내합니다.</p>
+            </div>
+            <div class="near-grid">
+              <div class="map-panel">
+                <div class="map-toolbar">
+                  <p id="locationStatus">버튼을 누른 뒤 위치 권한을 허용해 주세요.</p>
+                  <button id="locateButton" class="locate-button" type="button">
+                    <img src="{{ url_for('static', filename='images/icons/map/location.png', v='20260812') }}" alt="">
+                    <span>현재 위치로 찾기</span>
+                  </button>
+                </div>
+                <div id="nearbyMap" title="내 주변 카카오맵">
+                </div>
+                <a id="largeMapLink" href="https://map.kakao.com" target="_blank" rel="noopener">카카오맵에서 크게 보기 ↗</a>
+              </div>
+              <div class="place-list" id="placeList">
+                <div class="place-intro">
+                  <div class="place-intro-title">
+                    <img src="{{ url_for('static', filename='images/icons/map/location.png', v='20260812') }}" alt="">
+                    <h3>내 주변의 책방·도서관</h3>
+                  </div>
+                  <p>브라우저의 위치 정보 권한을 허용하면 현재 계신 곳 주변으로 지도와 목록을 확인할 수 있어요.</p>
+                  <div class="place-legend"><span class="library-dot">도서관</span><span class="store-dot">서점</span></div>
+                </div>
+                <div class="place-empty">아직 위치를 확인하지 않았습니다.</div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('community') }}" id="community" data-view="community">
+          <section class="sub-hero community-hero visual-page-hero">
+            <div class="section">
+              <small>• COMMUNITY</small>
+              <h1>책으로 이어지는<br>
+                <em>우리들의 이야기</em>
+              </h1>
+              <p>읽은 책의 감상을 나누고, 궁금한 책을 물어보고, 함께 읽을 사람을 찾아보세요.<br>자유롭게 글을 쓰고 서로의 이야기에 댓글을 남길 수 있어요.</p>
+            </div>
+          </section>
+          <section class="community-area">
+            <div class="section">
+              <div class="community-toolbar">
+                <div class="chips community-list-filters" id="communityListFilters">
+                  {% for item in ['전체','감상 나눔','추천 요청','질문','자유 토론','함께 읽기'] %}
+                    <a class="{{ 'active' if category == item }}" href="/?view=community&category={{ item }}#community">{{ item }}</a>
+                  {% endfor %}
+                </div>
+                <div class="mobile-post-type-selector" id="mobilePostTypeSelector" aria-label="글 종류 선택">
+                  {% for item in ['감상 나눔','추천 요청','질문','자유 토론','함께 읽기'] %}
+                    <label>
+                      <input type="radio" form="postForm" name="category" value="{{ item }}" {{ 'checked' if item == category or (category == '전체' and loop.first) }}>
+                      <span>{{ item }}</span>
+                    </label>
+                  {% endfor %}
+                </div>
+                <button id="writeToggle" type="button" aria-controls="postForm" aria-expanded="false">
+                  <img src="{{ url_for('static', filename='images/icons/write.png') }}" alt=""><span>글쓰기</span></button>
+              </div>
+              <form class="post-form" id="postForm" method="post" action="/community/new" aria-hidden="true">
+                <input name="title" required placeholder="제목을 입력하세요">
+                <input name="book_title" placeholder="관련 도서 제목 (선택)">
+                <textarea name="content" required placeholder="책에 대한 생각을 자유롭게 나눠보세요.">
+                </textarea>
+                <button>
+                  <img src="{{ url_for('static', filename='images/icons/post.png') }}" alt="">게시하기</button>
+              </form>
+              <div class="post-list">
+                {% for post in posts %}
+                  <article class="post-card">
+                    <span class="post-tag">{{ post.category }}</span>
+                    {% if post.book_title %}
+                      <small>▣ {{ post.book_title }}</small>
+                    {% endif %}
+                    <h3>{{ post.title }}</h3>
+                    <p>{{ post.content }}</p>
+                    <div class="post-meta">
+                      <b>{{ post.nickname[:1] }}</b>
+                      <span>{{ post.nickname }} · {{ post.created_at }}</span>
+                    </div>
+                    <form class="like-form" method="post" action="/community/{{ post.id }}/like">
+                      <button class="{{ 'liked' if post.id in liked_posts }}">{{ '♥' if post.id in liked_posts else '♡' }} 좋아요 {{ like_map.get(post.id, 0) }}</button>
+                    </form>
+                    <button class="comment-toggle" type="button">
+                      <img src="{{ url_for('static', filename='images/icons/comment.png') }}" alt="">댓글 {{ comment_map.get(post.id, [])|length }}</button>
+                    <div class="community-comments">
+                      {% for comment in comment_map.get(post.id, []) %}
+                        <p>
+                          <b>{{ comment.nickname }}</b> {{ comment.content }}</p>
+                      {% endfor %}
+                      <form method="post" action="/community/{{ post.id }}/comment">
+                        <input name="content" required placeholder="댓글을 남겨보세요">
+                        <button>등록</button>
+                      </form>
+                    </div>
+                  </article>
+                {% endfor %}
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('login') }}" id="login" data-view="login">
+          <section class="auth auth-reference">
+            <div class="auth-card login-card">
+              <div class="auth-intro">
+                <small class="bookmark-badge">
+                  <svg class="bookmark-badge-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 2.5 14.6 9.4 21.5 12l-6.9 2.6L12 21.5l-2.6-6.9L2.5 12l6.9-2.6L12 2.5Z"/>
+                  </svg>
+                  <span>BOOKMARK</span>
+                </small>
+                <h2>읽기 전에 경험하고,<br>누구나 쉽게 이해하는 독서</h2>
+                <p>디핑북에서 나의 독서 경험을 채워가세요.</p>
+                <ul>
+                  <li>
+                    <img src="{{ url_for('static', filename='images/icons/login-analysis.png') }}" alt="">AI 도서 분석 프리뷰</li>
+                  <li>
+                    <img src="{{ url_for('static', filename='images/icons/login-heart.png') }}" alt="">좋아요·댓글 북 커뮤니티</li>
+                  <li>
+                    <img src="{{ url_for('static', filename='images/icons/login-location.png') }}" alt="">내 주변 도서관·서점 찾기</li>
+                </ul>
+              </div>
+              <div class="oauth-panel">
+                <h1>로그인</h1>
+                <p>디핑북에 다시 오신 것을 환영해요.</p>
+                {% if message and active_view == 'login' %}
+                  <p class="error">{{ message }}</p>
+                {% endif %}{% with notices = get_flashed_messages() %}{% if notices %}
+                  <p class="error">{{ notices[-1] }}</p>
+                {% endif %}{% endwith %}
+                <form class="local-login" method="post" action="/login">
+                  <label>아이디<input type="text" name="username" autocomplete="username" required placeholder="아이디를 입력하세요.">
+                  </label>
+                  <label>비밀번호<input type="password" name="password" autocomplete="current-password" required placeholder="비밀번호를 입력하세요.">
+                  </label>
+                  <button type="submit">로그인</button>
+                </form>
+                <div class="login-divider">
+                  <span>또는</span>
+                </div>
+                <div class="social-login">
+                  <a class="google" href="/api/auth/google">
+                    <svg class="social-login-icon google-login-icon" viewBox="0 0 18 18" aria-hidden="true">
+                      <path fill="#4285F4" d="M17.64 9.205c0-.638-.057-1.252-.164-1.841H9v3.482h4.844a4.14 4.14 0 0 1-1.797 2.715v2.258h2.909c1.702-1.567 2.684-3.878 2.684-6.614Z"/>
+                      <path fill="#34A853" d="M9 18c2.43 0 4.468-.806 5.956-2.181l-2.909-2.258c-.806.54-1.835.859-3.047.859-2.344 0-4.328-1.584-5.037-3.71H.956v2.333A9 9 0 0 0 9 18Z"/>
+                      <path fill="#FBBC05" d="M3.963 10.71A5.42 5.42 0 0 1 3.682 9c0-.593.102-1.17.281-1.71V4.957H.956A9 9 0 0 0 0 9c0 1.45.347 2.823.956 4.043l3.007-2.333Z"/>
+                      <path fill="#EA4335" d="M9 3.58c1.321 0 2.507.454 3.441 1.346l2.581-2.581C13.464.893 11.426 0 9 0A9 9 0 0 0 .956 4.957L3.963 7.29C4.672 5.164 6.656 3.58 9 3.58Z"/>
+                    </svg>
+                    <span>구글 계정으로 로그인</span>
+                  </a>
+                  <a class="github" href="/api/auth/github">
+                    <svg class="social-login-icon github-login-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M12 .7a11.5 11.5 0 0 0-3.64 22.41c.58.11.79-.25.79-.56v-2.23c-3.22.7-3.9-1.37-3.9-1.37-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.71.08-.71 1.16.08 1.78 1.2 1.78 1.2 1.04 1.77 2.72 1.26 3.38.96.1-.75.4-1.26.74-1.55-2.57-.29-5.27-1.29-5.27-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.47.11-3.05 0 0 .97-.31 3.16 1.18a10.96 10.96 0 0 1 5.76 0c2.19-1.49 3.16-1.18 3.16-1.18.63 1.58.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.4-2.71 5.38-5.29 5.67.42.36.79 1.06.79 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .7Z"/>
+                    </svg>
+                    <span>깃허브 계정으로 로그인</span>
+                  </a>
+                </div>
+                <p>아직 계정이 없으신가요? <a class="spa-link" href="#signup" data-view="signup">회원가입</a>
+                </p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="{{ view_class('signup') }}" id="signup" data-view="signup">
+          <section class="signup-hero">
+            <small>• SIGN</small>
+            <h1>회원가입</h1>
+            <p>회원가입하고 디핑북만의 특별한 독서 혜택을 누려보세요.</p>
+          </section>
+          <section class="signup-light">
+            <form class="signup-form" method="post" action="/signup">
+              <h2>정보입력 <span>〉 가입완료</span>
+              </h2>
+              <label>사용자 아이디 *<input name="username" minlength="3" required placeholder="사용하실 아이디를 입력하세요.">
+              </label>
+              <label>비밀번호 *<input type="password" name="password" minlength="4" required placeholder="영문, 숫자, 특수문자 포함">
+              </label>
+              <label>비밀번호 확인 *<input type="password" name="password_check" required placeholder="작성하신 비밀번호를 입력하세요.">
+              </label>
+              <label>이름 *<input name="name" required placeholder="사용자 이름을 입력하세요.">
+              </label>
+              <label class="birth-field">
+                <span>생년월일</span>
+                <span class="birth-selects">
+                  <select name="birth_year">
+                    <option value="">년</option>
+                    {% for year in range(2026,1929,-1) %}
+                      <option>{{ year }}</option>
+                    {% endfor %}
+                  </select>
+                  <select name="birth_month">
+                    <option value="">월</option>
+                    {% for month in range(1,13) %}
+                      <option value="{{ '%02d'|format(month) }}">{{ month }}</option>
+                    {% endfor %}
+                  </select>
+                  <select name="birth_day">
+                    <option value="">일</option>
+                    {% for day in range(1,32) %}
+                      <option value="{{ '%02d'|format(day) }}">{{ day }}</option>
+                    {% endfor %}
+                  </select>
+                </span>
+              </label>
+              <div class="terms">
+                <b>개인정보 제공 및 활용 동의 *</b>
+                <p>회원가입 및 서비스 이용을 위해 아이디, 이름, 생년월일을 저장합니다. 학습용 프로젝트이며 실제 서비스에서는 별도의 보안 검토가 필요합니다.</p>
+              </div>
+              <label class="agree">
+                <input type="checkbox" name="agreed" value="yes"> 개인정보 제공 및 활용에 동의합니다.</label>
+              {% if message and active_view == 'signup' %}
+                <p class="error">{{ message }}</p>
+              {% endif %}
+              <div class="form-actions">
+                <a class="spa-link" href="#home" data-view="home">취소</a>
+                <button>가입</button>
+              </div>
+            </form>
+          </section>
+        </section>
+
+        <section class="{{ view_class('signup-complete') }}" id="signup-complete" data-view="signup-complete">
+          <section class="signup-hero signup-complete-hero">
+            <small><span>•</span> SIGN</small>
+            <h1>회원가입</h1>
+            <p>회원가입하고 디핑북만의 특별한 독서 혜택을 누려보세요.</p>
+          </section>
+
+          <section class="signup-complete signup-complete-final">
+            <div class="signup-complete-steps" aria-label="회원가입 진행 단계">
+              <strong>정보입력</strong>
+              <span aria-hidden="true">〉</span>
+              <b>가입완료</b>
+            </div>
+
+            <h1>회원가입 <em>완료</em></h1>
+            <i class="signup-complete-line" aria-hidden="true"></i>
+            <h2>이제, 마음에 드는 책 찍먹할 준비 완료.</h2>
+
+            <p class="signup-complete-copy">
+              줄거리보다 먼저 분위기를 만나고,<br>
+              한 페이지보다 먼저 설렘을 만나보세요.
+            </p>
+
+            <p class="signup-complete-question">
+              오늘의 첫 번째 책,<br>
+              궁금한 것부터 시작해볼까요?
+            </p>
+
+            <a class="spa-link signup-complete-button" href="#browse" data-view="browse">
+              책 만나러 가기 <span aria-hidden="true">→</span>
+            </a>
+          </section>
+        </section>
+
+        <section class="{{ view_class('mypage') }}" id="mypage" data-view="mypage">
+          {% if user %}
+            <section class="mypage-hero visual-page-hero">
+              <div class="section">
+                <small>• MY PAGE</small>
+                <h1>{{ user.name or user.username }}님의<br>
+                  <em>독서 기록</em>
+                </h1>
+                <p>디핑북에서 남긴 책 이야기와 활동을 한눈에 확인하세요.</p>
+              </div>
+            </section>
+            <section class="mypage-area section">
+              <aside class="profile-card">
+                <div class="profile-avatar">{{ (user.name or user.username)[:1] }}</div>
+                <h2>{{ user.name or user.username }}</h2>
+                <p>@{{ user.username }}</p>
+                <a class="spa-link" href="#community" data-view="community">글쓰러 가기 →</a>
+                <a href="/logout">로그아웃</a>
+              </aside>
+              <div class="mypage-content">
+                <div class="activity-grid">
+                  <article>
+                    <img src="{{ url_for('static', filename='images/icons/my-post.png') }}" alt="">
+                    <small>POSTS</small>
+                    <strong>{{ stats.posts }}</strong>
+                    <span>작성한 글</span>
+                  </article>
+                  <article>
+                    <img src="{{ url_for('static', filename='images/icons/my-comment.png') }}" alt="">
+                    <small>COMMENTS</small>
+                    <strong>{{ stats.community_comments + stats.book_comments }}</strong>
+                    <span>남긴 댓글</span>
+                  </article>
+                  <article>
+                    <img src="{{ url_for('static', filename='images/icons/my-like.png') }}" alt="">
+                    <small>LIKES</small>
+                    <strong>{{ stats.likes }}</strong>
+                    <span>좋아요한 글</span>
+                  </article>
+                </div>
+                <section class="recent-activity">
+                  <small>RECENT ACTIVITY</small>
+                  <h2>최근 작성한 이야기</h2>
+                  {% for post in recent_posts %}
+                    <a class="spa-link" href="#community" data-view="community">
+                      <span>{{ post.category }}</span>
+                      <b>{{ post.title }}</b>
+                    </a>
+                  {% else %}
+                    <div class="empty-activity">
+                      <p>아직 작성한 글이 없습니다.</p>
+                      <a class="spa-link" href="#community" data-view="community">첫 이야기 남기기 →</a>
+                    </div>
+                  {% endfor %}
+                </section>
+              </div>
+            </section>
+          {% endif %}
+        </section>
+      </div>
+
+      <div class="video-modal" id="videoModal" aria-hidden="true">
+        <div class="video-dialog">
+          <button class="modal-close" type="button" aria-label="닫기">×</button>
+          <h2 id="videoTitle">도서 프리뷰</h2>
+          <video id="previewVideo" controls playsinline>
+          </video>
+          <p class="video-help" id="videoHelp">
+          </p>
+        </div>
+      </div>
+    </main>
+
+  <!-- 공통 푸터 -->
+    <footer>
+      <div class="footer-wrap">
+        <div>
+          <a class="logo light spa-link" href="/?view=home#home" data-view="home">
+            <img src="{{ url_for('static', filename='images/icons/logo.png') }}" alt="디핑북">
+          </a>
+          <p>AI 프리뷰와 쉬운 글 해석으로<br>누구나 책과 가까워지는 독서 문화 플랫폼입니다.</p>
+          <small>© 2026 DippingBook. All rights reserved</small>
+        </div>
+
+        <div class="foot-links">
+          <a href="/about">
+            <b>01 소개</b>
+            <span>디핑북의 기획 의도와 서비스 방향 ↗</span>
+          </a>
+          <a href="/books">
+            <b>02 도서 프리뷰</b>
+            <span>실제 도서 정보를 먼저 보는 책 ↗</span>
+          </a>
+          <a href="/nearby">
+            <b>03 내 근처 도서 찾기</b>
+            <span>내 주변 서점과 도서관을 한눈에 ↗</span>
+          </a>
+          <a href="/community">
+            <b>04 북 커뮤니티</b>
+            <span>나누고 함께 발견하는 책 이야기 ↗</span>
+          </a>
+        </div>
+      </div>
+    </footer>
+
+    {% if kakao_map_app_key %}
+      <script src="https://dapi.kakao.com/v2/maps/sdk.js?appkey={{ kakao_map_app_key }}&libraries=services">
+      </script>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/main.js', v='20260820') }}">
+    </script>
+  </body>
+</html>
