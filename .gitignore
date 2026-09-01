@@ -1,0 +1,12 @@
+.env
+*.db
+__pycache__/
+*.pyc
+__pycache__/
+*.pyc
+.idea/
+dippingbook.db
+*.db-journal
+.venv/
+static/generated/*
+!static/generated/.gitkeep
