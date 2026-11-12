@@ -3,8 +3,8 @@ import os
 import requests
 
 
-ALADIN_KEY = os.getenv("ALADIN_TTB_KEY") or os.getenv("ALADIN_API_KEY", "")
-ALADIN_URL = "https://www.aladin.co.kr/ttb/api"
+GOOGLE_BOOKS_KEY = os.getenv("GOOGLE_BOOKS_API_KEY", "")
+GOOGLE_BOOKS_URL = "https://www.googleapis.com/books/v1/volumes"
 
 GENRE_IDS = {
     "전체": 0,
@@ -104,21 +104,12 @@ CUSTOM_PREVIEW_BOOKS = [
 ]
 
 
-def _request(endpoint, params):
-    if not ALADIN_KEY or ALADIN_KEY.strip().startswith("YOUR_"):
-        return None
-    common = {
-        "ttbkey": ALADIN_KEY,
-        "Output": "JS",
-        "Version": "20131101",
-        "Cover": "Big",
-    }
+def _request(params):
+    options = {**params, "printType": "books"}
+    if GOOGLE_BOOKS_KEY:
+        options["key"] = GOOGLE_BOOKS_KEY
     try:
-        response = requests.get(
-            f"{ALADIN_URL}/{endpoint}",
-            params={**common, **params},
-            timeout=7,
-        )
+        response = requests.get(GOOGLE_BOOKS_URL, params=options, timeout=10)
         response.raise_for_status()
         return response.json()
     except (requests.RequestException, ValueError):
@@ -126,20 +117,25 @@ def _request(endpoint, params):
 
 
 def _clean_item(item, default_genre="전체"):
-    isbn = item.get("isbn13") or item.get("isbn") or str(item.get("itemId", ""))
-    category = item.get("categoryName", "")
+    info = item.get("volumeInfo") or {}
+    identifiers = info.get("industryIdentifiers") or []
+    isbn = next((x.get("identifier") for x in identifiers if x.get("type") == "ISBN_13"), None)
+    isbn = isbn or next((x.get("identifier") for x in identifiers if x.get("type") == "ISBN_10"), "")
+    google_id = item.get("id", "")
+    category = " ".join(info.get("categories") or [])
     genre = default_genre if default_genre != "전체" else _guess_genre(category)
+    cover = (info.get("imageLinks") or {}).get("thumbnail", "")
+    if cover.startswith("http://"):
+        cover = "https://" + cover[7:]
     return {
-        "id": isbn,
-        "isbn": isbn,
-        "title": item.get("title", "제목 정보 없음"),
-        "author": item.get("author", "저자 정보 없음"),
-        "publisher": item.get("publisher", "출판사 정보 없음"),
+        "id": google_id, "isbn": isbn or google_id,
+        "title": info.get("title") or "제목 정보 없음",
+        "author": ", ".join(info.get("authors") or []) or "저자 정보 없음",
+        "publisher": info.get("publisher") or "출판사 정보 없음",
         "genre": genre,
-        "description": item.get("description") or "등록된 책 소개가 없습니다.",
-        "cover": item.get("cover", ""),
-        "pub_date": item.get("pubDate", ""),
-        "pages": str(item.get("subInfo", {}).get("itemPage", "") or "-"),
+        "description": info.get("description") or "등록된 책 소개가 없습니다.",
+        "cover": cover, "pub_date": info.get("publishedDate") or "",
+        "pages": str(info.get("pageCount") or "-"),
     }
 
 
@@ -162,48 +158,33 @@ def _sample_list(genre="전체", query=""):
         ]
     return books or SAMPLE_BOOKS
 
-
 def get_bestsellers(max_results=10):
-    data = _request(
-        "ItemList.aspx",
-        {
-            "QueryType": "Bestseller",
-            "SearchTarget": "Book",
-            "MaxResults": max_results,
-            "start": 1,
-        },
-    )
-    if data and data.get("item"):
-        return [_clean_item(item) for item in data["item"][:max_results]]
-    return (SAMPLE_BOOKS * 2)[:max_results]
+    data = _request({
+        "q": "한국 소설",
+        "orderBy": "relevance",
+        "maxResults": max_results,
+        "langRestrict": "ko",
+    })
+    if data and data.get("items"):
+        return [_clean_item(item) for item in data["items"]]
+    return SAMPLE_BOOKS[:max_results]
 
 
 def get_books(genre="전체", query="", page=1, max_results=12):
-    if query:
-        data = _request(
-            "ItemSearch.aspx",
-            {
-                "Query": query,
-                "QueryType": "Keyword",
-                "SearchTarget": "Book",
-                "CategoryId": GENRE_IDS.get(genre, 0),
-                "MaxResults": max_results,
-                "start": page,
-            },
-        )
-    else:
-        data = _request(
-            "ItemList.aspx",
-            {
-                "QueryType": "ItemNewAll",
-                "SearchTarget": "Book",
-                "CategoryId": GENRE_IDS.get(genre, 0),
-                "MaxResults": max_results,
-                "start": page,
-            },
-        )
-    if data and data.get("item"):
-        return [_clean_item(item, genre) for item in data["item"]]
+    page = max(1, int(page))
+    max_results = max(1, min(int(max_results), 40))
+    terms = query.strip() if query else ""
+    if not terms:
+        terms = "한국 소설" if genre == "전체" else genre
+    elif genre != "전체":
+        terms = f"{terms} {genre}"
+    data = _request({
+        "q": terms, "startIndex": (page - 1) * max_results,
+        "maxResults": max_results, "langRestrict": "ko",
+    })
+    if data is not None:
+        return [_clean_item(item, genre) for item in data.get("items", [])]
+    # Preserve existing sample fallback when the external API is unavailable.
     return (_sample_list(genre, query) * 3)[:max_results]
 
 
@@ -214,15 +195,18 @@ def get_book(book_id):
     for book in SAMPLE_BOOKS:
         if book["id"] == book_id:
             return book
-    data = _request(
-        "ItemLookUp.aspx",
-        {
-            "ItemId": book_id,
-            "ItemIdType": "ISBN13",
-            "SearchTarget": "Book",
-            "OptResult": "ebookList,usedList,reviewList",
-        },
-    )
-    if data and data.get("item"):
-        return _clean_item(data["item"][0])
-    return None
+    if not book_id or book_id.startswith(("sample-", "preview-")):
+        return None
+    # Supports both Google volume IDs and ISBNs from existing links.
+    if book_id.isdigit() and len(book_id) in (10, 13):
+        data = _request({"q": f"isbn:{book_id}", "maxResults": 1})
+        items = (data or {}).get("items") or []
+        return _clean_item(items[0]) if items else None
+    try:
+        options = {"key": GOOGLE_BOOKS_KEY} if GOOGLE_BOOKS_KEY else {}
+        response = requests.get(f"{GOOGLE_BOOKS_URL}/{book_id}", params=options, timeout=10)
+        response.raise_for_status()
+        item = response.json()
+        return _clean_item(item) if item.get("volumeInfo") else None
+    except (requests.RequestException, ValueError):
+        return None
